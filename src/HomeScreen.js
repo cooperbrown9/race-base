@@ -1,8 +1,11 @@
-import { React } from 'react';
-import { View, Text, Image } from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
-class HomeScreen extends Component {
+class HomeScreen extends React.Component {
 
+  static propTypes = {
+    name: 'butt'
+  }
 
   render() {
     return (
