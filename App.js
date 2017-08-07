@@ -1,19 +1,23 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import MainReducer from './src/reducers/main-reducer.js';
+import AppNavigatorWithState from './src/navigation/navigator.js';
+import thunk from 'redux-thunk';
 
+class App extends React.Component {
 
-
-export default class App extends React.Component {
-  
+  store = createStore(MainReducer, applyMiddleware(thunk));
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+
+      <Provider store={this.store} >
+        <AppNavigatorWithState />
+      </Provider>
+
     );
   }
 }
@@ -26,3 +30,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default App;
