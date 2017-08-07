@@ -1,16 +1,13 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 class HomeScreen extends React.Component {
-
-  static propTypes = {
-    name: 'butt'
-  }
 
   render() {
     return (
       <View style={styles.container} >
-        <Text>Yuuuuuj</Text>
+        <Text style={{color: 'black'}}>Yuuuuuj</Text>
       </View>
 
 
@@ -21,8 +18,15 @@ class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
+    backgroundColor: 'green'
   }
 });
 
-export default HomeScreen;
+var mapStateToProps = state => {
+  debugger;
+  return {
+    nav: state.nav
+  }
+}
+
+export default connect(mapStateToProps)(HomeScreen);

@@ -1,11 +1,12 @@
 import { React } from 'react';
 import { NavigationActions } from 'react-navigation';
 import * as NavActions from '../action-types/navigation-action-types.js';
+import { AppNavigator } from '../navigation/navigator.js';
 
 const firstAction = AppNavigator.router.getActionForPathAndParams('Home');
 const firstState = AppNavigator.router.getStateForAction(firstAction);
 
-function nav(state = firstState, action) {
+export default function nav(state = firstState, action) {
   let nextState;
 
   switch (action.type) {
@@ -17,8 +18,5 @@ function nav(state = firstState, action) {
       break;
 
   }
+  return nextState || state;
 }
-
-
-
-export default nav;
