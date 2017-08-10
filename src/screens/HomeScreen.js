@@ -22,9 +22,10 @@ class HomeScreen extends React.Component {
     return (
       <View style={styles.container} >
 
-      <NavBar leftButton={<Text>bars</Text>}
-                rightButton={<Text>profile</Text>}
-                title='dashboard'
+      <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
+
+                style={styles.navBarStyle}
       />
       <View style={styles.imageContainer}>
         <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
@@ -36,11 +37,14 @@ class HomeScreen extends React.Component {
         </View>
         <View style={{width: 1, backgroundColor: 'blue'}}></View>
         <TouchableOpacity onPress={() => this._register} style={styles.register}>
-          <Text style={{fontSize: 24, color: 'blue'}}>REGISTER</Text>
-          <Image></Image>
+          <Text style={{fontSize: 22, color: 'blue'}}>REGISTER</Text>
+          <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
         </TouchableOpacity>
       </View>
+      <View style={styles.logo}>
+        <Image source={require('../../assets/images/bloomsday-logo.png')} style={{height: 95, width: 350}}></Image>
 
+      </View>
       </View>
 
     );
@@ -53,6 +57,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'white',
   },
+  navBarStyle: {
+    backgroundColor: '#55BBDD'
+  },
   bottomBar: {
     height: 75,
     flexDirection: 'row'
@@ -60,8 +67,9 @@ const styles = StyleSheet.create({
   },
   register: {
     flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row'
   },
   dateCountdown: {
 
@@ -75,7 +83,15 @@ const styles = StyleSheet.create({
   backgroundImage: {
      flex: 1,
      resizeMode: 'cover',
-     alignItems: 'center'
+     alignItems: 'center',
+     opacity: 0.6
+  },
+  logo:{
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    top: 150,
+    alignItems: 'center'
   },
 });
 

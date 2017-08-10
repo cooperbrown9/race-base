@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import HomeScreen from '../screens/HomeScreen.js';
+import ForecastScreen from '../screens/ForecastScreen.js';
 
 export const AppNavigator = StackNavigator({
-  Home: { screen: HomeScreen }
+  Home: { screen: HomeScreen },
+  Forecast: {screen: ForecastScreen},
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (

@@ -10,7 +10,7 @@ import {
 import * as Colors from '../style/colors.js'
 
 const NavBar = (props) => (
-  <View style={styles.navBar} backgroundColor={Colors.CREAM}>
+  <View style={styles.navBar} backgroundColor={'#55BBDD'}>
 
     <View style={styles.navBarButtonContainer}>
       <TouchableOpacity style={styles.leftButton} onPress={props.leftOnPress}>
@@ -19,7 +19,7 @@ const NavBar = (props) => (
     </View>
 
     <View style={styles.navBarTitleContainer}>
-      <Text style={styles.titleLabel} >{props.title}</Text>
+      <View style={styles.title}>{props.title}</View>
     </View>
 
     <View style={styles.navBarButtonContainer}>
@@ -33,7 +33,7 @@ const NavBar = (props) => (
 
 
 NavBar.propTypes = {
-  title: React.PropTypes.string.isRequired,
+  title: React.PropTypes.element,
   leftOnPress: React.PropTypes.func,
   leftButton: React.PropTypes.element,
   rightOnPress: React.PropTypes.func,
@@ -47,11 +47,6 @@ NavBar.defaultProps = {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch'
-  },
   navBar: {
     height: 64,
     flexDirection: 'row',
@@ -60,11 +55,12 @@ const styles = StyleSheet.create({
   },
   leftButton: {
     height: 40,
-    width:64,
+    width: 64,
     marginTop: 12,
-    marginLeft: 32,
-    justifyContent:'center',
-    alignItems:'center'
+    marginLeft: 20,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+
   },
 
   defaultButton: {
@@ -76,20 +72,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
-  titleLabel: {
+  title: {
     height: 20,
-    fontSize: 14,
     alignItems: 'center',
-    marginTop: 8,
-    color: Colors.DARK_GREY
+    justifyContent: 'center',
   },
   rightButton: {
     height: 40,
     marginTop: 12,
-    marginRight: 32,
-    width:64,
+    marginRight: 20,
+    width: 64,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-end',
   },
   navBarButtonContainer: {
     flexDirection: 'row',
