@@ -1,60 +1,55 @@
 import React from 'react';
-import { View,
-         Text,
-         Image,
-         StyleSheet,
-         TouchableOpacity,
-         ScrollView
+import {
+  View,
+   Text,
+   Image,
+   StyleSheet,
+   TouchableOpacity,
+   ScrollView
 } from 'react-native';
+import * as NavActions from '../action-types/navigation-action-types.js';
 //nav bar height is 64
-export default class Menu extends React.Component {
 
-  static navigationOptions = {
-    header: null,
+const options = [
+  {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_FORECAST},
+  {name: 'Register', iconPath: require('../../assets/icons/navigation/list.png'), path: NavActions.GO_FORECAST},
+  {name: 'FAQ', iconPath: require('../../assets/icons/navigation/faq.png'), path: NavActions.GO_FORECAST},
+  {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_FORECAST},
+  {name: 'Tracking & Results', iconPath: require('../../assets/icons/navigation/tracking-results.png'), path: NavActions.GO_FORECAST},
+  {name: 'Weather', iconPath: require('../../assets/icons/navigation/weather.png'), path: NavActions.GO_FORECAST},
+  {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_FORECAST},
+  {name: 'Around Town', iconPath: require('../../assets/icons/navigation/school.png'), path: NavActions.GO_FORECAST},
 
-  };
+];
 
-  state = {
-    options: [
-      {name: 'Schedule', iconPath:require('../../assets/icons/navigation/calendar.png')},
-      {name: 'Register', iconPath:require('../../assets/icons/navigation/list.png')},
-      {name: 'FAQ', iconPath:require('../../assets/icons/navigation/faq.png')},
-      {name: 'Maps', iconPath:require('../../assets/icons/navigation/maps.png')},
-      {name: 'Tracking & Results', iconPath:require('../../assets/icons/navigation/tracking-results.png')},
-      {name: 'Weather', iconPath:require('../../assets/icons/navigation/weather.png')},
-      {name: 'Social', iconPath:require('../../assets/icons/navigation/chat.png')},
-      {name: 'Around Town', iconPath:require('../../assets/icons/navigation/school.png')},
+const Menu = (props) => (
 
-    ],
-  }
+  <View style={{backgroundColor: 'white', flex:1}} >
 
-  render() {
-    return(
-      <View style={{backgroundColor: 'white', flex:1}}>
-        <ScrollView style={styles.container}>
+    <ScrollView style={styles.container} >
 
-          {this.state.options.map((menuItem) => {
-            return(
-                <TouchableOpacity style={styles.menuItem}>
-                  <View style={styles.imageContainer}>
-                    <Image source={menuItem.iconPath} style={styles.iconStyle}/>
-                  </View>
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.menuItemName}>{menuItem.name}</Text>
-                  </View>
-                </TouchableOpacity>
-              )
-            }
-          )}
+      {options.map((menuItem) => {
+        return(
+          <TouchableOpacity style={styles.menuItem} onPress={ () => props.navigateFunc(menuItem.path) } key={menuItem.name} >
+            <View style={styles.imageContainer}>
+              <Image source={menuItem.iconPath} style={styles.iconStyle}/>
+            </View>
+            <View style={styles.nameContainer}>
+              <Text style={styles.menuItemName}>{menuItem.name}</Text>
+            </View>
+          </TouchableOpacity>
+        )
+      }
+    )}
 
 
-        </ScrollView>
-      </View>
+    </ScrollView>
+  </View>
+)
 
-
-
-    );
-  }
+Menu.propTypes = {
+  navigator: React.PropTypes.object,
+  navigateFunc: React.PropTypes.func
 }
 
 const styles = StyleSheet.create({
@@ -87,9 +82,6 @@ const styles = StyleSheet.create({
     flex: 5,
     justifyContent: 'center',
   },
-
-
-
-
-
 });
+
+export default Menu;

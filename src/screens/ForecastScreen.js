@@ -16,9 +16,15 @@ export default class ForecastScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
+
+  static propTypes = {
+    index: 1
+  }
+
   dropDownMenu(){
     console.log("Drop Down Accessed");
   }
+
   render(){
     return(
       <View style={{flex:1}}>

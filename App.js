@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import MainReducer from './src/reducers/main-reducer.js';
 import AppNavigatorWithState from './src/navigation/navigator.js';
+
 import thunk from 'redux-thunk';
 
 class App extends React.Component {
