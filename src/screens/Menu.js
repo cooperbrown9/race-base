@@ -7,7 +7,7 @@ import { View,
          ScrollView
 } from 'react-native';
 //nav bar height is 64
-export default class SideMenuScreen extends React.Component {
+export default class Menu extends React.Component {
 
   static navigationOptions = {
     header: null,

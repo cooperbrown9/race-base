@@ -14,6 +14,10 @@ class HomeScreen extends React.Component {
     header: null,
   };
 
+  static propTypes = {
+    index: 0
+  }
+
   _register = () =>{
     console.log("REgister");
   }

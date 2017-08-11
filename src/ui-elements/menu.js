@@ -6,14 +6,15 @@ const Menu = (props) => {
   render() {
     return (
       <View style={styles.container} >
-        
+
       </View>
     )
   }
 }
 
 Menu.propTypes = {
-  currentScreenIndex: React.PropTypes.number.isRequired
+  currentScreenIndex: React.PropTypes.number.isRequired,
+  pushScreen: React.PropTypes.func
 }
 
 const styles = StyleSheet.create({
