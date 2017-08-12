@@ -6,10 +6,14 @@ import HomeScreen from '../screens/HomeScreen.js';
 import ForecastScreen from '../screens/ForecastScreen.js';
 import SideMenu from 'react-native-side-menu';
 import HomeScreenMenu from '../screens/HomeScreenMenu.js';
+import FaqScreen from '../screens/FaqScreen.js';
+
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreenMenu },
   Forecast: {screen: ForecastScreen},
+  Faq: {screen: FaqScreen},
+
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (
