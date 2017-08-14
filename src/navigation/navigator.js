@@ -7,12 +7,14 @@ import ForecastScreen from '../screens/ForecastScreen.js';
 import SideMenu from 'react-native-side-menu';
 import HomeScreenMenu from '../screens/HomeScreenMenu.js';
 import FaqScreen from '../screens/FaqScreen.js';
+import TrackingScreen from '../screens/TrackingScreen.js';
 
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreenMenu },
   Forecast: {screen: ForecastScreen},
   Faq: {screen: FaqScreen},
+  Tracking: {screen: TrackingScreen}
 
 });
 

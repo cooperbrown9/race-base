@@ -11,28 +11,36 @@ import * as Colors from '../style/colors.js'
 
 
 
-const FaqQuestion = (props) => (
+const FAQItem = (props) => (
 
-  <TouchableOpacity style={styles.container} >
+  <TouchableOpacity style={styles.container} onPress={props.action}>
 
     <View style={styles.questionContainer}>
-      <Text style={{fontSize: 18, color: 'gray', paddingTop: 15, paddingBottom: 15}}>When is Bloomsday?</Text>
+      <Text style={{fontSize: 16, color: 'gray', paddingTop: 15, paddingBottom: 15}}>{props.question}</Text>
+      <Text style={props.isOpen ? styles.open : styles.closed}>{props.answer}</Text>
     </View>
 
     <View style={styles.arrowContainer}>
-      <Image source={require('../../assets/icons/bars.png')} style={styles.arrow}/>
+      {props.isOpen ? <Image source={require('../../assets/icons/up-arrow.png')} style={styles.arrow}/> : <Image source={require('../../assets/icons/down-arrow.png')} style={styles.arrow}/>}
+
     </View>
 
   </TouchableOpacity>
 );
 
 
-FaqQuestion.propTypes = {
-
+FAQItem.propTypes = {
+  isOpen: React.PropTypes.bool,
+  action: React.PropTypes.func,
+  question: React.PropTypes.string,
+  answer: React.PropTypes.string
 };
 
-FaqQuestion.defaultProps = {
-  
+FAQItem.defaultProps = {
+  isOpen: false,
+  question: 'What is the meaning of life?',
+  answer: 'pi'
+
 };
 
 const styles = StyleSheet.create({
@@ -41,18 +49,28 @@ container:{
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: 'white',
+    marginRight: 14,
+    marginLeft: 14,
+    marginTop: 14,
   },
   questionContainer: {
-    flex: 1,
-    flexDirection: 'row',
+    flex: 4,
+    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     marginLeft: 20
   },
-
+  open: {
+    fontSize: 14,
+    color: 'gray',
+    paddingBottom: 15,
+  },
+  closed: {
+    height: 0
+  },
   arrowContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
 
   },
@@ -82,38 +100,8 @@ container:{
     justifyContent: 'center',
     alignItems: 'stretch',
   },
-  optionsView: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginTop: 20,
-    marginLeft: 16,
-    marginRight: 16,
-    marginBottom: 24
-  },
-  checkbox: {
-    backgroundColor: 'blue',
-    height: 24,
-    width: 24,
-    borderRadius: 16,
-  },
-  text: {
-    fontSize: 18,
-  },
-  underline: {
-    backgroundColor: Colors.LIGHT_GREY,
-    height: 2,
-    marginLeft: 16,
-    marginTop: 16,
-    marginRight: 16
-  },
-  buttonStyle: {
-    marginRight: 64,
-    marginLeft: 64,
-    marginTop: 128
-  }
+
 });
 
 
-export default FaqQuestion;
+export default FAQItem;
