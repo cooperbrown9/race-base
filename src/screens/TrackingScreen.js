@@ -46,8 +46,7 @@ export default class App extends React.Component {
                           <Text style={{color:'white', fontSize: 16}}>Tracking ⌄</Text>
                          </TouchableOpacity>}
           />
-        </MapView>
-        <MapView.Polyline   strokeWidth={5} geodesic={true} coordinates={latLong} />
+      </MapView>
 
       </View>
     );
