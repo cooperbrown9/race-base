@@ -25,9 +25,7 @@ class HomeScreen extends React.Component {
     header: null,
   };
 
-  static propTypes = {
-    index: 0
-  }
+  
 
   state = {
     xPosition: new Animated.Value(0),

@@ -20,16 +20,19 @@ export default function nav(state = firstState, action) {
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Forecast'}),
       state
     );
+    break;
 
     case NavActions.GO_FAQ:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Faq'}),
       state
     );
+    break;
 
     case NavActions.GO_TRACKING:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Tracking'}),
       state
     );
+    break;
 
     default:
       console.log('default switch');

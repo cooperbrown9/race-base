@@ -13,6 +13,7 @@ class HomeScreenMenu extends React.Component {
 
   _navigateDisB(path) {
     this.props.navigation.dispatch({ type: path });
+    console.log(path);
   }
 
   render() {

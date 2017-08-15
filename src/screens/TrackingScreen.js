@@ -10,6 +10,13 @@ import { MapView } from 'expo';
 import NavBar from '../ui-elements/nav-bar.js';
 
 
+
+const latLong = [
+  {latitude: 28.360012, longitude: 77.031527},
+  {latitude: 28.360124, longitude: 77.031429},
+  {latitude: 28.361024, longitude: -2.210767},
+];
+
 export default class App extends React.Component {
 
   static navigationOptions = {
@@ -27,8 +34,8 @@ export default class App extends React.Component {
         <MapView
           style={styles.map}
           initialRegion={{
-            latitude: 47.658779,
-            longitude: -117.426048,
+            latitude: 51.38254,
+            longitude: -2.362804,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
@@ -40,6 +47,7 @@ export default class App extends React.Component {
                          </TouchableOpacity>}
           />
         </MapView>
+        <MapView.Polyline   strokeWidth={5} geodesic={true} coordinates={latLong} />
 
       </View>
     );

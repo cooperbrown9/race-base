@@ -13,8 +13,9 @@ import TrackingScreen from '../screens/TrackingScreen.js';
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreenMenu },
   Forecast: {screen: ForecastScreen},
-  Faq: {screen: FaqScreen},
-  Tracking: {screen: TrackingScreen}
+  Tracking: {screen: TrackingScreen},
+  Faq: {screen: FaqScreen}
+
 
 });
 
