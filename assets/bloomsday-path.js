@@ -1,5 +1,4 @@
 
-
 export const Course = [
   {
       latitude: 47.657947,
