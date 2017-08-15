@@ -10,13 +10,6 @@ import { MapView } from 'expo';
 import NavBar from '../ui-elements/nav-bar.js';
 
 
-
-const latLong = [
-  {latitude: 28.360012, longitude: 77.031527},
-  {latitude: 28.360124, longitude: 77.031429},
-  {latitude: 28.361024, longitude: -2.210767},
-];
-
 export default class App extends React.Component {
 
   static navigationOptions = {
