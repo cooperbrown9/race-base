@@ -42,6 +42,7 @@ export default class App extends React.Component {
                          </TouchableOpacity>}
           />
       </MapView>
+      <View style={styles.tabbar}></View>
 
       </View>
     );
@@ -55,10 +56,20 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
+    zIndex: 0
   },
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  tabbar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 32,
+    backgroundColor: 'orange',
+    height: 64,
+    zIndex: 2
   }
 });
