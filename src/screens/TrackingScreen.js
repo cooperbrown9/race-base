@@ -42,7 +42,16 @@ export default class App extends React.Component {
                          </TouchableOpacity>}
           />
       </MapView>
-      <View style={styles.tabbar}></View>
+      <View style={styles.tabbar}>
+        <View style={{backgroundColor: 'orange', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
+          <Text style={styles.name}>Dave Davidson</Text>
+        </View>
+        <View style={{backgroundColor: 'white', flex: 3, flexDirection: 'row'}}>
+          <View style={{flex: 1, backgroundColor: 'white'}}></View>
+          <View style={{backgroundColor: 'gray', width: 1}}></View>
+          <View style={{flex: 1, backgroundColor: 'white'}}></View>
+        </View>
+      </View>
 
       </View>
     );
@@ -65,11 +74,17 @@ const styles = StyleSheet.create({
   },
   tabbar: {
     position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 32,
+    left: 10,
+    right: 10,
+    bottom: 16,
     backgroundColor: 'orange',
-    height: 64,
+    height: 100,
     zIndex: 2
-  }
+  },
+   name: {
+     color: 'white',
+     fontSize: 17,
+     paddingLeft: 16
+
+   },
 });
