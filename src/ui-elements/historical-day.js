@@ -48,7 +48,7 @@ const HistoricalDay = (props) => (
             {props.windIcon2}
           </View>
           <View>
-            <Text style={{textAlign: 'center', lineHeight: 15, color: '#55BBDD', fontSize: 15}}>{props.wind2 + '\n mph'}</Text>
+            <Text style={{textAlign: 'center', lineHeight: 15, color: '#55BBDD', fontSize: 14}}>{props.wind2 + '\n mph'}</Text>
           </View>
         </View>
         <View style={styles.humidityContainer}>

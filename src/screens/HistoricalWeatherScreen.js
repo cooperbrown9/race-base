@@ -37,43 +37,43 @@ export default class HistoricalWeatherScreen extends React.Component {
       />
       <ScrollView style={{flex:1}}>
           <HistoricalDay date={'May 6, 2015'}
-                          windIcon1={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                          windIcon1={<Image source={require('../../assets/icons/north.png')} style={{height: 12, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                           temp1={'56°'}
                           wind1={'6'}
                           humidity1={'12'}
-                          windIcon2={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                          windIcon2={<Image source={require('../../assets/icons/west.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                           temp2={'62°'}
                           wind2={'8'}
                           humidity2={'10'}
-                          windIcon3={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                          windIcon3={<Image source={require('../../assets/icons/east.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                           temp3={'71°'}
                           wind3={'3'}
                           humidity3={'14'}
          />
          <HistoricalDay date={'May 6, 2015'}
-                         windIcon1={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                         windIcon1={<Image source={require('../../assets/icons/north.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                          temp1={'56°'}
                          wind1={'6'}
                          humidity1={'12'}
-                         windIcon2={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                         windIcon2={<Image source={require('../../assets/icons/west.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                          temp2={'62°'}
                          wind2={'8'}
                          humidity2={'10'}
-                         windIcon3={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                         windIcon3={<Image source={require('../../assets/icons/east.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                          temp3={'71°'}
                          wind3={'3'}
                          humidity3={'14'}
         />
         <HistoricalDay date={'May 6, 2015'}
-                        windIcon1={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                        windIcon1={<Image source={require('../../assets/icons/north.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                         temp1={'56°'}
                         wind1={'6'}
                         humidity1={'12'}
-                        windIcon2={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                        windIcon2={<Image source={require('../../assets/icons/west.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                         temp2={'62°'}
                         wind2={'8'}
                         humidity2={'10'}
-                        windIcon3={<Image source={require('../../assets/icons//weather/partlyCloudy.png')} style={{height: 20, width: 35, marginBottom: 5,}}/>}
+                        windIcon3={<Image source={require('../../assets/icons/east.png')} style={{height: 15, width: 20, marginBottom: 5, tintColor:'#55BBDD'}}/>}
                         temp3={'71°'}
                         wind3={'3'}
                         humidity3={'14'}
