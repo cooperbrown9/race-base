@@ -8,14 +8,14 @@ import SideMenu from 'react-native-side-menu';
 import HomeScreenMenu from '../screens/HomeScreenMenu.js';
 import FaqScreen from '../screens/FaqScreen.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
-
+import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeScreenMenu },
   Forecast: {screen: ForecastScreen},
   Tracking: {screen: TrackingScreen},
-  Faq: {screen: FaqScreen}
-
+  Faq: {screen: FaqScreen},
+  HistoricalWeather: {screen: HistoricalWeatherScreen},
 
 });
 
