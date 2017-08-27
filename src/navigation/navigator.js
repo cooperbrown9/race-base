@@ -2,16 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
-import HomeScreen from '../screens/HomeScreen.js';
 import ForecastScreen from '../screens/ForecastScreen.js';
 import SideMenu from 'react-native-side-menu';
-import HomeScreenMenu from '../screens/HomeScreenMenu.js';
+import HomeMenu from '../screens/menus/HomeMenu.js';
 import FaqScreen from '../screens/FaqScreen.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
 
 export const AppNavigator = StackNavigator({
-  Home: { screen: HomeScreenMenu },
+  Home: { screen: HomeMenu },
   Forecast: {screen: ForecastScreen},
   Tracking: {screen: TrackingScreen},
   Faq: {screen: FaqScreen},

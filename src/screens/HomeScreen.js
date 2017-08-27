@@ -25,16 +25,22 @@ class HomeScreen extends React.Component {
     header: null,
   };
 
-  
 
   state = {
     xPosition: new Animated.Value(0),
     endXPosition: new Animated.Value(0),
-    didAnimate: false
+    didAnimate: false,
+    menuOpen: false
   }
 
   componentDidMount() {
     this.animate();
+  }
+
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
   }
 
   onP = () => {
@@ -87,6 +93,7 @@ class HomeScreen extends React.Component {
         <View style={styles.container} >
 
           <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                  leftOnPress={this.toggleMenu.bind(this)}
                   rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
                   style={styles.navBarStyle}
           />

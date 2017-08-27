@@ -18,273 +18,32 @@ export default class App extends React.Component {
   };
 
   dropDownMenu(){
-    console.log("Drop Down Accessed");
+    console.log('Drop Down Accessed');
   }
 
 
   render() {
+            
     return (
       <View style={{backgroundColor:'transparent', flex: 1}}>
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: 47.38254,
-            longitude: -117.362804,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        >
-        <MapView.Polyline coordinates={courseCoords} strokeWidth={1} />
-          <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-                  rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
-                  title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
-                          <Text style={{color:'white', fontSize: 16}}>Tracking ⌄</Text>
-                         </TouchableOpacity>}
-          />
-        </View>
+        <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
+                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
+                title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
+                        <Text style={{color:'white', fontSize: 16}}>Tracking </Text>
+                       </TouchableOpacity>}
+        />
+
         <MapView
           provider={PROVIDER_GOOGLE}
-          customMapStyle= {[
-   {
-      "elementType":"labels",
-      "stylers":[
-         {
-            "visibility":"off"
-         },
-         {
-            "color":"#f49f53"
-         }
-      ]
-   },
-   {
-      "featureType":"landscape",
-      "stylers":[
-         {
-            "color":"#f9ddc5"
-         },
-         {
-            "lightness":-7
-         }
-      ]
-   },
-   {
-      "featureType":"road",
-      "stylers":[
-         {
-            "color":"#813033"
-         },
-         {
-            "lightness":43
-         }
-      ]
-   },
-   {
-      "featureType":"poi.business",
-      "stylers":[
-         {
-            "color":"#645c20"
-         },
-         {
-            "lightness":38
-         }
-      ]
-   },
-   {
-      "featureType":"water",
-      "stylers":[
-         {
-            "color":"#1994bf"
-         },
-         {
-            "saturation":-69
-         },
-         {
-            "gamma":0.99
-         },
-         {
-            "lightness":43
-         }
-      ]
-   },
-   {
-      "featureType":"road.local",
-      "elementType":"geometry.fill",
-      "stylers":[
-         {
-            "color":"#f19f53"
-         },
-         {
-            "weight":1.3
-         },
-         {
-            "visibility":"on"
-         },
-         {
-            "lightness":16
-         }
-      ]
-   },
-   {
-      "featureType":"poi.business"
-   },
-   {
-      "featureType":"poi.park",
-      "stylers":[
-         {
-            "color":"#645c20"
-         },
-         {
-            "lightness":39
-         }
-      ]
-   },
-   {
-      "featureType":"poi.school",
-      "stylers":[
-         {
-            "color":"#a95521"
-         },
-         {
-            "lightness":35
-         }
-      ]
-   },
-   {
-
-   },
-   {
-      "featureType":"poi.medical",
-      "elementType":"geometry.fill",
-      "stylers":[
-         {
-            "color":"#813033"
-         },
-         {
-            "lightness":38
-         },
-         {
-            "visibility":"off"
-         }
-      ]
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-      "elementType":"labels"
-   },
-   {
-      "featureType":"poi.sports_complex",
-      "stylers":[
-         {
-            "color":"#9e5916"
-         },
-         {
-            "lightness":32
-         }
-      ]
-   },
-   {
-
-   },
-   {
-      "featureType":"poi.government",
-      "stylers":[
-         {
-            "color":"#9e5916"
-         },
-         {
-            "lightness":46
-         }
-      ]
-   },
-   {
-      "featureType":"transit.station",
-      "stylers":[
-         {
-            "visibility":"off"
-         }
-      ]
-   },
-   {
-      "featureType":"transit.line",
-      "stylers":[
-         {
-            "color":"#813033"
-         },
-         {
-            "lightness":22
-         }
-      ]
-   },
-   {
-      "featureType":"transit",
-      "stylers":[
-         {
-            "lightness":38
-         }
-      ]
-   },
-   {
-      "featureType":"road.local",
-      "elementType":"geometry.stroke",
-      "stylers":[
-         {
-            "color":"#f19f53"
-         },
-         {
-            "lightness":-10
-         }
-      ]
-   },
-   {
-
-   },
-   {
-
-   },
-   {
-
-   }
-]}
+          
           style={styles.map}
           initialRegion={{
             latitude: 47.6588,
             longitude: -117.4260,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-          }} >
-        <MapView.Polyline coordinates={Course} strokeWidth={2} strokeColor={'#F4C81B'}/>
+        }}>
+          <MapView.Polyline coordinates={courseCoords} strokeWidth={2} strokeColor={'#F4C81B'} />
 
       </MapView>
       <View style={styles.runnerInfoBar}>

@@ -41,14 +41,12 @@ const Menu = (props) => (
         )
       }
     )}
-
-
+    
     </ScrollView>
   </View>
 )
 
 Menu.propTypes = {
-  navigator: React.PropTypes.object,
   navigateFunc: React.PropTypes.func
 }
 
