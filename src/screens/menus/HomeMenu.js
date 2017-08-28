@@ -13,13 +13,12 @@ class HomeMenu extends React.Component {
 
   _navigate(path) {
     this.props.navigation.dispatch({ type: path });
-    console.log(path);
   }
 
   render() {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
-      <SideMenu menu={menu} isOpen={this.props.menuOpen}>
+      <SideMenu menu={menu} isOpen={this.props.menuOpen} >
         <HomeScreen />
       </SideMenu>
 

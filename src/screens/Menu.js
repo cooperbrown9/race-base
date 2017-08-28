@@ -11,7 +11,7 @@ import * as NavActions from '../action-types/navigation-action-types.js';
 //nav bar height is 64
 
 const options = [
-  {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_FORECAST},
+  {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: 'bruuuuh'},
   {name: 'Register', iconPath: require('../../assets/icons/navigation/list.png'), path: NavActions.GO_FORECAST},
   {name: 'FAQ', iconPath: require('../../assets/icons/navigation/faq.png'), path: NavActions.GO_FAQ},
   {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_FORECAST},
@@ -30,7 +30,7 @@ const Menu = (props) => (
       <View style={{height: 40, backgroundColor: 'transparent'}}></View>
       {options.map((menuItem) => {
         return(
-          <TouchableOpacity style={styles.menuItem} onPress={() => props.navigateFunc(menuItem.path) } key={menuItem.name} >
+          <TouchableOpacity style={styles.menuItem} onPress={() => { props.navigateFunc(menuItem.path) } } key={menuItem.name} >
             <View style={styles.imageContainer}>
               <Image source={menuItem.iconPath} style={styles.iconStyle}/>
             </View>

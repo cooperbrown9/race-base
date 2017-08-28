@@ -4,15 +4,15 @@ import SideMenu from 'react-native-side-menu';
 import Menu from '../../constants/menu.js';
 
 const MenuContainer = props => (
-  <SideMenu menu={<Menu /> } isOpen={this.props.menuOpen}>
+  <SideMenu menu={<Menu  /> } isOpen={this.props.menuOpen}>
     {props.screen}
   </SideMenu>
 
 
 )
 
-MenuTemplate.navigateFunc() {
-
+MenuTemplate.navigateFunc(func) {
+  func();
 }
 
 MenuTemplate.propTypes = {

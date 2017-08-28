@@ -1,5 +1,5 @@
 
-export const Course = [
+export const courseCoords = [
   {
       latitude: 47.657947,
       longitude: -117.424309

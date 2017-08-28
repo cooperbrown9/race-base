@@ -25,7 +25,6 @@ class HomeScreen extends React.Component {
     header: null,
   };
 
-
   state = {
     xPosition: new Animated.Value(0),
     endXPosition: new Animated.Value(0),
@@ -34,6 +33,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
+
     this.animate();
   }
 
