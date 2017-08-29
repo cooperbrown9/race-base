@@ -7,12 +7,13 @@ import { View,
          Animated,
          Easing,
          Dimensions,
-         Button
+         Button,
+         Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
-import Menu from './Menu.js';
-import SideMenu from 'react-native-side-menu';
+import Menu from './menus/main-menu.js';
+import * as Screens from '../constants/screen-types.js';
 
 class HomeScreen extends React.Component {
 
@@ -38,9 +39,10 @@ class HomeScreen extends React.Component {
   }
 
   toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen }, () => {
-      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-    })
+    this.setState({ menuOpen: !this.state.menuOpen });
+    // this.setState({ menuOpen: !this.state.menuOpen }, () => {
+    //   this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    // })
   }
 
   onP = () => {
@@ -97,6 +99,9 @@ class HomeScreen extends React.Component {
                   rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
                   style={styles.navBarStyle}
           />
+        <Modal animationType={"none"} transparent={true} visible={this.state.menuOpen} >
+          <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
+        </Modal>
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
@@ -171,8 +176,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    nav: state.nav,
-
+    nav: state.nav
   }
 }
 
