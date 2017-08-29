@@ -26,7 +26,7 @@ class HomeMenu extends React.Component {
   }
 }
 
-var mapStateToProps = state => {
+var mapStateToProps = (state) => {
   return {
     navigator: state.nav,
     menuOpen: state.menuStatus.isOpen
