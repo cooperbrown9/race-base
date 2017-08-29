@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import ForecastDay from '../ui-elements/forecast-day.js';
 import Menu from './menus/main-menu.js';
+import * as Screens from '../constants/screen-types.js';
 
 
 class ForecastScreen extends React.Component {
@@ -25,8 +26,6 @@ class ForecastScreen extends React.Component {
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen });
-
-    debugger;
   }
 
   dropDownMenu(){
@@ -45,7 +44,7 @@ class ForecastScreen extends React.Component {
               style={{position:'absolute'}}
       />
       <Modal animationType={"slide"} transparent={false} visible={this.state.menuOpen} >
-        <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} />
+        <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={'Schedule'}/>
       </Modal>
       <ScrollView style={{flex:1}}>
           <ForecastDay/>

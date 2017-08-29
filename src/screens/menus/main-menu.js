@@ -49,9 +49,9 @@ class Menu extends React.Component {
           <View style={{height: 40, backgroundColor: 'transparent'}}></View>
           {menuOptions.map((menuItem) => {
             return(
-              <TouchableOpacity style={(this.props.loaded) ? styles.menuItem : stylesHidden.menuItem} onPress={() => { this._navigate(menuItem.path) } } key={menuItem.name} >
+              <TouchableOpacity style={(this.props.loaded) ? styles.menuItem : stylesHidden.menuItem} onPress={() => { (menuItem.enabled) ? this._navigate(menuItem.path) : this.props.dismiss() } } key={menuItem.name} >
                 <View style={styles.nameContainer}>
-                  <Text style={styles.menuItemName}>{(menuItem.enabled) ? menuItem.name : 'bruuuh'}</Text>
+                  <Text style={(menuItem.enabled) ? styles.menuItemName : styles.menuItemNameDisabled}>{menuItem.name}</Text>
                 </View>
               </TouchableOpacity>
             )
@@ -85,6 +85,11 @@ const styles = StyleSheet.create({
   menuItemName: {
     fontSize: 24,
     color: 'white',
+    textAlign: 'center'
+  },
+  menuItemNameDisabled: {
+    fontSize: 24,
+    color: 'rgba(255,255,255,0.7)',
     textAlign: 'center'
   },
   imageContainer: {
