@@ -44,7 +44,7 @@ export default class App extends React.Component {
             longitudeDelta: 0.0421,
         }} >
           <MapView.Polyline coordinates={courseCoords} strokeWidth={1} strokeColor={'#F4C81B'} />
-
+          <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
       </MapView>
       <View style={styles.runnerInfoBar}>
 
