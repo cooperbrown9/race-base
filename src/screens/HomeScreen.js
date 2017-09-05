@@ -34,7 +34,7 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
 
-    this.animate();
+    // this.animate();
   }
 
   toggleMenu() {

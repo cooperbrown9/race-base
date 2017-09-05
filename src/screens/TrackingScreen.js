@@ -11,7 +11,7 @@ import { courseCoords } from '../../assets/bloomsday-path.js';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 
 
-export default class App extends React.Component {
+export default class TrackingScreen extends React.Component {
 
   static navigationOptions = {
     header: null,
@@ -28,7 +28,7 @@ export default class App extends React.Component {
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
-                        <Text style={{color:'white', fontSize: 16}}>Tracking </Text>
+                        <Text style={{color:'white', fontSize: 16}}>Tracking</Text>
                        </TouchableOpacity>}
         />
 

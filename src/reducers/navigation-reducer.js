@@ -3,7 +3,7 @@ import { NavigationActions } from 'react-navigation';
 import * as NavActions from '../action-types/navigation-action-types.js';
 import { AppNavigator } from '../navigation/navigator.js';
 
-const firstAction = AppNavigator.router.getActionForPathAndParams('Tracking');
+const firstAction = AppNavigator.router.getActionForPathAndParams('Home');
 const firstState = AppNavigator.router.getStateForAction(firstAction);
 
 export default function nav(state = firstState, action) {
@@ -38,6 +38,11 @@ export default function nav(state = firstState, action) {
       state
     );
     break;
+    case NavActions.GO_SCHEDULE:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Schedule'}),
+      state
+    );
+      break;
 
     default:
       console.log('default switch');

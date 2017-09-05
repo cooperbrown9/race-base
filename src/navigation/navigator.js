@@ -8,6 +8,8 @@ import HomeMenu from '../screens/menus/HomeMenu.js';
 import FaqScreen from '../screens/FaqScreen.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
+import ScheduleScreen from '../screens/ScheduleScreen.js';
+
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeMenu },
@@ -15,6 +17,7 @@ export const AppNavigator = StackNavigator({
   Tracking: {screen: TrackingScreen},
   Faq: {screen: FaqScreen},
   HistoricalWeather: {screen: HistoricalWeatherScreen},
+  Schedule: {screen: ScheduleScreen}
 
 });
 
