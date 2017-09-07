@@ -4,21 +4,32 @@ import { View,
          Image,
          StyleSheet,
          TouchableOpacity,
-         ScrollView
+         ScrollView,
+         Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import FAQItem from '../ui-elements/faq-item.js';
+import Menu from './Menu.js';
+import SideMenu from 'react-native-side-menu';
 
 
-export default class FaqScreen extends React.Component {
+class FaqScreen extends React.Component {
 
   static navigationOptions = {
     header: null,
   };
 
+  toggleMenu() {
+    this.props.dispatch({type: 'CLOSE'  });
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+      debugger;
+    })
+  }
+
   state = {
-    isOpen: false,
+    menuOpen: false,
     faqs : [
       {question: 'When is Bloomsday?', answer: 'First weekend in May', isOpen: false},
       {question: 'How do I volunteer?', answer: 'Visit Bloomsday.com to register to volunteer on race day', isOpen: false},
@@ -47,11 +58,12 @@ export default class FaqScreen extends React.Component {
   }
 
   render(){
-
+    const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
+              leftOnPress={this.toggleMenu.bind(this)}
               title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
                       <Text style={{color:'white', fontSize: 16}}>FAQ ⌄</Text>
                      </TouchableOpacity>}
@@ -65,3 +77,11 @@ export default class FaqScreen extends React.Component {
   }
 
 }
+var mapStateToProps = state => {
+  return {
+    nav: state.nav,
+
+  }
+}
+
+export default connect(mapStateToProps)(FaqScreen);

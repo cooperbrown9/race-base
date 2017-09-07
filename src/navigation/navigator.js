@@ -5,7 +5,9 @@ import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 import ForecastScreen from '../screens/ForecastScreen.js';
 import SideMenu from 'react-native-side-menu';
 import HomeMenu from '../screens/menus/HomeMenu.js';
+import ForecastMenu from '../screens/menus/ForecastMenu.js';
 import FaqScreen from '../screens/FaqScreen.js';
+import FaqMenu from '../screens/menus/FaqMenu.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
 import ScheduleScreen from '../screens/ScheduleScreen.js';
@@ -13,9 +15,9 @@ import ScheduleScreen from '../screens/ScheduleScreen.js';
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeMenu },
-  Forecast: {screen: ForecastScreen},
+  Forecast: {screen: ForecastMenu},
   Tracking: {screen: TrackingScreen},
-  Faq: {screen: FaqScreen},
+  Faq: {screen: FaqMenu},
   HistoricalWeather: {screen: HistoricalWeatherScreen},
   Schedule: {screen: ScheduleScreen}
 

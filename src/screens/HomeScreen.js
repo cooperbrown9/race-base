@@ -43,30 +43,7 @@ class HomeScreen extends React.Component {
     })
   }
 
-  onP = () => {
-    Animated.timing(this.state.endXPosition, {
-      toValue: 1,
-      easing: Easing.linear,
-      duration: 1000
-    }).start();
-    this.setState({didAnimate: false});
-  }
 
-  animate() {
-    this.animatedValue.setValue(0);
-    Animated.timing(this.state.xPosition, {
-      toValue: 1,
-      easing: Easing.linear,
-      duration: 1000
-    }).start();
-    this.setState({didAnimate: true});
-    return;
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear
-    }).start(() => this.animate())
-  }
 
   _register = () =>{
     console.log("REgister");
