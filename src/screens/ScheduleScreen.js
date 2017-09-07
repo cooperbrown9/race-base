@@ -21,14 +21,27 @@ class ScheduleScreen extends React.Component {
 
   };
   state = {
-    dayScheduleInfo: [
+    fridayEvents: [
       {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
       somethingElse: 'Something Else'},
+      {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
+      somethingElse: 'Something Else'},
+    ],
+    saturdayEvents: [
       {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
+      somethingElse: 'Something Else'},
+      {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
+      somethingElse: 'Something Else'},
+      {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
+      somethingElse: 'Something Else'},
+    ],
+    sundayEvents: [
+      {date: 'MAY 1', time: '10:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
       somethingElse: 'Something Else'},
       {date: 'MAY 1', time: '10:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
       somethingElse: 'Something Else'},
     ],
+    dayScheduleInfo:[],
     isVisible: true,
     fri: true,
     sat: false,
@@ -39,10 +52,21 @@ class ScheduleScreen extends React.Component {
 
   componentDidMount(){
     console.log('we gud');
+    this.setState({dayScheduleInfo: this.state.fridayEvents});
   }
 
   componentWillMount() {
 
+  }
+
+  _updateEvents = () => {
+    if(this.state.fri){
+      this.setState({dayScheduleInfo: this.state.fridayEvents});
+    } else if(this.state.sat){
+      this.setState({dayScheduleInfo: this.state.saturdayEvents});
+    } else if(this.state.sun){
+      this.setState({dayScheduleInfo: this.state.sundayEvents});
+    }
   }
 
   dropDownMenu(){
@@ -57,29 +81,31 @@ class ScheduleScreen extends React.Component {
     }
   }
 
-  _onPressFriday(){
+  _onPressFriday = () => {
     this.setState({
       fri: true,
       sat: false,
       sun: false,
-    })
+    });
+    this._updateEvents();
   }
 
   _onPressSaturday = () => {
-    debugger;
     this.setState({
       fri: false,
       sat: true,
       sun: false,
-    })
+    });
+    this._updateEvents();
   }
 
-  _onPressSunday(){
+  _onPressSunday = () => {
     this.setState({
       fri: false,
       sat: false,
       sun: true,
-    })
+    });
+    this._updateEvents();
   }
 
   render(){
@@ -92,7 +118,7 @@ class ScheduleScreen extends React.Component {
                        </TouchableOpacity>}
         />
         <View style={styles.dayBar}>
-          <TouchableOpacity style={styles.day} onPress={this._onPressFriday.bind(this)} >
+          <TouchableOpacity style={styles.day} onPress={this._onPressFriday} >
             <Text style={styles.dayText}>APR 29</Text>
             <Text style={styles.weekdayText}>FRI</Text>
           </TouchableOpacity>
@@ -109,6 +135,7 @@ class ScheduleScreen extends React.Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
+
             {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} somethingElse={model.somethingElse}/>)}
           </ScrollView>
 
