@@ -7,11 +7,14 @@ import { View,
          ScrollView,
          Modal,
          Animated,
+         Dimensions
 
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import ScheduleItem from '../ui-elements/schedule-item.js';
+import Menu from './Menu.js';
+import SideMenu from 'react-native-side-menu';
 
 class ScheduleScreen extends React.Component {
 
@@ -20,6 +23,7 @@ class ScheduleScreen extends React.Component {
     header: null,
 
   };
+
   state = {
     fridayEvents: [
       {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
@@ -46,8 +50,7 @@ class ScheduleScreen extends React.Component {
     fri: true,
     sat: false,
     sun: false,
-
-
+    menuOpen: false,
   }
 
   componentDidMount(){
@@ -55,9 +58,12 @@ class ScheduleScreen extends React.Component {
     this.setState({dayScheduleInfo: this.state.fridayEvents});
   }
 
-  componentWillMount() {
-
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
   }
+
 
   _updateEvents = () => {
     if(this.state.fri){
@@ -73,13 +79,7 @@ class ScheduleScreen extends React.Component {
     console.log('Drop Down Accessed');
   }
 
-  _renderIf(condition, content) {
-    if (condition) {
-        return content;
-    } else {
-        return null;
-    }
-  }
+
 
   _onPressFriday = () => {
     this.setState({
@@ -109,9 +109,11 @@ class ScheduleScreen extends React.Component {
   }
 
   render(){
+    const { width, height } = Dimensions.get('window');
     return (
-      <View style={{backgroundColor:'transparent', flex: 1}}>
+      <View style={{backgroundColor:'transparent', flex: 1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
+                leftOnPress={this.toggleMenu.bind(this)}
                 rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
                         <Text style={{color:'white', fontSize: 16}}>Schedule</Text>
@@ -136,7 +138,7 @@ class ScheduleScreen extends React.Component {
 
           <ScrollView style={styles.scrollContainer}>
 
-            {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} somethingElse={model.somethingElse}/>)}
+            {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} somethingElse={model.somethingElse}/>  )}
           </ScrollView>
 
 
@@ -181,8 +183,8 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
-  console.log(state);
   return {
+    nav: state.nav,
 
   }
 }

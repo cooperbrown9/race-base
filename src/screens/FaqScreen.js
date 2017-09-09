@@ -21,10 +21,8 @@ class FaqScreen extends React.Component {
   };
 
   toggleMenu() {
-    this.props.dispatch({type: 'CLOSE'  });
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-      debugger;
     })
   }
 
@@ -60,7 +58,7 @@ class FaqScreen extends React.Component {
   render(){
     const { width, height } = Dimensions.get('window');
     return(
-      <View style={{flex:1}}>
+      <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}

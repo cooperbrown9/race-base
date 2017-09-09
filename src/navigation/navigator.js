@@ -11,15 +11,17 @@ import FaqMenu from '../screens/menus/FaqMenu.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
 import ScheduleScreen from '../screens/ScheduleScreen.js';
+import ScheduleMenu from '../screens/menus/ScheduleMenu.js';
+import TrackingMenu from '../screens/menus/TrackingMenu.js';
 
 
 export const AppNavigator = StackNavigator({
   Home: { screen: HomeMenu },
   Forecast: {screen: ForecastMenu},
-  Tracking: {screen: TrackingScreen},
+  Tracking: {screen: TrackingMenu},
   Faq: {screen: FaqMenu},
   HistoricalWeather: {screen: HistoricalWeatherScreen},
-  Schedule: {screen: ScheduleScreen}
+  Schedule: {screen: ScheduleMenu}
 
 });
 

@@ -1,16 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
+import ScheduleScreen from '../ScheduleScreen.js';
 import Menu from '../Menu.js';
-import TrackingScreen from '../TrackingScreen.js'
 import * as NavActions from '../../action-types/navigation-action-types.js';
 
-class TrackingMenu extends React.Component {
+class ScheduleMenu extends React.Component {
 
   static navigationOptions = {
     header: null
   }
-
 
   _navigate(path) {
     this.props.dispatch({type: 'CLOSE'  });
@@ -21,7 +20,7 @@ class TrackingMenu extends React.Component {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <TrackingScreen />
+        <ScheduleScreen />
       </SideMenu>
 
     )
@@ -35,4 +34,4 @@ var mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(TrackingMenu);
+export default connect(mapStateToProps)(ScheduleMenu);
