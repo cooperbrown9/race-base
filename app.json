@@ -5,6 +5,9 @@
     "slug": "race-base",
     "privacy": "public",
     "sdkVersion": "19.0.0",
+    "ios": {
+      "bundleIdentifier": "com.xapp.racebase"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
