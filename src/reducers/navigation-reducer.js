@@ -38,6 +38,11 @@ export default function nav(state = firstState, action) {
       state
     );
     break;
+    case NavActions.GO_SCHEDULE:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Schedule'}),
+      state
+    );
+      break;
 
     default:
       console.log('default switch');

@@ -5,13 +5,18 @@ import { View,
          StyleSheet,
          TouchableOpacity,
          ScrollView,
+<<<<<<< HEAD
          Modal
+=======
+         Dimensions,
+         Button
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import ForecastDay from '../ui-elements/forecast-day.js';
-import Menu from './menus/main-menu.js';
-import * as Screens from '../constants/screen-types.js';
+import Menu from './Menu.js';
+import SideMenu from 'react-native-side-menu';
 
 
 class ForecastScreen extends React.Component {
@@ -20,25 +25,31 @@ class ForecastScreen extends React.Component {
     header: null,
   };
 
+
   state = {
     menuOpen: false
   }
 
   toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen });
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
   }
+
+
 
   dropDownMenu(){
     console.log("Drop Down Accessed");
   }
 
   render(){
+    const { width, height } = Dimensions.get('window');
     return(
-      <View style={{flex:1}}>
+      <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
-              title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
+              title={<TouchableOpacity onPress={this.toggleMenu.bind(this)}>
                       <Text style={{color:'white', fontSize: 16}}>Forecast ⌄</Text>
                      </TouchableOpacity>}
               style={{position:'absolute'}}
@@ -61,7 +72,8 @@ class ForecastScreen extends React.Component {
 
 var mapStateToProps = state => {
   return {
-    nav: state.nav
+    nav: state.nav,
+
   }
 }
 

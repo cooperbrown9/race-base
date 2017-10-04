@@ -1,5 +1,4 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -7,6 +6,7 @@ import {
   TouchableOpacity,
   Image
 } from 'react-native';
+import PropTypes from 'prop-types';
 import * as Colors from '../style/colors.js'
 
 const HistoricalDay = (props) => (
@@ -82,19 +82,19 @@ const HistoricalDay = (props) => (
 
 
 HistoricalDay.propTypes = {
-  date: React.PropTypes.string,
-  windIcon1: React.PropTypes.element,
-  temp1: React.PropTypes.string,
-  wind1: React.PropTypes.string,
-  humidity1: React.PropTypes.string,
-  windIcon2: React.PropTypes.element,
-  temp2: React.PropTypes.string,
-  wind2: React.PropTypes.string,
-  humidity2: React.PropTypes.string,
-  windIcon3: React.PropTypes.element,
-  temp3: React.PropTypes.string,
-  wind3: React.PropTypes.string,
-  humidity3: React.PropTypes.string,
+  date: PropTypes.string,
+  windIcon1: PropTypes.element,
+  temp1: PropTypes.string,
+  wind1: PropTypes.string,
+  humidity1: PropTypes.string,
+  windIcon2: PropTypes.element,
+  temp2: PropTypes.string,
+  wind2: PropTypes.string,
+  humidity2: PropTypes.string,
+  windIcon3: PropTypes.element,
+  temp3: PropTypes.string,
+  wind3: PropTypes.string,
+  humidity3: PropTypes.string,
 
 };
 

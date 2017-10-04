@@ -7,11 +7,12 @@ import {
    TouchableOpacity,
    ScrollView
 } from 'react-native';
+import PropTypes from 'prop-types';
 import * as NavActions from '../action-types/navigation-action-types.js';
 //nav bar height is 64
 
 const options = [
-  {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_FORECAST},
+  {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_SCHEDULE},
   {name: 'Register', iconPath: require('../../assets/icons/navigation/list.png'), path: NavActions.GO_FORECAST},
   {name: 'FAQ', iconPath: require('../../assets/icons/navigation/faq.png'), path: NavActions.GO_FAQ},
   {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_FORECAST},
@@ -48,8 +49,8 @@ const Menu = (props) => (
 )
 
 Menu.propTypes = {
-  navigator: React.PropTypes.object,
-  navigateFunc: React.PropTypes.func
+  navigator: PropTypes.object,
+  navigateFunc: PropTypes.func
 }
 
 const styles = StyleSheet.create({

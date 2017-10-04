@@ -4,21 +4,38 @@ import { View,
          Image,
          StyleSheet,
          TouchableOpacity,
-         ScrollView
+         ScrollView,
+         Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import FAQItem from '../ui-elements/faq-item.js';
+<<<<<<< HEAD
 import Menu from './menus/main-menu.js';
 
+=======
+import Menu from './Menu.js';
+import SideMenu from 'react-native-side-menu';
+
+
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
 class FaqScreen extends React.Component {
 
   static navigationOptions = {
     header: null,
   };
 
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
+  }
+
   state = {
+<<<<<<< HEAD
     isOpen: false,
+=======
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
     menuOpen: false,
     faqs : [
       {question: 'When is Bloomsday?', answer: 'First weekend in May', isOpen: false},
@@ -50,9 +67,9 @@ class FaqScreen extends React.Component {
   }
 
   render(){
-
+    const { width, height } = Dimensions.get('window');
     return(
-      <View style={{flex:1}}>
+      <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
@@ -72,10 +89,17 @@ class FaqScreen extends React.Component {
   }
 
 }
+<<<<<<< HEAD
 
 var mapStateToProps = state => {
   return {
     nav: state.nav
+=======
+var mapStateToProps = state => {
+  return {
+    nav: state.nav,
+
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
   }
 }
 

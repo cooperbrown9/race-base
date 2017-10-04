@@ -12,6 +12,7 @@ class HomeMenu extends React.Component {
   }
 
   _navigate(path) {
+    this.props.dispatch({type: 'CLOSE'  });
     this.props.navigation.dispatch({ type: path });
   }
 

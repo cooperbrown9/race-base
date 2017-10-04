@@ -31,14 +31,16 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
 
+    // this.animate();
   }
 
   toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen });
-    // this.setState({ menuOpen: !this.state.menuOpen }, () => {
-    //   this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-    // })
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
   }
+
+
 
   _register = () =>{
     console.log("REgister");
