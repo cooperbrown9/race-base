@@ -43,7 +43,7 @@ class ForecastScreen extends React.Component {
                      </TouchableOpacity>}
               style={{position:'absolute'}}
       />
-      <Modal animationType={"slide"} transparent={false} visible={this.state.menuOpen} >
+    <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
         <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={'Schedule'}/>
       </Modal>
       <ScrollView style={{flex:1}}>

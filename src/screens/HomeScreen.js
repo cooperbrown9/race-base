@@ -19,7 +19,6 @@ class HomeScreen extends React.Component {
 
   constructor() {
     super();
-    this.animatedValue = new Animated.Value(0);
   }
 
   static navigationOptions = {
@@ -27,15 +26,11 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    xPosition: new Animated.Value(0),
-    endXPosition: new Animated.Value(0),
-    didAnimate: false,
     menuOpen: false
   }
 
   componentDidMount() {
 
-    this.animate();
   }
 
   toggleMenu() {
@@ -45,31 +40,6 @@ class HomeScreen extends React.Component {
     // })
   }
 
-  onP = () => {
-    Animated.timing(this.state.endXPosition, {
-      toValue: 1,
-      easing: Easing.linear,
-      duration: 1000
-    }).start();
-    this.setState({didAnimate: false});
-  }
-
-  animate() {
-    this.animatedValue.setValue(0);
-    Animated.timing(this.state.xPosition, {
-      toValue: 1,
-      easing: Easing.linear,
-      duration: 1000
-    }).start();
-    this.setState({didAnimate: true});
-    return;
-    Animated.timing(this.animatedValue, {
-      toValue: 1,
-      duration: 2000,
-      easing: Easing.linear
-    }).start(() => this.animate())
-  }
-
   _register = () =>{
     console.log("REgister");
   }
@@ -77,19 +47,6 @@ class HomeScreen extends React.Component {
   render() {
 
     const { width, height } = Dimensions.get('window');
-    const marginLeft = this.animatedValue.interpolate({
-      inputRange: [0,1],
-      outputRange: [0, 300]
-    });
-    const movingMargin = this.state.xPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, width * 0.5]
-    });
-
-    const moveBack = this.state.endXPosition.interpolate({
-      inputRange: [0,1],
-      outputRange: [width * 0.5, 0]
-    });
 
     return (
         <View style={styles.container} >
@@ -99,7 +56,7 @@ class HomeScreen extends React.Component {
                   rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
                   style={styles.navBarStyle}
           />
-        <Modal animationType={"none"} transparent={true} visible={this.state.menuOpen} >
+        <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
           <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
         </Modal>
 
@@ -114,7 +71,7 @@ class HomeScreen extends React.Component {
               <Text style={{fontSize: 20,}}>135 Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
-            <TouchableOpacity onPress={() => this.onP()} style={styles.register}>
+            <TouchableOpacity  style={styles.register}>
               <Text style={{fontSize: 22, color: 'blue'}}>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
             </TouchableOpacity>

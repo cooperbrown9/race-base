@@ -1,10 +1,17 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
+import { StyleSheet, View, Animated, Easing, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 import * as NavActions from '../../action-types/navigation-action-types.js';
 import * as Screens from '../../constants/screen-types.js';
 
 class Menu extends React.Component {
+
+  constructor(props) {
+    super(props);
+    var colorVal = new Animated.Value(0);
+    this.state.x = new Animated.Value('green');
+    // this.setState(this.state);
+  }
 
   static propTypes = {
     dispatcher: React.PropTypes.func,
@@ -31,7 +38,25 @@ class Menu extends React.Component {
     this.props.dismiss();
   }
 
+  changeColor() {
+    this.colorVal.setValue(0);
+    Animated.timing(
+      this.colorVal,
+      {
+        toValue: 1,
+        duration: 2000,
+        easing: Easing.easeOutBack,
+        color: 'red'
+      }
+    ).start();
+  }
+
   render() {
+    let color = this.state.x.interpolate({
+      inputRange: [0, 2000],
+      outputRange: ['red', 'blue']
+    });
+
     let menuOptions = [
       {name: 'Schedule', iconPath: require('../../../assets/icons/navigation/calendar.png'), path: NavActions.GO_FORECAST},
       {name: 'Register', iconPath: require('../../../assets/icons/navigation/list.png'), path: NavActions.GO_FORECAST},
@@ -44,16 +69,21 @@ class Menu extends React.Component {
       (this.props.from == o.name) ? o.enabled = false : o.enabled = true;
     })
     return (
-      <View style={styles.container} >
+      <View style={{flex: 1,
+          flexDirection: 'column',
+          justifyContent: 'center', backgroundColor: color}}
+      >
         <ScrollView contentContainerStyle={{flexGrow: 1}} >
-          <View style={{height: 40, backgroundColor: 'transparent'}}></View>
+          <View style={{height: 40}}></View>
           {menuOptions.map((menuItem) => {
             return(
+              <Animated.View>
               <TouchableOpacity style={(this.props.loaded) ? styles.menuItem : stylesHidden.menuItem} onPress={() => { (menuItem.enabled) ? this._navigate(menuItem.path) : this.props.dismiss() } } key={menuItem.name} >
                 <View style={styles.nameContainer}>
                   <Text style={(menuItem.enabled) ? styles.menuItemName : styles.menuItemNameDisabled}>{menuItem.name}</Text>
                 </View>
               </TouchableOpacity>
+              </Animated.View>
             )
           this.setState({ itemVisible: true })
           }
