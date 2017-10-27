@@ -21,8 +21,7 @@ export const AppNavigator = StackNavigator({
   Tracking: {screen: TrackingMenu},
   Faq: {screen: FaqMenu},
   HistoricalWeather: {screen: HistoricalWeatherScreen},
-  Schedule: {screen: ScheduleMenu}
-
+  MenuScreen: {screen: Menu}
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (

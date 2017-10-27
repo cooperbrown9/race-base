@@ -5,8 +5,12 @@ import { View,
          StyleSheet,
          TouchableOpacity,
          ScrollView,
+<<<<<<< HEAD
+         Modal
+=======
          Dimensions,
          Button
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
@@ -50,6 +54,9 @@ class ForecastScreen extends React.Component {
                      </TouchableOpacity>}
               style={{position:'absolute'}}
       />
+    <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
+        <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={'Schedule'}/>
+      </Modal>
       <ScrollView style={{flex:1}}>
           <ForecastDay/>
           <ForecastDay/>
