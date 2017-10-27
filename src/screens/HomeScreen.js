@@ -7,18 +7,18 @@ import { View,
          Animated,
          Easing,
          Dimensions,
-         Button
+         Button,
+         Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
-import Menu from './Menu.js';
-import SideMenu from 'react-native-side-menu';
+import Menu from './menus/main-menu.js';
+import * as Screens from '../constants/screen-types.js';
 
 class HomeScreen extends React.Component {
 
   constructor() {
     super();
-    this.animatedValue = new Animated.Value(0);
   }
 
   static navigationOptions = {
@@ -26,9 +26,6 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    xPosition: new Animated.Value(0),
-    endXPosition: new Animated.Value(0),
-    didAnimate: false,
     menuOpen: false
   }
 
@@ -52,19 +49,6 @@ class HomeScreen extends React.Component {
   render() {
 
     const { width, height } = Dimensions.get('window');
-    const marginLeft = this.animatedValue.interpolate({
-      inputRange: [0,1],
-      outputRange: [0, 300]
-    });
-    const movingMargin = this.state.xPosition.interpolate({
-      inputRange: [0, 1],
-      outputRange: [0, width * 0.5]
-    });
-
-    const moveBack = this.state.endXPosition.interpolate({
-      inputRange: [0,1],
-      outputRange: [width * 0.5, 0]
-    });
 
     return (
         <View style={styles.container} >
@@ -74,6 +58,9 @@ class HomeScreen extends React.Component {
                   rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
                   style={styles.navBarStyle}
           />
+        <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
+          <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
+        </Modal>
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
@@ -86,7 +73,7 @@ class HomeScreen extends React.Component {
               <Text style={{fontSize: 20,}}>135 Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
-            <TouchableOpacity onPress={() => this.onP()} style={styles.register}>
+            <TouchableOpacity  style={styles.register}>
               <Text style={{fontSize: 22, color: 'blue'}}>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
             </TouchableOpacity>
@@ -148,8 +135,7 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    nav: state.nav,
-
+    nav: state.nav
   }
 }
 
