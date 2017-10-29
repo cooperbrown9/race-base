@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
+import Timer from '../ui-elements/timer.js';
 
 
 class TrackingScreen extends React.Component {
@@ -34,7 +35,7 @@ class TrackingScreen extends React.Component {
   componentDidMount() {
     this.setCoordinates();
 
-    setInterval(() => { this.trackRunner(); }, 3000);
+    setInterval(() => { this.trackRunner(); this.handleAddLine(); }, 3000);
 
   }
 
@@ -70,6 +71,74 @@ class TrackingScreen extends React.Component {
         console.log(d);
       }
   }
+
+  handleAddLine = (event) => {
+    // console.log('the longitude is ' + event.latLng.lng());
+console.log(event);
+debugger;
+    this.setState({
+      coordinates: [
+        {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
+        },
+        ...this.state.coordinates
+      ]
+    });  
+  
+  if(this.state.coordinates.length > 1) {
+      console.log(this.state.coordinates);
+
+      const totalDistance = [];
+      const totalCoordinates = this.state.coordinates.length - 1;
+      const totalCoordinatesAdjusted = totalCoordinates - 1;
+
+      function getSum(total, num) {
+        return total + num;
+      }
+
+      for (var i = 0; i < totalCoordinates; i++) {
+        if (i != totalCoordinates) {
+          const lat1 = this.state.coordinates[i].lat;
+          const lon1 = this.state.coordinates[i].lng;
+          const lat2 = this.state.coordinates[i+1].lat;
+          const lon2 = this.state.coordinates[i+1].lng;
+
+          console.log(lat1);
+          console.log(lon1);
+
+          function deg2rad(deg) {
+            return deg * (Math.PI/180)
+          }
+
+          var R = 3959; // Radius of the earth in miles
+          var dLat = deg2rad(lat2-lat1);  // deg2rad below
+          var dLon = deg2rad(lon2-lon1);
+          var a =
+            Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+            Math.sin(dLon/2) * Math.sin(dLon/2)
+            ;
+          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+          var d = R * c; // Distance in miles
+          console.log('line segment ' + (i+1) + ' of '+ totalCoordinates +' length is ' + d);
+          totalDistance.push(d);
+
+          const newTotal = totalDistance.reduce(getSum);
+          console.log('total distance is ' + newTotal);
+        }
+        if (i == totalCoordinates - 1) {
+          console.log('last one');
+          const newTotal = totalDistance.reduce(getSum).toFixed(2);
+
+          this.setState({
+            totalDistance: newTotal
+          });
+          console.log('total distance is now ' + this.state.totalDistance)
+        }
+      }
+    }  
+  }
 
   setCoordinates = () => {
     this.state.coordinates = [
@@ -110,9 +179,12 @@ class TrackingScreen extends React.Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         }} >
-          <MapView.Polyline coordinates={courseCoords} strokeWidth={4} strokeColor={'#F4C81B'} />
+          <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
       </MapView>
+
+      <Timer></Timer>
+
       <View style={styles.runnerInfoBar}>
 
         <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
