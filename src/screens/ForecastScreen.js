@@ -5,12 +5,9 @@ import { View,
          StyleSheet,
          TouchableOpacity,
          ScrollView,
-<<<<<<< HEAD
-         Modal
-=======
+         Modal,
          Dimensions,
          Button
->>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
 } from 'react-native';
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';

@@ -40,8 +40,6 @@ class HomeScreen extends React.Component {
     })
   }
 
-
-
   _register = () =>{
     console.log("REgister");
   }
@@ -58,9 +56,11 @@ class HomeScreen extends React.Component {
                   rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
                   style={styles.navBarStyle}
           />
+        {/*
         <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
           <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
         </Modal>
+        */}
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
