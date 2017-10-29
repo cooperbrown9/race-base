@@ -10,10 +10,15 @@ import { View,
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import FAQItem from '../ui-elements/faq-item.js';
+<<<<<<< HEAD
+import Menu from './menus/main-menu.js';
+
+=======
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 
 
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
 class FaqScreen extends React.Component {
 
   static navigationOptions = {
@@ -27,6 +32,10 @@ class FaqScreen extends React.Component {
   }
 
   state = {
+<<<<<<< HEAD
+    isOpen: false,
+=======
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
     menuOpen: false,
     faqs : [
       {question: 'When is Bloomsday?', answer: 'First weekend in May', isOpen: false},
@@ -35,13 +44,15 @@ class FaqScreen extends React.Component {
       {question: 'How many people have done every Bloomsday?', answer: '69', isOpen: false},
       {question: 'Where does the name "Lilac Bloomsday" come from?', answer: 'Yo momma', isOpen: false},
       {question: 'What is Doomsday Hill?', answer: 'One of the hardest parts of the race, conveniently located in the second half', isOpen: false},
-
-
     ]
   }
 
   dropDownMenu(){
     console.log("Drop Down Accessed");
+  }
+
+  toggleMenu() {
+    this.setState({ menuOpen: !this.state.menuOpen });
   }
 
   _toggleIsOpen(){
@@ -67,6 +78,9 @@ class FaqScreen extends React.Component {
                      </TouchableOpacity>}
               style={{position:'absolute'}}
       />
+      <Modal animationType={"slide"} transparent={false} visible={this.state.menuOpen} >
+        <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} />
+      </Modal>
       <ScrollView style={{flex:1}}>
         {this.state.faqs.map(faq => <FAQItem isOpen={faq.isOpen} action={this.selected(faq).bind(this)} question={faq.question} answer={faq.answer}/> )}
       </ScrollView>
@@ -75,10 +89,17 @@ class FaqScreen extends React.Component {
   }
 
 }
+<<<<<<< HEAD
+
+var mapStateToProps = state => {
+  return {
+    nav: state.nav
+=======
 var mapStateToProps = state => {
   return {
     nav: state.nav,
 
+>>>>>>> f08dbe89f9e39568b6a8e53c0a2c06681fa18f18
   }
 }
 

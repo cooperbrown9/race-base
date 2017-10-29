@@ -13,9 +13,10 @@ class App extends React.Component {
   store = createStore(MainReducer, applyMiddleware(thunk));
 
   render() {
+
     return (
 
-      <Provider store={this.store} >
+      <Provider store={this.store} > 
         <AppNavigatorWithState />
       </Provider>
 

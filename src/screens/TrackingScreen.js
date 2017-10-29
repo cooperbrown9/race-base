@@ -101,8 +101,6 @@ class TrackingScreen extends React.Component {
                 leftOnPress={this.toggleMenu}
         />
 
-
-
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
@@ -112,7 +110,7 @@ class TrackingScreen extends React.Component {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         }} >
-          <MapView.Polyline coordinates={courseCoords} strokeWidth={1} strokeColor={'#F4C81B'} />
+          <MapView.Polyline coordinates={courseCoords} strokeWidth={4} strokeColor={'#F4C81B'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
       </MapView>
       <View style={styles.runnerInfoBar}>
