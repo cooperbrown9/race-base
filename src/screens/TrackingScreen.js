@@ -23,7 +23,19 @@ class TrackingScreen extends React.Component {
   };
 
   state = {
-    menuOpen: false
+    menuOpen: false,
+    runnerObj: {
+      distance: 0,
+      time: 0,
+      pace: 0
+    }
+  }
+
+  componentDidMount() {
+    this.setCoordinates();
+
+    setInterval(() => { this.trackRunner(); }, 3000);
+
   }
 
   toggleMenu = () =>{
@@ -33,6 +45,47 @@ class TrackingScreen extends React.Component {
     })
   }
 
+  trackRunner = () => {
+    if(this.state.coordinates.length > 1) {
+        const lat1 = this.state.coordinates[0].lat;
+        const lon1 = this.state.coordinates[0].lng;
+        const lat2 = this.state.coordinates[1].lat;
+        const lon2 = this.state.coordinates[1].lng;
+        
+        function deg2rad(deg) {
+          return deg * (Math.PI/180)
+        }
+
+        var R = 3959; // Radius of the earth in miles
+        var dLat = deg2rad(lat2-lat1);  // deg2rad below
+        var dLon = deg2rad(lon2-lon1);
+        var a =
+          Math.sin(dLat/2) * Math.sin(dLat/2) +
+          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+          Math.sin(dLon/2) * Math.sin(dLon/2);
+
+        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        var d = R * c; // Distance in miles
+        this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
+        console.log(d);
+      }
+  }
+
+  setCoordinates = () => {
+    this.state.coordinates = [
+
+      {lat: 47.66269942589627, lng: -117.40363597869873},
+
+      {lat: 47.65837821539351, lng: -117.40168333053589},
+
+      {lat: 47.658118064216744, lng: -117.41284132003784},
+
+      {lat: 47.66134095679338, lng: -117.41844177246094},
+
+      {lat: 47.66488157353775, lng: -117.41567373275757}
+
+    ]
+  }
 
 
   dropDownMenu(){
@@ -92,7 +145,7 @@ class TrackingScreen extends React.Component {
               </View>
 
               <View style={{flex:3, paddingLeft: 14, justifyContent: 'center'}}>
-                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>1.2 mi</Text>
+                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance}</Text>
                 <Text style={{color: 'gray', fontSize: 11}}>DISTANCE</Text>
               </View>
 
