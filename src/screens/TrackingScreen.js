@@ -90,9 +90,7 @@ class TrackingScreen extends React.Component {
     });  
 
     console.log(this.state);
-    // debugger;
     this.setState({coordCounter: this.state.coordCounter++, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
-
 
   if(this.state.coordinates.length > 1) {
       console.log(this.state.coordinates);
@@ -102,7 +100,7 @@ class TrackingScreen extends React.Component {
       const totalCoordinatesAdjusted = totalCoordinates - 1;
 
       function getSum(total, num) {
-        return total + num; 
+        return total + num;
       }
 
       for (var i = 0; i < totalCoordinates; i++) {
