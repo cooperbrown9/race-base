@@ -30,33 +30,20 @@ class TrackingScreen extends React.Component {
       time: 0,
       pace: 0
     },
-    coordinates:[]
+    coordCounter: 0,
+    currentLocation: { lat: 0, lng: 0 }
   }
 
   componentDidMount() {
     this.setCoordinates();
 
-    setInterval(() => { this.trackRunner(); this.handleAddLine(); }, 3000);
-
-    this.watchId = navigator.geolocation.watchPosition(
-      (position) => {
-        this.setState({
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          error: null,
-        });
-      },
-      (error) => this.setState({ error: error.message }),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
-    );
-
+    setInterval(() => {
+      this.trackRunner();
+      this.handleAddLine({lat: this.state.coordinates[this.state.coordCounter].lat, lng:this.state.coordinates[this.state.coordCounter].lng });
+    }, 3000);
   }
 
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchId);
-  }
-
-  toggleMenu = () =>{
+  toggleMenu = () => {
     console.log('it works fam');
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
@@ -91,18 +78,18 @@ class TrackingScreen extends React.Component {
 
 handleAddLine = (event) => {
     // console.log('the longitude is ' + event.latLng.lng());
-console.log(event);
-debugger;
+    this.setState({coordCounter: this.state.coordCounter+1, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
+
     this.setState({
       coordinates: [
-        {
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng(),
+        ...this.state.coordinates,
+        {
+          lat: event.lat,//latLng.lat(),
+          lng: event.lng,//latLng.lng(),
         },
-        ...this.state.coordinates
       ]
     });  
-  
+
   if(this.state.coordinates.length > 1) {
       console.log(this.state.coordinates);
 
@@ -121,6 +108,8 @@ debugger;
           const lat2 = this.state.coordinates[i+1].lat;
           const lon2 = this.state.coordinates[i+1].lng;
 
+          // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
+
           console.log(lat1);
           console.log(lon1);
 
@@ -138,7 +127,7 @@ debugger;
             ;
           var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
           var d = R * c; // Distance in miles
-          console.log('line segment ' + (i+1) + ' of '+ totalCoordinates +' length is ' + d);
+          console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
           totalDistance.push(d);
 
           const newTotal = totalDistance.reduce(getSum);
@@ -170,7 +159,9 @@ debugger;
 
       {lat: 47.66488157353775, lng: -117.41567373275757}
 
-    ]
+    ];
+
+    this.setState({ coordinates: this.state.coordinates });
   }
 
 
@@ -198,7 +189,8 @@ debugger;
         }} >
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
-      </MapView>
+          <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
+    </MapView>
 
       <Timer></Timer>
 
@@ -232,7 +224,7 @@ debugger;
               </View>
 
               <View style={{flex:3, paddingLeft: 14, justifyContent: 'center'}}>
-                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance}</Text>
+                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance.toFixed(2)}</Text>
                 <Text style={{color: 'gray', fontSize: 11}}>DISTANCE</Text>
               </View>
 
