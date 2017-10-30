@@ -102,7 +102,7 @@ class TrackingScreen extends React.Component {
       const totalCoordinatesAdjusted = totalCoordinates - 1;
 
       function getSum(total, num) {
-        return total + num;
+        return total + num; 
       }
 
       for (var i = 0; i < totalCoordinates; i++) {
