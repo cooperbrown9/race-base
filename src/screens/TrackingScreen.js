@@ -78,6 +78,7 @@ class TrackingScreen extends React.Component {
 
   handleAddLine = (event) => {
     // console.log('the longitude is ' + event.latLng.lng());
+    this.setState({coordCounter: this.state.coordCounter+1, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
 
     this.setState({
       coordinates: [
@@ -88,9 +89,6 @@ class TrackingScreen extends React.Component {
         },
       ]
     });  
-
-    console.log(this.state);
-    this.setState({coordCounter: this.state.coordCounter++, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
 
   if(this.state.coordinates.length > 1) {
       console.log(this.state.coordinates);
@@ -161,7 +159,9 @@ class TrackingScreen extends React.Component {
 
       {lat: 47.66488157353775, lng: -117.41567373275757}
 
-    ]
+    ];
+
+    this.setState({ coordinates: this.state.coordinates });
   }
 
 
@@ -224,7 +224,7 @@ class TrackingScreen extends React.Component {
               </View>
 
               <View style={{flex:3, paddingLeft: 14, justifyContent: 'center'}}>
-                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance}</Text>
+                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance.toFixed(2)}</Text>
                 <Text style={{color: 'gray', fontSize: 11}}>DISTANCE</Text>
               </View>
 
