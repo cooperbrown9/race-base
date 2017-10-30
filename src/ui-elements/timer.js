@@ -88,18 +88,19 @@ class Timer extends Component {
         // <button onClick={this.onReset}>Reset</button>
 
   render() {
-    return (
-      <View>
-        <View>
-          <View><Text>{this.state.minutes}</Text></View>
-          <View><Text>{this.state.secondsPlaceholder}</Text></View>
-          <View><Text>{this.state.seconds}</Text></View>
 
-          </View>
-          <Text>Duration</Text>
-          { (this.state.running) ? <Button onPress={this.onStop} title="Stop"/> : <Button onPress={this.onStart} title="Start"/> }
+    return (
+    <View className="duration">
+      <View className="duration-container">
+        <View className="minutes time col-centered">{this.state.minutes}:</View>
+        <View className="seconds-placeholder time col-centered">{this.state.secondsPlaceholder}
       </View>
-    );
+          <View className="seconds time col-centered">{this.state.seconds}</View>
+        </View>
+        <Text>Duration</Text>
+       { this.state.running ? <Button onClick={this.onStop}>Stop</Button> : <Button onClick={this.onStart}>Start</Button> }
+      </View>
+    );
   }
 }
 

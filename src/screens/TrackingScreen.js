@@ -29,7 +29,8 @@ class TrackingScreen extends React.Component {
       distance: 0,
       time: 0,
       pace: 0
-    }
+    },
+    coordinates:[]
   }
 
   componentDidMount() {
@@ -37,6 +38,22 @@ class TrackingScreen extends React.Component {
 
     setInterval(() => { this.trackRunner(); this.handleAddLine(); }, 3000);
 
+    this.watchId = navigator.geolocation.watchPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null,
+        });
+      },
+      (error) => this.setState({ error: error.message }),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000, distanceFilter: 10 },
+    );
+
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchId);
   }
 
   toggleMenu = () =>{
@@ -72,7 +89,7 @@ class TrackingScreen extends React.Component {
       }
   }
 
-  handleAddLine = (event) => {
+handleAddLine = (event) => {
     // console.log('the longitude is ' + event.latLng.lng());
 console.log(event);
 debugger;
