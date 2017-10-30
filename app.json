@@ -1,24 +1,23 @@
 {
   "expo": {
-    "name": "race-base-real",
+    "name": "race-base",
     "description": "An empty new project",
-    "slug": "race-base-real",
+    "slug": "race-base",
     "privacy": "public",
-    "sdkVersion": "22.0.0",
+    "sdkVersion": "19.0.0",
     "version": "1.0.0",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+    "loading": {
+      "icon": "./assets/icons/loading-icon.png",
+      "hideExponentText": false
     },
     "packagerOpts": {
       "assetExts": ["ttf", "mp4"]
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.xapp.racebase"
     }
   }
 }
