@@ -29,17 +29,21 @@ class TrackingScreen extends React.Component {
       distance: 0,
       time: 0,
       pace: 0
-    }
+    },
+    coordCounter: 0,
+    currentLocation: { lat: 0, lng: 0 }
   }
 
   componentDidMount() {
     this.setCoordinates();
 
-    setInterval(() => { this.trackRunner(); this.handleAddLine(); }, 3000);
-
+    setInterval(() => {
+      this.trackRunner();
+      this.handleAddLine({lat: this.state.coordinates[this.state.coordCounter].lat, lng:this.state.coordinates[this.state.coordCounter].lng });
+    }, 3000);
   }
 
-  toggleMenu = () =>{
+  toggleMenu = () => {
     console.log('it works fam');
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
@@ -74,18 +78,22 @@ class TrackingScreen extends React.Component {
 
   handleAddLine = (event) => {
     // console.log('the longitude is ' + event.latLng.lng());
-console.log(event);
-debugger;
+
     this.setState({
       coordinates: [
-        {
-          lat: event.latLng.lat(),
-          lng: event.latLng.lng(),
+        ...this.state.coordinates,
+        {
+          lat: event.lat,//latLng.lat(),
+          lng: event.lng,//latLng.lng(),
         },
-        ...this.state.coordinates
       ]
     });  
-  
+
+    console.log(this.state);
+    // debugger;
+    this.setState({coordCounter: this.state.coordCounter++, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
+
+
   if(this.state.coordinates.length > 1) {
       console.log(this.state.coordinates);
 
@@ -104,6 +112,8 @@ debugger;
           const lat2 = this.state.coordinates[i+1].lat;
           const lon2 = this.state.coordinates[i+1].lng;
 
+          // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
+
           console.log(lat1);
           console.log(lon1);
 
@@ -121,7 +131,7 @@ debugger;
             ;
           var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
           var d = R * c; // Distance in miles
-          console.log('line segment ' + (i+1) + ' of '+ totalCoordinates +' length is ' + d);
+          console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
           totalDistance.push(d);
 
           const newTotal = totalDistance.reduce(getSum);
@@ -181,7 +191,8 @@ debugger;
         }} >
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
-      </MapView>
+          <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
+    </MapView>
 
       <Timer></Timer>
 
