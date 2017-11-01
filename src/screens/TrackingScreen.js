@@ -26,15 +26,16 @@ class TrackingScreen extends React.Component {
 
   state = {
     menuOpen: false,
-    runnerObj: {
-      distance: 0,
+    runner: {
+      distance: 0.0,
       time: 0,
       pace: 0
     },
     coordCounter: 0,
     currentLocation: { lat: 0, lng: 0 },
     userLocation: {},
-    userCoords: []
+    userCoords: [],
+    dummyCourse: []
   }
 
   componentDidMount() {
@@ -48,6 +49,7 @@ class TrackingScreen extends React.Component {
     // }, 3000);
 
     // get user location
+    let dummyCounter = 0;
     setInterval(async() => {
       let { coords } = await Location.getCurrentPositionAsync({});
       this.setState({ userLocation: { lat: coords.latitude, lng: coords.longitude }});
@@ -57,12 +59,18 @@ class TrackingScreen extends React.Component {
         this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.userLocation.lng) {
           this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.userLocation.lat, lng: this.state.userLocation.lng }]});
       }
-      console.log(this.state.userLocation);
 
 
       this.handleAddLineCoop();
-      this.trackRunnerCoop();
     }, 5000);
+
+    // dummy runner runs the course
+    setInterval(() => {
+      if (dummyCounter !== courseCoords.length) {
+        this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
+        dummyCounter++;
+      }
+    }, 1000);
   }
 
   getLocationAsync = async() => {
@@ -85,76 +93,63 @@ class TrackingScreen extends React.Component {
     })
   }
 
-  trackRunner = () => {
-    if(this.state.coordinates.length > 1) {
-        const lat1 = this.state.coordinates[0].lat;
-        const lon1 = this.state.coordinates[0].lng;
-        const lat2 = this.state.coordinates[1].lat;
-        const lon2 = this.state.coordinates[1].lng;
-        
-        function deg2rad(deg) {
-          return deg * (Math.PI/180)
-        }
-
-        var R = 3959; // Radius of the earth in miles
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
-        var dLon = deg2rad(lon2-lon1);
-        var a =
-          Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon/2) * Math.sin(dLon/2);
-
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var d = R * c; // Distance in miles
-        this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
-        console.log(d);
-      }
-  }
-
-  // PRE: added newest coords to userCoords
-  trackRunnerCoop = () => {
-    if(this.state.userCoords.length > 1) {
-        const lat1 = this.state.userCoords[this.state.userCoords.length - 2].lat;
-        const lon1 = this.state.userCoords[this.state.userCoords.length - 2].lng;
-        const lat2 = this.state.userCoords[this.state.userCoords.length - 1].lat;
-        const lon2 = this.state.userCoords[this.state.userCoords.length - 1].lng;
-        
-        function deg2rad(deg) {
-          return deg * (Math.PI/180)
-        }
-
-        var R = 3959; // Radius of the earth in miles
-        var dLat = deg2rad(lat2-lat1);  // deg2rad below
-        var dLon = deg2rad(lon2-lon1);
-
-        var a =
-          Math.sin(dLat/2) * Math.sin(dLat/2) +
-          Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-          Math.sin(dLon/2) * Math.sin(dLon/2);
-
-        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-        var d = R * c; // Distance in miles
-        this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
-        console.log(d);
-      }
-  }
+//   trackRunner = () => {
+//     if(this.state.coordinates.length > 1) {
+//         const lat1 = this.state.coordinates[0].lat;
+//         const lon1 = this.state.coordinates[0].lng;
+//         const lat2 = this.state.coordinates[1].lat;
+//         const lon2 = this.state.coordinates[1].lng;
+//         
+//         function deg2rad(deg) {
+//           return deg * (Math.PI/180)
+//         }
+//
+//         var R = 3959; // Radius of the earth in miles
+//         var dLat = deg2rad(lat2-lat1);  // deg2rad below
+//         var dLon = deg2rad(lon2-lon1);
+//         var a =
+//           Math.sin(dLat/2) * Math.sin(dLat/2) +
+//           Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+//           Math.sin(dLon/2) * Math.sin(dLon/2);
+//
+//         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//         var d = R * c; // Distance in miles
+//         this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
+//         console.log(d);
+//       }
+//   }
+//
+//   // PRE: added newest coords to userCoords
+//   trackRunnerCoop = () => {
+//     if(this.state.userCoords.length > 1) {
+//         const lat1 = this.state.userCoords[this.state.userCoords.length - 2].lat;
+//         const lon1 = this.state.userCoords[this.state.userCoords.length - 2].lng;
+//         const lat2 = this.state.userCoords[this.state.userCoords.length - 1].lat;
+//         const lon2 = this.state.userCoords[this.state.userCoords.length - 1].lng;
+//         
+//         function deg2rad(deg) {
+//           return deg * (Math.PI/180)
+//         }
+//
+//         var R = 3959; // Radius of the earth in miles
+//         var dLat = deg2rad(lat2-lat1);  // deg2rad below
+//         var dLon = deg2rad(lon2-lon1);
+//
+//         var a =
+//           Math.sin(dLat/2) * Math.sin(dLat/2) +
+//           Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+//           Math.sin(dLon/2) * Math.sin(dLon/2);
+//
+//         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+//         var d = R * c; // Distance in miles
+//         this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
+//         console.log(d);
+//       }
+//   }
 
   handleAddLineCoop = (event) => {
-    // console.log('the longitude is ' + event.latLng.lng());
-    // this.setState({coordCounter: this.state.coordCounter+1, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
 
-
-//     this.setState({
-//       coordinates: [
-//         {
-//           lat: event.lat,//latLng.lat(),
-//           lng: event.lng,//latLng.lng(),
-//         },
-//         ...this.state.coordinates,
-//       ]
-//     });  
-
-  if(this.state.userCoords.length > 1) {
+    if(this.state.userCoords.length > 1) {
       console.log(this.state.userCoords);
 
       const totalDistance = [];
@@ -202,78 +197,7 @@ class TrackingScreen extends React.Component {
           const newTotal = totalDistance.reduce(getSum).toFixed(2);
 
           this.setState({
-            totalDistance: newTotal
-          });
-          console.log('total distance is now ' + this.state.totalDistance)
-        }
-      }
-    }  
-  }
-
-  handleAddLine = (event) => {
-    // console.log('the longitude is ' + event.latLng.lng());
-    this.setState({coordCounter: this.state.coordCounter+1, currentLocation: { lat: this.state.coordinates[this.state.coordCounter].lat, lng: this.state.coordinates[this.state.coordCounter].lng } });
-
-
-    this.setState({
-      coordinates: [
-        {
-          lat: event.lat,//latLng.lat(),
-          lng: event.lng,//latLng.lng(),
-        },
-        ...this.state.coordinates,
-      ]
-    });  
-
-  if(this.state.coordinates.length > 1) {
-      console.log(this.state.coordinates);
-
-      const totalDistance = [];
-      const totalCoordinates = this.state.coordinates.length - 1;
-      const totalCoordinatesAdjusted = totalCoordinates - 1;
-
-      function getSum(total, num) {
-        return total + num;
-      }
-
-      for (var i = 0; i < totalCoordinates; i++) {
-        if (i != totalCoordinates) {
-          const lat1 = this.state.coordinates[i].lat;
-          const lon1 = this.state.coordinates[i].lng;
-          const lat2 = this.state.coordinates[i+1].lat;
-          const lon2 = this.state.coordinates[i+1].lng;
-
-          // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
-
-          console.log(lat1);
-          console.log(lon1);
-
-          function deg2rad(deg) {
-            return deg * (Math.PI/180)
-          }
-
-          var R = 3959; // Radius of the earth in miles
-          var dLat = deg2rad(lat2-lat1);  // deg2rad below
-          var dLon = deg2rad(lon2-lon1);
-          var a =
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2)
-            ;
-          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-          var d = R * c; // Distance in miles
-          console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
-          totalDistance.push(d);
-
-          const newTotal = totalDistance.reduce(getSum);
-          console.log('total distance is ' + newTotal);
-        }
-        if (i == totalCoordinates - 1) {
-          console.log('last one');
-          const newTotal = totalDistance.reduce(getSum).toFixed(2);
-
-          this.setState({
-            totalDistance: newTotal
+            runner: { distance: newTotal }
           });
           console.log('total distance is now ' + this.state.totalDistance)
         }
@@ -331,11 +255,10 @@ class TrackingScreen extends React.Component {
         }} >
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
+          <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
     </MapView>
-
-      <Timer></Timer>
 
       <View style={styles.runnerInfoBar}>
 
@@ -367,7 +290,7 @@ class TrackingScreen extends React.Component {
               </View>
 
               <View style={{flex:3, paddingLeft: 14, justifyContent: 'center'}}>
-                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runnerObj.distance.toFixed(2)}</Text>
+                <Text style={{color: 'black', fontSize: 14, paddingTop: 4}}>{this.state.runner.distance}</Text>
                 <Text style={{color: 'gray', fontSize: 11}}>DISTANCE</Text>
               </View>
 
