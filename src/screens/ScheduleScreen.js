@@ -68,9 +68,11 @@ class ScheduleScreen extends React.Component {
   _updateEvents = () => {
     if(this.state.fri){
       this.setState({dayScheduleInfo: this.state.fridayEvents});
-    } else if(this.state.sat){
+    }
+    if(this.state.sat){
       this.setState({dayScheduleInfo: this.state.saturdayEvents});
-    } else if(this.state.sun){
+    }
+    if(this.state.sun){
       this.setState({dayScheduleInfo: this.state.sundayEvents});
     }
   }
@@ -82,12 +84,12 @@ class ScheduleScreen extends React.Component {
 
 
   _onPressFriday = () => {
-    this.setState({
-      fri: true,
-      sat: false,
-      sun: false,
-    });
-    this._updateEvents();
+      this.setState({
+        fri: true,
+        sat: false,
+        sun: false,
+      });
+      this._updateEvents();
   }
 
   _onPressSaturday = () => {

@@ -186,13 +186,13 @@ handleAddLine = (event) => {
             longitude: -117.4260,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-        }} >
+        }}>
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
     </MapView>
 
-      <Timer></Timer>
+      <Timer/>
 
       <View style={styles.runnerInfoBar}>
 
