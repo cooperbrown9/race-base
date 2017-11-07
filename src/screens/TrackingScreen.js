@@ -29,13 +29,15 @@ class TrackingScreen extends React.Component {
     runner: {
       distance: 0.0,
       time: 0,
-      pace: 0
+      pace: 0,
+      location: { latitude: 0.0, longitude: 0.0 }
     },
     coordCounter: 0,
     currentLocation: { lat: 0, lng: 0 },
     userLocation: {},
     userCoords: [],
-    dummyCourse: []
+    dummyCourse: [],
+    dummyCount: 0
   }
 
   componentDidMount() {
@@ -43,11 +45,10 @@ class TrackingScreen extends React.Component {
     this.getLocationAsync();
 
     setInterval(() => {
-      this.setState({ runner: { time: this.state.runner.time + 1 } });
+      this.setState({ runner: { time: ++this.state.runner.time } });
     }, 1000);
 
     // get user location
-    let dummyCounter = 0;
     setInterval(async() => {
       let { coords } = await Location.getCurrentPositionAsync({});
       this.setState({ userLocation: { lat: coords.latitude, lng: coords.longitude }});
@@ -58,17 +59,32 @@ class TrackingScreen extends React.Component {
           this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.userLocation.lat, lng: this.state.userLocation.lng }]});
       }
 
+      // dummy runner
+      // if (this.state.dummyCount !== courseCoords.length) {
+      //   this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
+      //   this.setState({ dummyCount: ++this.state.dummyCount});
+      // }
 
-      this.handleAddLineCoop();
+
+      // this.handleAddLine();
     }, 5000);
 
-    // dummy runner runs the course
     setInterval(() => {
-      if (dummyCounter !== courseCoords.length) {
-        this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
-        dummyCounter++;
+      if (this.state.dummyCount !== courseCoords.length) {
+        this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[this.state.dummyCount].latitude, longitude: courseCoords[this.state.dummyCount].longitude }] });
+        this.setState({ dummyCount: ++this.state.dummyCount});
+        this.handleAddLine();
       }
-    }, 1000);
+    }, 2000);
+
+    // dummy runner runs the course
+    // dummy increments the coordinates for the course, so replace this with user current location
+    // setInterval(() => {
+    //   if (dummyCounter !== courseCoords.length) {
+    //     this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
+    //     dummyCounter++;
+    //   }
+    // }, 1000);
   }
 
   getLocationAsync = async() => {
@@ -91,25 +107,28 @@ class TrackingScreen extends React.Component {
     })
   }
 
-  handleAddLineCoop = (event) => {
+  // replace courseCoords with the array of points the user has gone,
+  // course coords use dummy counter to simulate moving
+  handleAddLine = () => {
+    let coords = this.state.dummyCourse;
 
-    if(this.state.userCoords.length > 1) {
-      console.log(this.state.userCoords);
+    if(courseCoords.length > 1) {
+      console.log(courseCoords);
 
       const totalDistance = [];
-      const totalCoordinates = this.state.userCoords.length - 1;
+      const totalCoordinates = courseCoords.length - 1;
       const totalCoordinatesAdjusted = totalCoordinates - 1;
 
       function getSum(total, num) {
         return total + num;
       }
 
-      for (var i = 0; i < totalCoordinates; i++) {
-        if (i != totalCoordinates) {
-          const lat1 = this.state.userCoords[i].lat;
-          const lon1 = this.state.userCoords[i].lng;
-          const lat2 = this.state.userCoords[i+1].lat;
-          const lon2 = this.state.userCoords[i+1].lng;
+      for (var i = 0; i < this.state.dummyCount; i++) {
+        if (i != this.state.dummyCount) {
+          const lat1 = courseCoords[i].latitude;
+          const lon1 = courseCoords[i].longitude;
+          const lat2 = courseCoords[i+1].latitude;
+          const lon2 = courseCoords[i+1].longitude;
 
           // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
 
@@ -133,10 +152,11 @@ class TrackingScreen extends React.Component {
           console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
           totalDistance.push(d);
 
-          const newTotal = totalDistance.reduce(getSum);
+          const newTotal = totalDistance.reduce(getSum).toFixed(2);
+          // this.setState({ runner: { distance: newTotal }});
           console.log('total distance is ' + newTotal);
         }
-        if (i == totalCoordinates - 1) {
+        if (i == this.state.dummyCount - 1) {
           console.log('last one');
           const newTotal = totalDistance.reduce(getSum).toFixed(2);
 
@@ -166,7 +186,6 @@ class TrackingScreen extends React.Component {
 
     this.setState({ coordinates: this.state.coordinates });
   }
-
 
   dropDownMenu(){
     console.log('Drop Down Accessed');
@@ -203,7 +222,9 @@ class TrackingScreen extends React.Component {
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
     </MapView>
-
+      <View style={{ position: 'absolute', left: 64, top: 64, width: 200, height: 64 }} >
+        <Text>{this.state.runner.time}</Text>
+      </View>
       <View style={styles.runnerInfoBar}>
 
         <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
