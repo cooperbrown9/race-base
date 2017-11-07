@@ -42,11 +42,9 @@ class TrackingScreen extends React.Component {
     this.setCoordinates();
     this.getLocationAsync();
 
-    // setInterval(() => {
-    //   // this.trackRunner();
-    //   // this.handleAddLine(this.state.userLocation);
-    //   // this.handleAddLine({lat: this.state.coordinates[this.state.coordCounter].lat, lng:this.state.coordinates[this.state.coordCounter].lng });
-    // }, 3000);
+    setInterval(() => {
+      this.setState({ runner: { time: this.state.runner.time + 1 } });
+    }, 1000);
 
     // get user location
     let dummyCounter = 0;
@@ -92,60 +90,6 @@ class TrackingScreen extends React.Component {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
   }
-
-//   trackRunner = () => {
-//     if(this.state.coordinates.length > 1) {
-//         const lat1 = this.state.coordinates[0].lat;
-//         const lon1 = this.state.coordinates[0].lng;
-//         const lat2 = this.state.coordinates[1].lat;
-//         const lon2 = this.state.coordinates[1].lng;
-//         
-//         function deg2rad(deg) {
-//           return deg * (Math.PI/180)
-//         }
-//
-//         var R = 3959; // Radius of the earth in miles
-//         var dLat = deg2rad(lat2-lat1);  // deg2rad below
-//         var dLon = deg2rad(lon2-lon1);
-//         var a =
-//           Math.sin(dLat/2) * Math.sin(dLat/2) +
-//           Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-//           Math.sin(dLon/2) * Math.sin(dLon/2);
-//
-//         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-//         var d = R * c; // Distance in miles
-//         this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
-//         console.log(d);
-//       }
-//   }
-//
-//   // PRE: added newest coords to userCoords
-//   trackRunnerCoop = () => {
-//     if(this.state.userCoords.length > 1) {
-//         const lat1 = this.state.userCoords[this.state.userCoords.length - 2].lat;
-//         const lon1 = this.state.userCoords[this.state.userCoords.length - 2].lng;
-//         const lat2 = this.state.userCoords[this.state.userCoords.length - 1].lat;
-//         const lon2 = this.state.userCoords[this.state.userCoords.length - 1].lng;
-//         
-//         function deg2rad(deg) {
-//           return deg * (Math.PI/180)
-//         }
-//
-//         var R = 3959; // Radius of the earth in miles
-//         var dLat = deg2rad(lat2-lat1);  // deg2rad below
-//         var dLon = deg2rad(lon2-lon1);
-//
-//         var a =
-//           Math.sin(dLat/2) * Math.sin(dLat/2) +
-//           Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-//           Math.sin(dLon/2) * Math.sin(dLon/2);
-//
-//         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-//         var d = R * c; // Distance in miles
-//         this.setState({ runnerObj: { distance: d + this.state.runnerObj.distance } });
-//         console.log(d);
-//       }
-//   }
 
   handleAddLineCoop = (event) => {
 
