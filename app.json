@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "race-base",
+    "name": "Race Base",
     "description": "An empty new project",
     "slug": "race-base",
     "privacy": "public",
     "sdkVersion": "19.0.0",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "loading": {
