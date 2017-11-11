@@ -26,7 +26,7 @@ export const AppNavigator = StackNavigator({
   Faq: {screen: FaqMenu},
   HistoricalWeather: {screen: HistoricalWeatherScreen},
   Schedule: {screen: ScheduleMenu},
-  Results: {screen: ResultsScreen},
+  Results: {screen: ResultsMenu},
 
 });
 

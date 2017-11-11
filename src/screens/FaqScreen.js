@@ -45,12 +45,11 @@ class FaqScreen extends React.Component {
     console.log("Drop Down Accessed");
   }
 
-  toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen });
-  }
-
-  _toggleIsOpen(){
-    this.setState({isOpen: !this.state.isOpen});
+  toggleMenu = () => {
+    console.log('it works fam');
+    this.setState({ menuOpen: !this.state.menuOpen }, () => {
+      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
+    })
   }
 
   selected = (faq) => {

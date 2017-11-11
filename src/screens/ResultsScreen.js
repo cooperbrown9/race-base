@@ -20,7 +20,8 @@ class ResultsScreen extends React.Component {
     header: null,
   };
 
-  toggleMenu() {
+  toggleMenu = () => {
+    console.log('it works fam');
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
@@ -51,7 +52,7 @@ class ResultsScreen extends React.Component {
                 style={{position:'absolute'}}
         />
         <View style={styles.topView}>
-          <Image source={require('../../assets/icons/oval.png')}/>
+          <Image source={require('../../assets/icons/oval.png')} style={{height: 701, width:640}}/>
             <View style={{position: 'absolute',
                           left: 10,
                           right: 10,

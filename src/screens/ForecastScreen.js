@@ -46,14 +46,14 @@ class ForecastScreen extends React.Component {
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
-              title={<TouchableOpacity onPress={this.toggleMenu.bind(this)}>
+              title={<TouchableOpacity onPress={this.dropDownMenu}>
                       <Text style={{color:'white', fontSize: 16}}>Forecast ⌄</Text>
                      </TouchableOpacity>}
               style={{position:'absolute'}}
       />
-    <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
+      {/*<Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
         <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={'Schedule'}/>
-      </Modal>
+      </Modal>*/}
       <ScrollView style={{flex:1}}>
           <ForecastDay/>
           <ForecastDay/>

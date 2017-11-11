@@ -11,10 +11,6 @@ class ResultsMenu extends React.Component {
     header: null
   }
 
-  componentDidMount(){
-    console.log("mounts");
-  }
-
   _navigate(path) {
     this.props.dispatch({type: 'CLOSE'  });
     this.props.navigation.dispatch({ type: path });
@@ -23,9 +19,9 @@ class ResultsMenu extends React.Component {
   render() {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
-      <ResultsMenu menu={menu} isOpen={this.props.menuOpen} >
+      <SideMenu menu={menu} isOpen={this.props.menuOpen} >
         <ResultsScreen />
-      </ResultsMenu>
+      </SideMenu>
 
     )
   }
