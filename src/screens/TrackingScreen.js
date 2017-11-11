@@ -215,7 +215,7 @@ class TrackingScreen extends React.Component {
             longitude: -117.4260,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
-        }} >
+        }}>
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'#F4C81B'} />
           <MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
           <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />

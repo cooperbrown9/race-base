@@ -81,7 +81,7 @@ class HomeScreen extends React.Component {
 
 
           <View style={styles.logo}>
-            <Image source={require('../../assets/images/bloomsday-logo.png')} style={{height: 95, width: 350}}></Image>
+            <Image source={require('../../assets/images/bloomsday-logo.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
           </View>
         </View>
 
