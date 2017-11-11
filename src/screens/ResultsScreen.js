@@ -21,10 +21,19 @@ class ResultsScreen extends React.Component {
   };
 
   toggleMenu = () => {
+
+    console.log( Dimensions.get('window').height);
+    console.log( Dimensions.get('window').width);
+
     console.log('it works fam');
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
+  }
+
+  compnentDidMount() {
+    console.log( Dimensions.get('window').height);
+
   }
 
   state = {
@@ -52,7 +61,9 @@ class ResultsScreen extends React.Component {
                 style={{position:'absolute'}}
         />
         <View style={styles.topView}>
-          <Image source={require('../../assets/icons/oval.png')} style={{height: 701, width:640}}/>
+          <Image source={require('../../assets/icons/oval.png')}
+                  style={{resizeMode: 'stretch'}}
+                  />
             <View style={{position: 'absolute',
                           left: 10,
                           right: 10,
@@ -113,7 +124,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: 'white',
-    flex:1
+    flex:2
   },
   bottomView: {
     flex: 1,
