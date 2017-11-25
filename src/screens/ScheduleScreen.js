@@ -81,34 +81,33 @@ class ScheduleScreen extends React.Component {
     console.log('Drop Down Accessed');
   }
 
-
-
-  _onPressFriday = () => {
-      this.setState({
-        fri: true,
-        sat: false,
-        sun: false,
-      });
-      this._updateEvents();
+  _onPressFriday = () =>{
+    this.setState({
+      fri: true,
+      sat: false,
+      sun: false,
+      dayScheduleInfo: this.state.fridayEvents
+    });
   }
 
-  _onPressSaturday = () => {
+  _onPressSaturday = () =>{
     this.setState({
       fri: false,
       sat: true,
       sun: false,
+      dayScheduleInfo: this.state.saturdayEvents
     });
-    this._updateEvents();
   }
 
-  _onPressSunday = () => {
+  _onPressSunday = () =>{
     this.setState({
       fri: false,
       sat: false,
       sun: true,
+      dayScheduleInfo: this.state.sundayEvents
     });
-    this._updateEvents();
   }
+
 
   render(){
     const { width, height } = Dimensions.get('window');
@@ -139,7 +138,6 @@ class ScheduleScreen extends React.Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
-
             {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} somethingElse={model.somethingElse}/>  )}
           </ScrollView>
 
