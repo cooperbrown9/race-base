@@ -58,33 +58,16 @@ class TrackingScreen extends React.Component {
         this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.userLocation.lng) {
           this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.userLocation.lat, lng: this.state.userLocation.lng }]});
       }
-
-      // dummy runner
-      // if (this.state.dummyCount !== courseCoords.length) {
-      //   this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
-      //   this.setState({ dummyCount: ++this.state.dummyCount});
-      // }
-
-
-      // this.handleAddLine();
     }, 5000);
 
     setInterval(() => {
       if (this.state.dummyCount !== courseCoords.length) {
         this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[this.state.dummyCount].latitude, longitude: courseCoords[this.state.dummyCount].longitude }] });
         this.setState({ dummyCount: ++this.state.dummyCount});
-        this.handleAddLine();
+        // add this line to have it run dummy course
+        // this.handleAddLine();
       }
     }, 2000);
-
-    // dummy runner runs the course
-    // dummy increments the coordinates for the course, so replace this with user current location
-    // setInterval(() => {
-    //   if (dummyCounter !== courseCoords.length) {
-    //     this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[dummyCounter].latitude, longitude: courseCoords[dummyCounter].longitude }] });
-    //     dummyCounter++;
-    //   }
-    // }, 1000);
   }
 
   getLocationAsync = async() => {
@@ -106,6 +89,67 @@ class TrackingScreen extends React.Component {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
   }
+
+  trackRunner = () => {
+    let coords = this.state.userCoords;
+
+      if(courseCoords.length > 1) {
+        console.log(courseCoords);
+
+        const totalDistance = [];
+        const totalCoordinates = courseCoords.length - 1;
+        const totalCoordinatesAdjusted = totalCoordinates - 1;
+
+        function getSum(total, num) {
+          return total + num;
+        }
+
+        for (var i = 0; i < this.state.userCoords.length; i++) {
+          if (i != this.state.userCoords.length) {
+            const lat1 = courseCoords[i].latitude;
+            const lon1 = courseCoords[i].longitude;
+            const lat2 = courseCoords[i+1].latitude;
+            const lon2 = courseCoords[i+1].longitude;
+
+          // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
+
+            console.log(lat1);
+            console.log(lon1);
+
+            function deg2rad(deg) {
+              return deg * (Math.PI/180)
+            }
+
+            var R = 3959; // Radius of the earth in miles
+            var dLat = deg2rad(lat2-lat1);  // deg2rad below
+            var dLon = deg2rad(lon2-lon1);
+            var a =
+              Math.sin(dLat/2) * Math.sin(dLat/2) +
+              Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
+              Math.sin(dLon/2) * Math.sin(dLon/2)
+              ;
+            var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            var d = R * c; // Distance in miles
+            console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
+            totalDistance.push(d);
+
+            const newTotal = totalDistance.reduce(getSum).toFixed(2);
+          // this.setState({ runner: { distance: newTotal }});
+            console.log('total distance is ' + newTotal);
+          }
+          if (i == this.state.dummyCount - 1) {
+            console.log('last one');
+            const newTotal = totalDistance.reduce(getSum).toFixed(2);
+
+            this.setState({
+              runner: { distance: newTotal }
+            });
+            console.log('total distance is now ' + this.state.totalDistance)
+          }
+        }
+      }  
+    }
+
 
   // replace courseCoords with the array of points the user has gone,
   // course coords use dummy counter to simulate moving
@@ -568,7 +612,6 @@ const fdude = {'a':[
 var mapStateToProps = state => {
   return {
     nav: state.nav,
-
   }
 }
 
