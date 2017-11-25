@@ -11,6 +11,7 @@ import { View,
 
 } from 'react-native';
 import { connect } from 'react-redux';
+import axios from 'react-native-axios';
 import NavBar from '../ui-elements/nav-bar.js';
 import ScheduleItem from '../ui-elements/schedule-item.js';
 import Menu from './Menu.js';
@@ -53,8 +54,11 @@ class ScheduleScreen extends React.Component {
     menuOpen: false,
   }
 
+
+
   componentDidMount(){
     console.log('we gud');
+    this.loadScheduleDays();
     this.setState({dayScheduleInfo: this.state.fridayEvents});
   }
 
@@ -107,6 +111,14 @@ class ScheduleScreen extends React.Component {
       dayScheduleInfo: this.state.sundayEvents
     });
   }
+ loadScheduleDays = () => {
+  axios.get('https://crave-scoop.herokuapp.com/get-schedule/' + '5a19fa0d46c95e00147f9904').then(response => {
+     // pulls out all event days and stores in newDays
+     let newDays = [];
+     this.setState({dayScheduleInfo: newDays});
+   });
+
+ }
 
 
   render(){
