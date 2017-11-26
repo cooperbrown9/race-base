@@ -28,7 +28,8 @@ class TrackingScreen extends React.Component {
     menuOpen: false,
     runner: {
       distance: 0.0,
-      time: 0,
+      seconds: 80,
+      time: "",
       pace: 0,
       location: { latitude: 0.0, longitude: 0.0 }
     },
@@ -40,19 +41,38 @@ class TrackingScreen extends React.Component {
     dummyCount: 0
   }
 
+  formatTime (seconds) {
+    var hrs = ~~(seconds/3600);
+    var mins = ~~((seconds % 3600) / 60);
+    var secs = seconds % 60;
+    console.log(hrs," ",mins," ",secs);
+    console.log(this);
+    var time = "";
+
+    if(hrs > 0) {
+      time += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    time += "" + mins + ":" + (secs < 10 ? "0" : "");
+    time += "" + secs;
+    this.setState({ runner: { time: time }});
+  }
+
   componentDidMount() {
     this.setCoordinates();
     this.getLocationAsync();
 
+    let time = "";
     setInterval(() => {
-      this.setState({ runner: { time: ++this.state.runner.time } });
+      this.setState({ runner: { seconds: ++this.state.runner.seconds } });
+      this.formatTime(this.state.seconds);
     }, 1000);
 
     // get user location
     setInterval(async() => {
       let { coords } = await Location.getCurrentPositionAsync({});
       this.setState({ userLocation: { lat: coords.latitude, lng: coords.longitude }});
-
+      console.log(this.state.userLocation);
       // looking for error in GPS, if location coords are the same as the previous coords, ignore them, otherwise add them
       if (this.state.userCoords[this.state.userCoords.length - 1].lat != this.state.userLocation.lat ||
         this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.userLocation.lng) {
@@ -264,7 +284,7 @@ class TrackingScreen extends React.Component {
           <MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
           <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
-          <MapView.Marker coordinate={{latitude: this.state.currentLocation.lat, longitude: this.state.currentLocation.lng }} image={require('../../assets/icons/pin.png')} />
+          <MapView.Marker coordinate={{latitude: this.state.userLocation.lat, longitude: this.state.userLocation.lng }} image={require('../../assets/icons/pin.png')} />
     </MapView>
       <View style={{ position: 'absolute', left: 64, top: 64, width: 200, height: 64 }} >
         <Text>{this.state.runner.time}</Text>
