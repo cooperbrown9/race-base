@@ -11,7 +11,7 @@ import { View,
 
 } from 'react-native';
 import { connect } from 'react-redux';
-import axios from 'react-native-axios';
+import axios from 'axios';
 import NavBar from '../ui-elements/nav-bar.js';
 import ScheduleItem from '../ui-elements/schedule-item.js';
 import Menu from './Menu.js';
@@ -59,7 +59,6 @@ class ScheduleScreen extends React.Component {
   componentDidMount(){
     console.log('we gud');
     this.loadScheduleDays();
-    this.setState({dayScheduleInfo: this.state.fridayEvents});
   }
 
   toggleMenu() {
@@ -112,10 +111,20 @@ class ScheduleScreen extends React.Component {
     });
   }
  loadScheduleDays = () => {
-  axios.get('https://crave-scoop.herokuapp.com/get-schedule/' + '5a19fa0d46c95e00147f9904').then(response => {
+   console.log("load sched");
+  axios.get('https://racebaseapi.herokuapp.com/api/get-schedule/' + '5a19fa0d46c95e00147f9904').then(response => {
      // pulls out all event days and stores in newDays
-     let newDays = [];
-     this.setState({dayScheduleInfo: newDays});
+     debugger;
+     let newDays = response.data;
+     this.setState({fridayEvents: newDays[0]});
+     this.setState({saturdayEvents: newDays[1]});
+     console.log(this.state.saturdayEvents);
+     this.setState({sundayEvents: newDays[2]});
+     this.setState({dayScheduleInfo: this.state.fridayEvents});
+
+   }).catch(e => {
+     debugger;
+     console.log(e);
    });
 
  }
@@ -150,7 +159,7 @@ class ScheduleScreen extends React.Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
-            {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} somethingElse={model.somethingElse}/>  )}
+            {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} />  )}
           </ScrollView>
 
 
