@@ -7,7 +7,7 @@ import MainReducer from './src/reducers/main-reducer.js';
 import AppNavigatorWithState from './src/navigation/navigator.js';
 
 import thunk from 'redux-thunk';
-//Change
+//change
 class App extends React.Component {
 
   store = createStore(MainReducer, applyMiddleware(thunk));
