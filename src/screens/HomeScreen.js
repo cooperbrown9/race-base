@@ -35,6 +35,7 @@ class HomeScreen extends React.Component {
   }
 
   toggleMenu() {
+    debugger;
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
