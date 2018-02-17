@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
      alignItems: 'center',
      opacity: 0.6
   },
-  logo:{
+  logo: {
     position: 'absolute',
     right: 0,
     left: 0,
