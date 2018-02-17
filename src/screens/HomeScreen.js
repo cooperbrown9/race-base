@@ -35,7 +35,6 @@ class HomeScreen extends React.Component {
   }
 
   toggleMenu() {
-    debugger;
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
@@ -74,15 +73,15 @@ class HomeScreen extends React.Component {
               <Text style={{fontSize: 20,}}>135 Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
-            <TouchableOpacity  style={styles.register}>
-              <Text style={{fontSize: 22, color: 'blue'}}>REGISTER</Text>
+            <TouchableOpacity style={styles.register}>
+              <Text style={styles.registerText}>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
             </TouchableOpacity>
           </View>
 
 
           <View style={styles.logo}>
-            <Image source={require('../../assets/images/bloomsday-logo.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
+            <Image source={require('../../assets/images/Bloomsday2018_color.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
           </View>
         </View>
 
@@ -102,7 +101,6 @@ const styles = StyleSheet.create({
   bottomBar: {
     height: 75,
     flexDirection: 'row'
-
   },
   register: {
     flex: 2,
@@ -110,8 +108,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
+  registerText: {
+    fontSize: 28, 
+    color: 'blue',
+    fontFamily: 'roboto-regular'
+  },
   dateCountdown: {
-
     flex: 1,
     alignItems: 'center',
   },
