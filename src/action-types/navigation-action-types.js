@@ -4,3 +4,6 @@ export const GO_FAQ = 'navigation/faq';
 export const GO_TRACKING = 'navigation/tracking';
 export const GO_SCHEDULE = 'navigation/schedule';
 export const GO_RESULTS = 'navigation/results';
+export const GO_FLYOVER = 'navigation/flyover'
+export const GO_SOCIAL = 'navigation/social'
+export const GO_AROUNDTOWN = 'navigation/aroundtown'

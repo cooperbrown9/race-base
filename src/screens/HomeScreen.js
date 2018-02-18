@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -15,7 +15,7 @@ import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import * as Screens from '../constants/screen-types.js';
 
-class HomeScreen extends React.Component {
+class HomeScreen extends Component {
 
   constructor() {
     super();
@@ -45,6 +45,13 @@ class HomeScreen extends React.Component {
     console.log("REgister");
   }
 
+  getDaysUntilRace() {
+    var now = new Date();
+    var raceday = new Date("2018/05/06"); // yr,mo,da May 6, 2018
+    var diff = Math.floor((raceday - now) / 86400000);
+    return diff;
+  }
+
   render() {
 
     const { width, height } = Dimensions.get('window');
@@ -70,8 +77,8 @@ class HomeScreen extends React.Component {
 
           <View style={styles.bottomBar}>
             <View style={styles.dateCountdown}>
-              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 7, 2017</Text>
-              <Text style={{fontSize: 20,}}>135 Days</Text>
+              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2017</Text>
+              <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
             <TouchableOpacity  style={styles.register}>
@@ -89,6 +96,7 @@ class HomeScreen extends React.Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
