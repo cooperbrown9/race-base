@@ -22,16 +22,16 @@ class HomeScreen extends Component {
 
   constructor() {
     super();
+
+    this.state = {
+      menuOpen: false,
+      createUserFormPresented: false
+    }
   }
 
   static navigationOptions = {
     header: null,
   };
-
-  state = {
-    menuOpen: false,
-    createUserFormPresented: false
-  }
 
   componentDidMount() {
 
@@ -44,10 +44,8 @@ class HomeScreen extends Component {
     })
   }
 
-  dismissCreateUserForm = (callback) => {
-    this.setState({ createUserFormPresented: false }, () => {
-      callback();
-    });
+  dismissCreateUserForm = () => {
+    this.setState({ createUserFormPresented: false });
   }
 
   getDaysUntilRace() {
@@ -74,7 +72,7 @@ class HomeScreen extends Component {
           }
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.createUserFormPresented} >
-          <CreateUserForm dismiss={(callback) => this.dismissCreateUserForm(callback)}/>
+          <CreateUserForm dismiss={this.dismissCreateUserForm.bind(this)} />
         </Modal>
 
 

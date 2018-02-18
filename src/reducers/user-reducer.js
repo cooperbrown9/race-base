@@ -1,7 +1,7 @@
 
 import * as UserActions from '../action-types/user-action-types';
 
-const initialUserState = { user: null, isLoggedIn: false }
+const initialUserState = { user: null, isLoggedIn: false, userID: null }
 
 export default function user(state = initialUserState, action) {
   switch (action.type) {

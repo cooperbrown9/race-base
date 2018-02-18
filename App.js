@@ -14,7 +14,7 @@ class App extends React.Component {
 
   constructor() {
     super();
-    
+
     this.state = {
       fontLoaded: false
     }
@@ -23,6 +23,7 @@ class App extends React.Component {
   store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
+    console.disableYellowBox = true;
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf')
     });
@@ -30,7 +31,7 @@ class App extends React.Component {
   }
 
   render() {
-    
+
     if(this.state.fontLoaded) {
       return (
 

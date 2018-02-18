@@ -10,9 +10,9 @@ class ScheduleMenu extends React.Component {
   static navigationOptions = {
     header: null
   }
-  
+
   _navigate(path) {
-    this.props.dispatch({type: 'CLOSE'  });
+    this.props.dispatch({ type: 'CLOSE' });
     this.props.navigation.dispatch({ type: path });
   }
 
