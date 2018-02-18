@@ -91,32 +91,14 @@ class ScheduleScreen extends React.Component {
   }
 
   _onPressFriday = () =>{
-    // this.setState({
-    //   fri: true,
-    //   sat: false,
-    //   sun: false,
-    //   currentDay: this.state.fridayEvents
-    // });
     this.setState({ currentIndex: 0 });
   }
 
   _onPressSaturday = () =>{
-    // this.setState({
-    //   fri: false,
-    //   sat: true,
-    //   sun: false,
-    //   currentDay: this.state.saturdayEvents
-    // });
     this.setState({ currentIndex: 1 });
   }
 
   _onPressSunday = () =>{
-    // this.setState({
-    //   fri: false,
-    //   sat: false,
-    //   sun: true,
-    //   currentDay: this.state.sundayEvents
-    // });
     this.setState({ currentIndex: 2 });
   }
   
@@ -143,7 +125,7 @@ class ScheduleScreen extends React.Component {
  }
 
 
-  render(){
+  render() {
     const { width, height } = Dimensions.get('window');
     return (
       <View style={{backgroundColor:'transparent', flex: 1, backgroundColor: 'white'}}>

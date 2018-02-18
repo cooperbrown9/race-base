@@ -18,8 +18,10 @@ import ScheduleMenu from '../screens/menus/ScheduleMenu.js';
 import TrackingMenu from '../screens/menus/TrackingMenu.js';
 import ResultsMenu from '../screens/menus/ResultsMenu.js';
 
+import LoadScreen from '../screens/LoadScreen';
 
 export const AppNavigator = StackNavigator({
+  Load: { screen: LoadScreen },
   Home: { screen: HomeMenu },
   Forecast: {screen: ForecastMenu},
   Tracking: {screen: TrackingMenu},

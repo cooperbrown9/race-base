@@ -10,9 +10,12 @@ import { View,
          Button,
          Modal
 } from 'react-native';
+
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
+import CreateUserForm from './CreateUserForm';
+
 import * as Screens from '../constants/screen-types.js';
 
 class HomeScreen extends React.Component {
@@ -26,7 +29,8 @@ class HomeScreen extends React.Component {
   };
 
   state = {
-    menuOpen: false
+    menuOpen: false,
+    createUserFormPresented: false
   }
 
   componentDidMount() {
@@ -40,8 +44,10 @@ class HomeScreen extends React.Component {
     })
   }
 
-  _register = () =>{
-    console.log("REgister");
+  dismissCreateUserForm = (callback) => {
+    this.setState({ createUserFormPresented: false }, () => {
+      callback();
+    });
   }
 
   render() {
@@ -50,17 +56,20 @@ class HomeScreen extends React.Component {
 
     return (
         <View style={styles.container} >
+          {(!this.state.createUserFormPresented)
+            ? <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                    leftOnPress={this.toggleMenu.bind(this)}
+                    rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
+                    rightOnPress={() => this.setState({ createUserFormPresented: true }) }
+                    style={styles.navBarStyle}
+              />
+            : null
+          }
 
-          <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
-                  leftOnPress={this.toggleMenu.bind(this)}
-                  rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
-                  style={styles.navBarStyle}
-          />
-        {/*
-        <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
-          <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
+        <Modal animationType={"slide"} transparent={true} visible={this.state.createUserFormPresented} >
+          <CreateUserForm dismiss={(callback) => this.dismissCreateUserForm(callback)}/>
         </Modal>
-        */}
+
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
@@ -70,7 +79,7 @@ class HomeScreen extends React.Component {
           <View style={styles.bottomBar}>
             <View style={styles.dateCountdown}>
               <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 7, 2017</Text>
-              <Text style={{fontSize: 20,}}>135 Days</Text>
+              <Text style={{fontSize: 20}}>135 Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
             <TouchableOpacity style={styles.register}>
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
   registerText: {
-    fontSize: 28, 
+    fontSize: 28,
     color: 'blue',
     fontFamily: 'roboto-regular'
   },
