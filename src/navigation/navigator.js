@@ -9,6 +9,7 @@ import FaqScreen from '../screens/FaqScreen.js';
 import ScheduleScreen from '../screens/ScheduleScreen.js';
 import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
+import FlyOverScreen from '../screens/FlyOverScreen.js';
 
 import SideMenu from 'react-native-side-menu';
 import HomeMenu from '../screens/menus/HomeMenu.js';
@@ -17,6 +18,8 @@ import FaqMenu from '../screens/menus/FaqMenu.js';
 import ScheduleMenu from '../screens/menus/ScheduleMenu.js';
 import TrackingMenu from '../screens/menus/TrackingMenu.js';
 import ResultsMenu from '../screens/menus/ResultsMenu.js';
+import SocialMenu from '../screens/menus/SocialMenu.js';
+import FlyOverMenu from '../screens/menus/FlyOverMenu.js';
 
 import LoadScreen from '../screens/LoadScreen';
 
@@ -29,6 +32,8 @@ export const AppNavigator = StackNavigator({
   HistoricalWeather: {screen: HistoricalWeatherScreen},
   Schedule: {screen: ScheduleMenu},
   Results: {screen: ResultsMenu},
+  Social: {screen: SocialMenu},
+  FlyOver: {screen: FlyOverMenu},
 
 });
 
