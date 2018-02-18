@@ -10,11 +10,11 @@ export default function nav(state = firstState, action) {
   let nextState;
 
   switch (action.type) {
-    
+
     case 'START_HOME':
       nextAction = AppNavigator.router.getActionForPathAndParams('Home');
       nextState = AppNavigator.router.getStateForAction(nextAction);
-    
+
     case NavActions.GO_HOME:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Home'}),
       state
@@ -50,6 +50,18 @@ export default function nav(state = firstState, action) {
     break;
     case NavActions.GO_RESULTS:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Results'}),
+      state
+    );
+    break;
+
+    case NavActions.GO_SOCIAL:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Social'}),
+      state
+    );
+    break;
+
+    case NavActions.GO_FLYOVER:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'FlyOver'}),
       state
     );
     break;

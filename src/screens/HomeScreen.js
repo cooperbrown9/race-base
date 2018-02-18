@@ -140,13 +140,13 @@ const styles = StyleSheet.create({
      flex: 1,
      resizeMode: 'cover',
      alignItems: 'center',
-     opacity: 0.6
+     opacity: 0.6,
   },
   logo: {
     position: 'absolute',
     right: 0,
     left: 0,
-    top: 150,
+    top: 125,
     alignItems: 'center'
   },
 });

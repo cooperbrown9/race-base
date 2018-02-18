@@ -12,6 +12,7 @@ import * as NavActions from '../action-types/navigation-action-types.js';
 //nav bar height is 64
 
 const options = [
+  {name: '', iconPath: require('../../assets/icons/navigation/left-arrow.png'), path: NavActions.GO_HOME},
   {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_SCHEDULE},
   {name: 'FAQ', iconPath: require('../../assets/icons/navigation/faq.png'), path: NavActions.GO_FAQ},
   {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_TRACKING},
@@ -20,7 +21,7 @@ const options = [
   {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_SOCIAL},
   {name: 'Around Town', iconPath: require('../../assets/icons/navigation/school.png'), path: NavActions.GO_AROUNDTOWN},
   {name: 'Fly Over Video', iconPath: require('../../assets/icons/navigation/play.png'), path: NavActions.GO_FLYOVER},
-  {name: 'Sponsor', iconPath: require('../../assets/icons/navigation/handshake.png'), path: NavActions.GO_SPONSOR},
+  {name: 'Sponsors', iconPath: require('../../assets/icons/navigation/handshake.png'), path: NavActions.GO_SPONSOR},
 
 ];
 
@@ -56,19 +57,19 @@ Menu.propTypes = {
 
 const styles = StyleSheet.create({
   container:{
-    marginTop: 20,
+    marginTop: 16,
     flex: 1,
     flexDirection: 'column',
 
   },
   menuItem: {
-    height: 70,
+    height: 52,
     flexDirection: 'row',
 
   },
   iconStyle: {
-    height: 42,
-    width: 40
+    height: 36,
+    width: 36
   },
   menuItemName: {
     fontSize: 15,
