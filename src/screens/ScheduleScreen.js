@@ -17,6 +17,8 @@ import ScheduleItem from '../ui-elements/schedule-item.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 
+import * as API from '../api/api';
+
 class ScheduleScreen extends React.Component {
 
 
@@ -26,6 +28,8 @@ class ScheduleScreen extends React.Component {
   };
 
   state = {
+    events: [],
+    currentIndex: 0,
     fridayEvents: [
       {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
       somethingElse: 'Something Else'},
@@ -46,7 +50,7 @@ class ScheduleScreen extends React.Component {
       {date: 'MAY 1', time: '10:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
       somethingElse: 'Something Else'},
     ],
-    dayScheduleInfo:[],
+    currentDay:[],
     isVisible: true,
     fri: true,
     sat: false,
@@ -54,11 +58,13 @@ class ScheduleScreen extends React.Component {
     menuOpen: false,
   }
 
-
+  componentWillMount() {
+  }
 
   componentDidMount(){
-    console.log('we gud');
     this.loadScheduleDays();
+    console.log('we gud');
+    
   }
 
   toggleMenu() {
@@ -70,13 +76,13 @@ class ScheduleScreen extends React.Component {
 
   _updateEvents = () => {
     if(this.state.fri){
-      this.setState({dayScheduleInfo: this.state.fridayEvents});
+      this.setState({currentDay: this.state.fridayEvents});
     }
     if(this.state.sat){
-      this.setState({dayScheduleInfo: this.state.saturdayEvents});
+      this.setState({currentDay: this.state.saturdayEvents});
     }
     if(this.state.sun){
-      this.setState({dayScheduleInfo: this.state.sundayEvents});
+      this.setState({currentDay: this.state.sundayEvents});
     }
   }
 
@@ -85,52 +91,41 @@ class ScheduleScreen extends React.Component {
   }
 
   _onPressFriday = () =>{
-    this.setState({
-      fri: true,
-      sat: false,
-      sun: false,
-      dayScheduleInfo: this.state.fridayEvents
-    });
+    this.setState({ currentIndex: 0 });
   }
 
   _onPressSaturday = () =>{
-    this.setState({
-      fri: false,
-      sat: true,
-      sun: false,
-      dayScheduleInfo: this.state.saturdayEvents
-    });
+    this.setState({ currentIndex: 1 });
   }
 
   _onPressSunday = () =>{
-    this.setState({
-      fri: false,
-      sat: false,
-      sun: true,
-      dayScheduleInfo: this.state.sundayEvents
-    });
+    this.setState({ currentIndex: 2 });
   }
+  
  loadScheduleDays = () => {
    console.log("load sched");
-  axios.get('https://racebaseapi.herokuapp.com/api/get-schedule/' + '5a19fa0d46c95e00147f9904').then(response => {
-     // pulls out all event days and stores in newDays
-     debugger;
-     let newDays = response.data;
-     this.setState({fridayEvents: newDays[0]});
-     this.setState({saturdayEvents: newDays[1]});
-     console.log(this.state.saturdayEvents);
-     this.setState({sundayEvents: newDays[2]});
-     this.setState({dayScheduleInfo: this.state.fridayEvents});
-
-   }).catch(e => {
-     debugger;
-     console.log(e);
-   });
-
+   
+   API.getSchedule('5a19fa0d46c95e00147f9904', (err, schedule) => {
+     if(err) {
+       console.log(err);
+     } else {
+       // remember that an index of the day needs to be stored on the schedule object in DB
+       // or some timestamp to tell which day it is
+       this.setState({ events: schedule }, () => {
+         this.forceUpdate();
+       });
+      
+     }
+   })
+ }
+ 
+ renderDays = () => {
+   
+       // this.state.currentDay.map((model) => { console.log(model); return(<ScheduleItem date={model.date} time={model.time} description={model.description} />)}  
  }
 
 
-  render(){
+  render() {
     const { width, height } = Dimensions.get('window');
     return (
       <View style={{backgroundColor:'transparent', flex: 1, backgroundColor: 'white'}}>
@@ -159,7 +154,10 @@ class ScheduleScreen extends React.Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
-            {this.state.dayScheduleInfo.map(model => <ScheduleItem date={model.date} time={model.time} description={model.description} />  )}
+              {(this.state.events.days != null && this.state.events.days.length > 0) 
+                ? this.state.events.days.map((model) => ( <ScheduleItem data={model.date} time={model.time} description={model.description} />)) 
+                : null 
+              }
           </ScrollView>
 
 
@@ -181,7 +179,7 @@ const styles = StyleSheet.create({
   scrollContainer:{
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'transparent'
+    backgroundColor: 'yellow'
   },
   day: {
     flex: 1,

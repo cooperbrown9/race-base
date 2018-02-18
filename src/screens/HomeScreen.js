@@ -10,9 +10,12 @@ import { View,
          Button,
          Modal
 } from 'react-native';
+
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
+import CreateUserForm from './CreateUserForm';
+
 import * as Screens from '../constants/screen-types.js';
 
 class HomeScreen extends Component {
@@ -26,7 +29,8 @@ class HomeScreen extends Component {
   };
 
   state = {
-    menuOpen: false
+    menuOpen: false,
+    createUserFormPresented: false
   }
 
   componentDidMount() {
@@ -35,14 +39,15 @@ class HomeScreen extends Component {
   }
 
   toggleMenu() {
-    debugger;
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
   }
 
-  _register = () =>{
-    console.log("REgister");
+  dismissCreateUserForm = (callback) => {
+    this.setState({ createUserFormPresented: false }, () => {
+      callback();
+    });
   }
 
   getDaysUntilRace() {
@@ -58,17 +63,20 @@ class HomeScreen extends Component {
 
     return (
         <View style={styles.container} >
+          {(!this.state.createUserFormPresented)
+            ? <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                    leftOnPress={this.toggleMenu.bind(this)}
+                    rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
+                    rightOnPress={() => this.setState({ createUserFormPresented: true }) }
+                    style={styles.navBarStyle}
+              />
+            : null
+          }
 
-          <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
-                  leftOnPress={this.toggleMenu.bind(this)}
-                  rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
-                  style={styles.navBarStyle}
-          />
-        {/*
-        <Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
-          <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={Screens.HOME} />
+        <Modal animationType={"slide"} transparent={true} visible={this.state.createUserFormPresented} >
+          <CreateUserForm dismiss={(callback) => this.dismissCreateUserForm(callback)}/>
         </Modal>
-        */}
+
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
@@ -81,15 +89,15 @@ class HomeScreen extends Component {
               <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: 'blue'}}></View>
-            <TouchableOpacity  style={styles.register}>
-              <Text style={{fontSize: 22, color: 'blue'}}>REGISTER</Text>
+            <TouchableOpacity style={styles.register}>
+              <Text style={styles.registerText}>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
             </TouchableOpacity>
           </View>
 
 
           <View style={styles.logo}>
-            <Image source={require('../../assets/images/bloomsday-logo.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
+            <Image source={require('../../assets/images/Bloomsday2018_color.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
           </View>
         </View>
 
@@ -110,7 +118,6 @@ const styles = StyleSheet.create({
   bottomBar: {
     height: 75,
     flexDirection: 'row'
-
   },
   register: {
     flex: 2,
@@ -118,8 +125,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row'
   },
+  registerText: {
+    fontSize: 28,
+    color: 'blue',
+    fontFamily: 'roboto-regular'
+  },
   dateCountdown: {
-
     flex: 1,
     alignItems: 'center',
   },
@@ -133,7 +144,7 @@ const styles = StyleSheet.create({
      alignItems: 'center',
      opacity: 0.6
   },
-  logo:{
+  logo: {
     position: 'absolute',
     right: 0,
     left: 0,
