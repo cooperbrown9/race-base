@@ -16,6 +16,7 @@ import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import Timer from '../ui-elements/timer.js';
 
+import * as API from '../api/api';
 
 class TrackingScreen extends Component {
 
@@ -48,23 +49,7 @@ class TrackingScreen extends Component {
     header: null,
 
   };
-  //
-  // state = {
-  //   menuOpen: false,
-  //   runner: {
-  //     distance: 0.0,
-  //     seconds: 0,
-  //     time: "",
-  //     pace: 0,
-  //     location: { latitude: 0.0, longitude: 0.0 }
-  //   },
-  //   coordCounter: 0,
-  //   currentLocation: { lat: 0, lng: 0 },
-  //   runnerLocation: {},
-  //   userCoords: [],
-  //   dummyCourse: [],
-  //   dummyCount: 0
-  // }
+
 
   componentWillMount () {
     // this.setState(this.state);
@@ -81,6 +66,20 @@ class TrackingScreen extends Component {
       let { coords } = await Location.getCurrentPositionAsync({});
       this.setState({runnerLocation: { latitude: coords.latitude, longitude: coords.longitude }});
       console.log(this.state.runnerLocation);
+      let data = {
+        "userID": this.props.userID,
+        "lat": coords.latitude,
+        "lon": coords.longitude
+      }
+      API.updateLocation(data, (err, user) => {
+        if(err) {
+          console.log(err);
+          debugger;
+        } else {
+          console.log(user);
+
+        }
+      })
 
       // looking for error in GPS, if location coords are the same as the previous coords, ignore them, otherwise add them
 
@@ -346,6 +345,13 @@ class TrackingScreen extends Component {
       </View>
       <View style={styles.runnerInfoBar}>
 
+        <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
+          <Text style={styles.name}>Dave Davidson</Text>
+        </View>
+
+        <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
+          <Text style={styles.name}>Dave Davidson</Text>
+        </View>
         <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
           <Text style={styles.name}>Dave Davidson</Text>
         </View>
@@ -687,6 +693,7 @@ const fdude = {'a':[
 var mapStateToProps = state => {
   return {
     nav: state.nav,
+    userID: state.user.userID
   }
 }
 

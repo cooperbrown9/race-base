@@ -30,26 +30,9 @@ class ScheduleScreen extends React.Component {
   state = {
     events: [],
     currentIndex: 0,
-    fridayEvents: [
-      {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-      {date: 'APR 29', time: '8:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-    ],
-    saturdayEvents: [
-      {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-      {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-      {date: 'APR 30', time: '9:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-    ],
-    sundayEvents: [
-      {date: 'MAY 1', time: '10:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-      {date: 'MAY 1', time: '10:00pm', description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
-      somethingElse: 'Something Else'},
-    ],
+    fridayEvents: [],
+    saturdayEvents: [],
+    sundayEvents: [],
     currentDay:[],
     isVisible: true,
     fri: true,
@@ -62,9 +45,7 @@ class ScheduleScreen extends React.Component {
   }
 
   componentDidMount(){
-    this.loadScheduleDays();
-    console.log('we gud');
-    
+    this.loadSchedule();
   }
 
   toggleMenu() {
@@ -91,39 +72,41 @@ class ScheduleScreen extends React.Component {
   }
 
   _onPressFriday = () =>{
-    this.setState({ currentIndex: 0 });
+    this.setState({ currentDay: this.state.fridayEvents });
   }
 
   _onPressSaturday = () =>{
-    this.setState({ currentIndex: 1 });
+    this.setState({ currentDay: this.state.saturdayEvents });
   }
 
   _onPressSunday = () =>{
-    this.setState({ currentIndex: 2 });
+    this.setState({ currentDay: this.state.sundayEvents });
   }
-  
- loadScheduleDays = () => {
-   console.log("load sched");
-   
+
+ loadSchedule = () => {
    API.getSchedule('5a19fa0d46c95e00147f9904', (err, schedule) => {
      if(err) {
        console.log(err);
      } else {
+       let fri = [], sat = [], sun = [];
+       for(let i = 0; i < schedule.length;  i++) {
+         if(schedule[i].day === 'Fri') {
+           fri.push(schedule[i]);
+         } else if(schedule[i].day === 'Sat') {
+           sat.push(schedule[i]);
+         } else {
+           sun.push(schedule[i]);
+         }
+       }
        // remember that an index of the day needs to be stored on the schedule object in DB
        // or some timestamp to tell which day it is
-       this.setState({ events: schedule }, () => {
+       this.setState({ events: schedule, currentDay: fri, fridayEvents: fri, saturdayEvents: sat, sundayEvents: sun }, () => {
          this.forceUpdate();
        });
-      
+
      }
    })
  }
- 
- renderDays = () => {
-   
-       // this.state.currentDay.map((model) => { console.log(model); return(<ScheduleItem date={model.date} time={model.time} description={model.description} />)}  
- }
-
 
   render() {
     const { width, height } = Dimensions.get('window');
@@ -154,9 +137,9 @@ class ScheduleScreen extends React.Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
-              {(this.state.events.days != null && this.state.events.days.length > 0) 
-                ? this.state.events.days.map((model) => ( <ScheduleItem data={model.date} time={model.time} description={model.description} />)) 
-                : null 
+              {(this.state.currentDay != null && this.state.currentDay.length > 0)
+                ? this.state.currentDay.map((model) => ( <ScheduleItem data={model.time} time={model.time} description={model.eventName} />))
+                : null
               }
           </ScrollView>
 
@@ -174,12 +157,11 @@ const styles = StyleSheet.create({
     backgroundColor : 'white',
     justifyContent: 'space-between',
     alignItems: 'flex-start'
-
   },
   scrollContainer:{
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'yellow'
+    backgroundColor: 'transparent'
   },
   day: {
     flex: 1,
@@ -188,15 +170,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
-
   },
   dayText: {
     fontSize: 16,
-    color: 'white'
+    color: 'white', fontFamily: 'roboto-regular'
   },
   weekdayText: {
     fontSize: 24,
-    color: 'white'
+    color: 'white', fontFamily: 'roboto-regular'
   },
 
 });
