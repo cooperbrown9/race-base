@@ -7,3 +7,4 @@ export const GO_RESULTS = 'navigation/results';
 export const GO_FLYOVER = 'navigation/flyover'
 export const GO_SOCIAL = 'navigation/social'
 export const GO_AROUNDTOWN = 'navigation/aroundtown'
+export const GO_SPONSOR = 'navigation/sponsors'

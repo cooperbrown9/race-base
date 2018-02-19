@@ -45,25 +45,6 @@ class SocialScreen extends React.Component {
     })
   }
 
-  onSelect()
-  {
-    switch (this.state.socialIndex)
-    {
-      case 0:
-        this.setState({ currentUrl: urlTwitter });
-        break;
-      case 1:
-        this.setState({ currentUrl: urlFacebook });
-        break;
-      case 2:
-        this.setState({ currentUrl: urlInstaGram });
-        break;
-    }
-    return this.state.currentUrl;
-  }
-
-
-
   render(){
     const { width, height } = Dimensions.get('window');
     return(
