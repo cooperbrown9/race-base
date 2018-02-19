@@ -66,6 +66,12 @@ export default function nav(state = firstState, action) {
     );
     break;
 
+    case NavActions.GO_SPONSOR:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Sponsors'}),
+      state
+    );
+    break;
+
     default:
       console.log('default switch');
       break;
