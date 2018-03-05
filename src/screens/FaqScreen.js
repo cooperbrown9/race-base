@@ -23,10 +23,12 @@ class FaqScreen extends React.Component {
     header: null,
   };
 
-  toggleMenu() {
-    this.setState({ menuOpen: !this.state.menuOpen }, () => {
-      this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-    })
+  constructor() {
+    super();
+
+    this.state = {
+      menuOpen: false
+    }
   }
 
   toggleMenu = () => {
@@ -41,7 +43,7 @@ class FaqScreen extends React.Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
-              leftOnPress={this.toggleMenu.bind(this)}
+              leftOnPress={() => this.toggleMenu()}
               title={<Text style={{color:'white', fontSize: 16}}>FAQ</Text>}
               style={{position:'absolute'}}
       />
@@ -57,7 +59,8 @@ class FaqScreen extends React.Component {
 
 var mapStateToProps = state => {
   return {
-    nav: state.nav
+    nav: state.nav,
+    menuOpen
   }
 }
 

@@ -95,7 +95,7 @@ class ScheduleScreen extends React.Component {
          } else if(schedule[i].day === 'Sat') {
            sat.push(schedule[i]);
          } else {
-           sun.push(schedule[i]);
+           sun.push(schedule[i]);   
          }
        }
        // remember that an index of the day needs to be stored on the schedule object in DB

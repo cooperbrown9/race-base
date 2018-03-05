@@ -14,11 +14,7 @@ class CreateUserForm extends Component {
     header: null
   }
 
-  state = {
-    name: "",
-    bib: "",
-    findFriendsPresented: false
-  }
+
 
   static propTypes = {
     dismiss: PropTypes.func
@@ -26,6 +22,12 @@ class CreateUserForm extends Component {
 
   constructor() {
     super();
+    
+    this.state = {
+      name: "",
+      bib: "",
+      findFriendsPresented: false
+    }
   }
 
   componentWillMount() {

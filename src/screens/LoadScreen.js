@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import * as UserActions from '../action-types/user-action-types';
 import * as NavActions from '../action-types/navigation-action-types';
+import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 
 class LoadScreen extends Component {
@@ -19,7 +20,10 @@ class LoadScreen extends Component {
       API.getUser(userID, (err, user) => {
         if(err) {
           console.log(err);
+          debugger;
+          this.props.dispatch({ type: 'START_HOME' });
         } else {
+          this.props.dispatch({ type: FriendActions.SET_FRIENDS_RAW, friends: user.following })
           this.props.dispatch({ type: UserActions.SET_USER, user: user });
           this.props.dispatch({ type: 'START_HOME' });
         }

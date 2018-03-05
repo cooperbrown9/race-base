@@ -16,6 +16,7 @@ import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import Timer from '../ui-elements/timer.js';
 
+import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 
 class TrackingScreen extends Component {
@@ -31,6 +32,7 @@ class TrackingScreen extends Component {
         pace: 0,
         location: { latitude: 0.0, longitude: 0.0 },
       },
+      friends: [],
       runnerDistance: 0,
       runnerSeconds: 0,
       runnerTime: "",
@@ -53,62 +55,115 @@ class TrackingScreen extends Component {
 
   componentWillMount () {
     // this.setState(this.state);
+    this.setState({ friends: this.props.friends });
   }
 
-  componentDidMount() {
-    this.setCoordinates();
-    this.getLocationAsync();
+  async componentDidMount() {
+    // this.setCoordinates();
+    await this.getLocationAsync();
 
-    let time = "";
-
-    // get user location
     setInterval(async() => {
-      let { coords } = await Location.getCurrentPositionAsync({});
-      this.setState({runnerLocation: { latitude: coords.latitude, longitude: coords.longitude }});
-      console.log(this.state.runnerLocation);
-      let data = {
-        "userID": this.props.userID,
-        "lat": coords.latitude,
-        "lon": coords.longitude
-      }
-      API.updateLocation(data, (err, user) => {
+
+      let location = await Location.getCurrentPositionAsync({});
+
+      API.updateLocation({ "userID": this.props.userID, "lat": location.coords.latitude, "lon": location.coords.longitude }, (err, user) => {
         if(err) {
           console.log(err);
           debugger;
         } else {
-          console.log(user);
-
+          console.log('yup', user);
+          this.setState({ runnerLocation: { latitude: user.latitude, longitude: user.longitude } });
         }
       })
+    }, 2000);
 
-      // looking for error in GPS, if location coords are the same as the previous coords, ignore them, otherwise add them
+    // get friend locations
+    setInterval(() => {
+      let friendCount = 0;
+      let friends = this.props.friends;
+      for(let i = 0; i < this.props.friends.length; i++) {
+        API.getUser(this.props.friends[i]._id, (err, user) => {
+          if(err) {
+            console.log(err);
+            debugger;
+          } else {
+            friendCount++;
+            friends[i].latitude = user.latitude;
+            friends[i].longitude = user.longitude;
 
-      // basically takes the location from GPS, chcecks to see if it is different
-      // from previous coord, then if so, pushes to array of userCoords
-      if (this.state.userCoords[this.state.userCoords.length - 1].lat != this.state.runnerLocation.latitude ||
-        this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.runnerLocation.longitude) {
-          this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.runnerLocation.latitude, lng: this.state.runnerLocation.longitude }]});
+            if(friendCount === this.props.friends.length) {
+              this.setState({ friends: friends });
+              this.props.dispatch({ type: FriendActions.UPDATE_ALL_LOCATIONS, friends: friends });
+            }
+          }
+        })
       }
     }, 5000);
 
-    setInterval(() => {
-      if (this.state.dummyCount !== courseCoords.length) {
-        this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[this.state.dummyCount].latitude, longitude: courseCoords[this.state.dummyCount].longitude }] });
-        this.setState({ dummyCount: ++this.state.dummyCount});
-        // add this line to have it run dummy course
-        this.handleAddLine();
-        // this.trackRunner();
-      }
-    }, 2000);
+    let time = "";
+
+    // get user location
+    // setInterval(async() => {
+    //   let { coords } = await Location.getCurrentPositionAsync({});
+    //   this.setState({runnerLocation: { latitude: coords.latitude, longitude: coords.longitude }});
+    //   console.log(this.state.runnerLocation);
+    //   let data = {
+    //     "userID": this.props.userID,
+    //     "lat": coords.latitude,
+    //     "lon": coords.longitude
+    //   }
+    //   API.updateLocation(data, (err, user) => {
+    //     if(err) {
+    //       console.log(err);
+    //       debugger;
+    //     } else {
+    //       console.log(user);
+    //
+    //     }
+    //   })
+    //
+    //   // looking for error in GPS, if location coords are the same as the previous coords, ignore them, otherwise add them
+    //
+    //   // basically takes the location from GPS, chcecks to see if it is different
+    //   // from previous coord, then if so, pushes to array of userCoords
+    //   if (this.state.userCoords[this.state.userCoords.length - 1].lat != this.state.runnerLocation.latitude ||
+    //     this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.runnerLocation.longitude) {
+    //       this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.runnerLocation.latitude, lng: this.state.runnerLocation.longitude }]});
+    //   }
+    // }, 5000);
+
+    // setInterval(() => {
+    //   if (this.state.dummyCount !== courseCoords.length) {
+    //     this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[this.state.dummyCount].latitude, longitude: courseCoords[this.state.dummyCount].longitude }] });
+    //     this.setState({ dummyCount: ++this.state.dummyCount});
+    //     // add this line to have it run dummy course
+    //     this.handleAddLine();
+    //     // this.trackRunner();
+    //   }
+    // }, 2000);
 
 // debugger;
     console.log(this.state.runner);
 
-    setInterval(() => {
-      this.runTimer();
-    }, 1000);
+    // setInterval(() => {
+    //   this.runTimer();
+    // }, 1000);
 
 
+  }
+
+  getLocationAsync = async() => {
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+    if(status !== 'granted') {
+      this.setState({ canAccessLocation: false });
+    } else {
+      this.setState({ canAccessLocation: true });
+
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ runnerLocation: { latitude: location.coords.latitude, longitude: location.coords.longitude } });
+      // this.setState({ runnerLocation: { lat: location.coords.latitude, lng: location.coords.longitude }, userCoords: [...this.state.userCoords,  { lat: location.coords.latitude, lng: location.coords.longitude} ] });
+    }
   }
 
   formatTime = () => {
@@ -144,18 +199,7 @@ class TrackingScreen extends Component {
     });
   }
 
-  getLocationAsync = async() => {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
 
-    if(status !== 'granted') {
-      this.setState({ canAccessLocation: false });
-    } else {
-      this.setState({ canAccessLocation: true });
-
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ runnerLocation: { lat: location.coords.latitude, lng: location.coords.longitude }, userCoords: [...this.state.userCoords,  { lat: location.coords.latitude, lng: location.coords.longitude} ] });
-    }
-  }
 
   toggleMenu = () => {
     console.log('it works fam');
@@ -309,14 +353,20 @@ class TrackingScreen extends Component {
     console.log('Drop Down Accessed');
   }
 
+  mapFriends = () => {
+    this.state.friends.map((friend) => (
+      <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
+    ))
+  }
+
   render() {
     const { width, height } = Dimensions.get('window');
 
-    let userCoords = this.state.userCoords;
-    let mappedUserCoords = [];
-    for(let i = 0; i < this.state.userCoords.length; i++) {
-      mappedUserCoords.push({ latitude: this.state.userCoords[i].lat, longitude: this.state.userCoords[i].lng });
-    }
+    // let userCoords = this.state.userCoords;
+    // let mappedUserCoords = [];
+    // for(let i = 0; i < this.state.userCoords.length; i++) {
+    //   mappedUserCoords.push({ latitude: this.state.userCoords[i].lat, longitude: this.state.userCoords[i].lng });
+    // }
 
     return (
       <View style={{backgroundColor:'transparent', flex: 1}}>
@@ -335,28 +385,25 @@ class TrackingScreen extends Component {
             longitudeDelta: 0.0421,
         }}>
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'yellow'} />
-          <MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
-          <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />
+          {/*<MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
+          <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />*/}
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.runnerLocation.latitude, longitude: this.state.runnerLocation.longitude }} image={require('../../assets/icons/pin.png')} />
+          {this.state.friends.map((friend) =>
+            <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
+          )}
     </MapView>
       <View style={{ position: 'absolute', left: 64, top: 64, width: 200, height: 64 }} >
         <Text>{this.state.runnerTime}</Text>
       </View>
       <View style={styles.runnerInfoBar}>
+        {this.props.friends.map((friend) =>
+          <View style={{backgroundColor: '#F4C81B', flex: 2, marginBottom: 8, justifyContent: 'center', alignItems: 'flex-start'}}>
+            <Text style={styles.name}>{friend.name}</Text>
+          </View>
+        )}
 
-        <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
-          <Text style={styles.name}>Dave Davidson</Text>
-        </View>
-
-        <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
-          <Text style={styles.name}>Dave Davidson</Text>
-        </View>
-        <View style={{backgroundColor: '#F4C81B', flex: 2, justifyContent: 'center', alignItems: 'flex-start'}}>
-          <Text style={styles.name}>Dave Davidson</Text>
-        </View>
-
-        <View style={{backgroundColor: 'white', flex: 3, flexDirection: 'row'}}>
+        {/*<View style={{backgroundColor: 'white', flex: 3, flexDirection: 'row'}}>
 
           <View style={{flex: 1, backgroundColor: 'white', flexDirection: 'row'}}>
 
@@ -386,7 +433,7 @@ class TrackingScreen extends Component {
 
           </View>
 
-        </View>
+        </View>*/}
       </View>
       <View style={styles.bottomBar}>
         <View style={{flex:1, flexDirection: 'row', }}>
@@ -422,7 +469,7 @@ const styles = StyleSheet.create({
     left: 10,
     right: 10,
     bottom: 70,
-    backgroundColor: '#F4C81B',
+    backgroundColor: 'transparent',
     height: 100,
     zIndex: 2,
     shadowColor: '#dbdbdb',
@@ -451,7 +498,8 @@ const styles = StyleSheet.create({
    name: {
      color: 'white',
      fontSize: 17,
-     paddingLeft: 16
+     paddingLeft: 16,
+     fontFamily: 'roboto-regular'
 
    },
 });
@@ -693,7 +741,8 @@ const fdude = {'a':[
 var mapStateToProps = state => {
   return {
     nav: state.nav,
-    userID: state.user.userID
+    userID: state.user.userID,
+    friends: state.friend.friends
   }
 }
 

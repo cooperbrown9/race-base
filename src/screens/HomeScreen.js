@@ -17,6 +17,8 @@ import Menu from './menus/main-menu.js';
 import CreateUserForm from './CreateUserForm';
 
 import * as Screens from '../constants/screen-types.js';
+import * as FriendActions from '../action-types/friend-action-types';
+import * as API from '../api/api';
 
 class HomeScreen extends Component {
 
@@ -33,9 +35,34 @@ class HomeScreen extends Component {
     header: null,
   };
 
+  componentWillMount() {
+    this.getFriends();
+  }
+
   componentDidMount() {
 
     // this.animate();
+  }
+
+  getFriends = () => {
+    let friendCount = 0;
+    let friends = [];
+
+    for(let i = 0; i < this.props.friends.length; i++) {
+      API.getUser(this.props.friends[i].user_id, (err, user) => {
+        if(err) {
+          console.log(err);
+          debuger;
+        } else {
+          friendCount++;
+          friends.push(user);
+
+          if(friendCount === this.props.friends.length) {
+            this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
+          }
+        }
+      })
+    }
   }
 
   toggleMenu() {
@@ -153,7 +180,8 @@ const styles = StyleSheet.create({
 
 var mapStateToProps = state => {
   return {
-    nav: state.nav
+    nav: state.nav,
+    friends: state.friend.friends
   }
 }
 
