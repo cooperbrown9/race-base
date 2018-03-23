@@ -8,3 +8,5 @@ export const GO_FLYOVER = 'navigation/flyover'
 export const GO_SOCIAL = 'navigation/social'
 export const GO_AROUNDTOWN = 'navigation/aroundtown'
 export const GO_SPONSOR = 'navigation/sponsors'
+
+export const START_CREATE_ACCOUNT = 'navigation/create-account';

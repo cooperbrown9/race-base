@@ -22,6 +22,7 @@ import ResultsMenu from '../screens/menus/ResultsMenu.js';
 import SocialMenu from '../screens/menus/SocialMenu.js';
 import FlyOverMenu from '../screens/menus/FlyOverMenu.js';
 import SponsorsMenu from '../screens/menus/SponsorsMenu.js';
+import CreateUserForm from '../screens/CreateUserForm';
 
 import LoadScreen from '../screens/LoadScreen';
 
@@ -37,7 +38,7 @@ export const AppNavigator = StackNavigator({
   Social: {screen: SocialMenu},
   FlyOver: {screen: FlyOverMenu},
   Sponsors: {screen: SponsorsMenu},
-
+  CreateUser: { screen: CreateUserForm }
 });
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (

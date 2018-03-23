@@ -5,7 +5,7 @@
     "slug": "race-base",
     "privacy": "public",
     "sdkVersion": "19.0.0",
-    "version": "1.0.2",
+    "version": "1.0.5",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "loading": {

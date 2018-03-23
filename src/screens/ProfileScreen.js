@@ -5,10 +5,11 @@ import { connect } from 'react-redux';
 
 import * as API from '../api/api';
 import * as UserActions from '../action-types/user-action-types';
+import * as Colors from '../style/colors';
 
 import FindFriends from './FindFriends';
 
-class CreateUserForm extends Component {
+class ProfileScreen extends Component {
 
   static navigationOptions = {
     header: null
@@ -26,12 +27,14 @@ class CreateUserForm extends Component {
     this.state = {
       name: "",
       email: "",
-      bib: ""
+      bib: "",
+      formChanged: false,
+      findFriendsPresented: false
     }
   }
 
   componentWillMount() {
-    // this.setState({ name: this.props.user.name, bib: this.props.user.bib });
+    this.setState({ name: this.props.user.name, bib: this.props.user.bib });
   }
 
   componentDidMount() {
@@ -45,12 +48,16 @@ class CreateUserForm extends Component {
     }
 
     let data = {
+      userID: this.props.userID,
       name: this.state.name,
-      email: this.state.email,
       bib: this.state.bib
     }
 
-    this.createUser(data);
+    if(this.props.userID) {
+      this.updateUser(data);
+    } else {
+      this.createUser(data);
+    }
   }
 
   createUser = (data) => {
@@ -73,26 +80,26 @@ class CreateUserForm extends Component {
     });
   }
 
-  // updateUser = (data) => {
-  //
-  //   API.updateUser(data, (e1, user) => {
-  //     if(e1) {
-  //       console.log(e1);
-  //       this.props.dismiss();
-  //     } else {
-  //       API.getUser(user._id, (e, newUser) => {
-  //         if(e) {
-  //           console.log(e);
-  //         } else {
-  //           this.props.dispatch({ type: UserActions.SET_USER, user: newUser });
-  //           AsyncStorage.setItem('USER_ID', newUser._id, () => {
-  //             this.props.dismiss();
-  //           })
-  //         }
-  //       })
-  //     }
-  //   });
-  // }
+  updateUser = (data) => {
+
+    API.updateUser(data, (e1, user) => {
+      if(e1) {
+        console.log(e1);
+        this.props.dismiss();
+      } else {
+        API.getUser(user._id, (e, newUser) => {
+          if(e) {
+            console.log(e);
+          } else {
+            this.props.dispatch({ type: UserActions.SET_USER, user: newUser });
+            AsyncStorage.setItem('USER_ID', newUser._id, () => {
+              this.props.dismiss();
+            })
+          }
+        })
+      }
+    });
+  }
 
   render() {
     return(
@@ -104,7 +111,7 @@ class CreateUserForm extends Component {
         <View style={styles.formView} >
           <Text style={styles.formHeader}>Name</Text>
           <TextInput
-            onChangeText={(text) => this.setState({ name: text })}
+            onChangeText={(text) => this.setState({ name: text, formChanged: true })}
             style={styles.formField}
             placeholder='Jane'
             value={this.state.name}
@@ -112,15 +119,15 @@ class CreateUserForm extends Component {
 
         <Text style={styles.formHeader}>Email</Text>
           <TextInput
-            onChangeText={(text) => this.setState({ email: text })}
+            onChangeText={(text) => this.setState({ email: text, formChanged: true })}
             style={styles.formField}
             placeholder='jane@yahoo.com'
-            value={this.state.name}
+            value={this.state.bib}
           />
 
           <Text style={styles.formHeader}>Bib #</Text>
           <TextInput
-            onChangeText={(text) => this.setState({ bib: text })}
+            onChangeText={(text) => this.setState({ bib: text, formChanged: true })}
             style={styles.formField}
             placeholder='12345'
             value={this.state.bib}
@@ -128,8 +135,17 @@ class CreateUserForm extends Component {
         </View>
 
         <View style={styles.submitContainer} >
-          <TouchableOpacity onPress={() => this.checkUser()} style={styles.submitButton} >
-            <Text style={styles.signupText}>SIGN UP</Text>
+          {(!this.props.userID)
+            ? <TouchableOpacity onPress={() => this.checkUser()} style={styles.submitButton} >
+                <Text style={styles.signupText}>{(this.props.userID) ? 'UPDATE' : 'CREATE ACCOUNT'}</Text>
+              </TouchableOpacity>
+            : null
+          }
+          <TouchableOpacity style={styles.submitButton} onPress={() => this.setState({ findFriendsPresented: true })} >
+            <Text style={styles.signupText}>FIND FRIENDS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.submitButton} onPress={this.props.dismiss} >
+            <Text style={styles.signupText}>CANCEL</Text>
           </TouchableOpacity>
         </View>
 
@@ -145,10 +161,10 @@ class CreateUserForm extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: Colors.CREAM
   },
   submitContainer: {
-    flex: 1, marginTop: 32, marginLeft: 64, marginRight: 64, marginBottom: 64
+    flex: 1, marginLeft: 64, marginRight: 64, marginTop: 64
   },
   submitButton: {
     backgroundColor: '#F4C81B', borderRadius: 8,
@@ -156,34 +172,35 @@ const styles = StyleSheet.create({
   },
   signupText: {
     color: 'black', backgroundColor: 'transparent',
-    fontFamily: 'roboto-regular', fontSize: 18,
+    fontFamily: 'roboto-bold', fontSize: 18,
     textAlign: 'center'
   },
   headerText: {
     backgroundColor: 'transparent',
-    fontFamily: 'roboto-regular', fontSize: 32, marginTop: 64,
+    fontFamily: 'roboto-bold', fontSize: 32, marginTop: 64,
     textAlign: 'center', color: 'black'
   },
   formView: {
-    flex: 2, backgroundColor: 'transparent'
+    flex: 1, backgroundColor: 'transparent',
+    justifyContent: 'center'
   },
   formHeader: {
-    fontFamily: 'roboto-regular', fontSize: 32,
-    marginLeft: 64, marginBottom: 16, color: 'white'
+    fontFamily: 'roboto-regular', fontSize: 16,
+    marginLeft: 64, marginBottom: 16, color: Colors.DARK_GREY
   },
   formField: {
     fontFamily: 'roboto-regular', fontSize: 24,
-    marginLeft: 64, marginRight: 64, marginBottom: 64, height: 64,
-    borderBottomColor: 'black', color: 'black',
+    marginLeft: 64, marginRight: 64, marginBottom: 32, height: 40,
+    borderBottomColor: Colors.BLUE, color: 'black',
     borderBottomWidth: 2
   }
 });
 
 var mapStateToProps = state => {
   return {
-    // userID: state.user.userID,
-    // user: state.user.user
+    userID: state.user.userID,
+    user: state.user.user
   }
 }
 
-export default connect(mapStateToProps)(CreateUserForm);
+export default connect(mapStateToProps)(ProfileScreen);

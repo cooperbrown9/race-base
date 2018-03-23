@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import * as API from '../api/api';
 import * as UserActions from '../action-types/user-action-types';
+import * as Colors from '../style/colors';
 
 class FindFriends extends Component {
 
@@ -87,7 +88,7 @@ class FindFriends extends Component {
                   <Text style={styles.name}>{user.name}</Text>
                   <Text style={styles.bib}>{user.bib}</Text>
                   <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40}}>
-                    <Text style={{fontFamily: 'roboto-regular', fontSize: 24}}>ADD</Text>
+                    <Text style={styles.addText}>Add</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
               )) : null}
@@ -113,11 +114,21 @@ class FindFriends extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: 'white'
+    flex: 1, backgroundColor: Colors.CREAM
+  },
+  addText: {
+    fontFamily: 'roboto-regular',
+    fontSize: 24,
+    borderWidth:2, borderRadius:4,
+    width: 64,
+    height: 32,
+    borderColor:Colors.BLUE, backgroundColor: Colors.BLUE,
+    color: 'white',
+    textAlign: 'center'
   },
   search: {
     flex: 1,
-    borderBottomColor: 'black', borderBottomWidth: 2,
+    borderBottomColor: Colors.BLUE, borderBottomWidth: 2,
     color: 'black', fontFamily: 'roboto-regular',
     backgroundColor: 'transparent', fontSize: 24,
     height: 64
@@ -126,7 +137,7 @@ const styles = StyleSheet.create({
     height: 84, marginLeft: 8, marginRight: 8
   },
   name: {
-    fontFamily: 'roboto-regular', color: 'black',
+    fontFamily: 'roboto-bold', color: 'black',
     fontSize: 24, marginLeft: 32, marginBottom: 8
   },
   bib: {
@@ -135,27 +146,27 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     flex: 1, alignItems: 'stretch', flexDirection: 'row',
-    marginTop: 32, marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
+    marginTop: 32, marginBottom: 32,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
     justifyContent: 'center', alignItems: 'center'
   },
   resultContainer: {
     flex: 4,
-    marginLeft: 16, marginRight: 16,
+    marginLeft: 16, marginRight: 16, marginBottom:16,
     backgroundColor: 'transparent'
   },
   scrollContainer: {
     flex: 1
   },
   closeContainer: {
-    marginLeft: 32, marginRight: 32, marginBottom: 64
+    marginLeft: 32, marginRight: 32, marginBottom: 64, marginTop: 16
   },
   closeButton: {
     backgroundColor: '#F4C81B', borderRadius: 8,
     height: 48, marginBottom: 16, justifyContent: 'center'
   },
   closeText: {
-    color: 'black', backgroundColor: 'transparent',
-    fontFamily: 'roboto-regular', fontSize: 18,
+    color: 'white', backgroundColor: 'transparent',
+    fontFamily: 'roboto-bold', fontSize: 18,
     textAlign: 'center'
   },
 });

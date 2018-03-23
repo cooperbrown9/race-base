@@ -14,11 +14,12 @@ import { View,
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
-import CreateUserForm from './CreateUserForm';
+import ProfileScreen from './ProfileScreen';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
+import { Permissions } from 'expo';
 
 class HomeScreen extends Component {
 
@@ -39,9 +40,22 @@ class HomeScreen extends Component {
     this.getFriends();
   }
 
-  componentDidMount() {
+  async componentDidMount() {
+    await this.getPushPermission();
+  }
 
-    // this.animate();
+  async getPushPermission() {
+    // debugger;
+    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+
+
+
+    console.log(status);
+
+    if(status !== 'granted') {
+      console.log(status);
+    }
+    // const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   }
 
   getFriends = () => {
@@ -99,7 +113,7 @@ class HomeScreen extends Component {
           }
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.createUserFormPresented} >
-          <CreateUserForm dismiss={this.dismissCreateUserForm.bind(this)} />
+          <ProfileScreen dismiss={this.dismissCreateUserForm.bind(this)} />
         </Modal>
 
 

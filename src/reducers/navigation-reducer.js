@@ -15,6 +15,10 @@ export default function nav(state = firstState, action) {
       nextAction = AppNavigator.router.getActionForPathAndParams('Home');
       nextState = AppNavigator.router.getStateForAction(nextAction);
 
+    case NavActions.START_CREATE_ACCOUNT:
+      nextAction = AppNavigator.router.getActionForPathAndParams('CreateUser');
+      nextState = AppNavigator.router.getStateForAction(nextAction);
+
     case NavActions.GO_HOME:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Home'}),
       state
