@@ -21,12 +21,12 @@ const ScheduleItem = (props) => (
     <View style={styles.infoView}>
 
       <View style={styles.dateTime}>
-        <Text style={{fontSize: 10, color: '#B7B7B7'}}>{props.date + ' '}</Text>
+        <Text style={{fontSize: 10, color: '#B7B7B7'}}>{props.day + ' '}</Text>
         <View style={{backgroundColor: '#B7B7B7', width: 1}}></View>
         <Text style={{fontSize: 10, color: '#B7B7B7'}}>{' ' + props.time}</Text>
       </View>
       <Text>{props.description}</Text>
-      <Text style={{color: '#BBBBBB'}}>{props.somethingElse}</Text>
+      <Text style={{color: '#BBBBBB'}}>{props.location}</Text>
 
     </View>
   </View>
@@ -37,11 +37,11 @@ ScheduleItem.propTypes = {
   date: PropTypes.string,
   time: PropTypes.string,
   description: PropTypes.string,
-  somethingElse: PropTypes.string,
+  location: PropTypes.string,
 };
 
 ScheduleItem.defaultProps = {
-  date: 'MAY 1',
+  date: 'MAY 4',
   time: '9:00am',
   description: 'Lorem ipsum et est cupidatat aute non laboris ex qui consectetur reprehenderit eiusmod incididunt id esse in laborum qui ul',
   somethingElse: 'Something Else',

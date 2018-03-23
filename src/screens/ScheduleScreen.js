@@ -121,15 +121,15 @@ class ScheduleScreen extends React.Component {
         />
         <View style={styles.dayBar}>
           <TouchableOpacity style={styles.day} onPress={this._onPressFriday} >
-            <Text style={styles.dayText}>APR 29</Text>
+            <Text style={styles.dayText}>MAY 4</Text>
             <Text style={styles.weekdayText}>FRI</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.day} onPress={this._onPressSaturday}>
-            <Text style={styles.dayText}>APR 30</Text>
+            <Text style={styles.dayText}>MAY 5</Text>
             <Text style={styles.weekdayText}>SAT</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.day} onPress={this._onPressSunday}>
-            <Text style={styles.dayText}>MAY 1</Text>
+            <Text style={styles.dayText}>MAY 6</Text>
             <Text style={styles.weekdayText}>SUN</Text>
           </TouchableOpacity>
 
@@ -138,7 +138,7 @@ class ScheduleScreen extends React.Component {
 
           <ScrollView style={styles.scrollContainer}>
               {(this.state.currentDay != null && this.state.currentDay.length > 0)
-                ? this.state.currentDay.map((model) => ( <ScheduleItem data={model.time} time={model.time} description={model.eventName} />))
+                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem date={model.date} day={model.day} time={model.time} description={model.eventName} location={model.eventLocation}/>))
                 : null
               }
           </ScrollView>
