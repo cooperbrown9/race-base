@@ -5,7 +5,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import * as Colors from '../style/colors.js'
 
@@ -46,9 +47,11 @@ NavBar.defaultProps = {
   rightButton: <View/>,
 };
 
+const FRAME = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   navBar: {
-    height: 64,
+    height: (FRAME.height === 812) ? 84 : 64,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
   leftButton: {
     height: 40,
     width: 64,
-    marginTop: 12,
+    marginTop: (FRAME.height === 812) ? 24 : 12,
     marginLeft: 20,
     justifyContent: 'center',
     alignItems: 'flex-start',
@@ -75,12 +78,13 @@ const styles = StyleSheet.create({
   },
   title: {
     height: 20,
+    marginTop: (FRAME.height === 812) ? 12 : 0,
     alignItems: 'center',
     justifyContent: 'center',
   },
   rightButton: {
     height: 40,
-    marginTop: 12,
+    marginTop: (FRAME.height === 812) ? 24 : 12,
     marginRight: 20,
     width: 64,
     justifyContent: 'center',

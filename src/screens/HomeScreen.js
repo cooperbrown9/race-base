@@ -1,3 +1,5 @@
+
+'use strict';
 import React, { Component } from 'react';
 import { View,
          Text,
@@ -15,10 +17,13 @@ import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
+// var Pushwoosh = require('pushwoosh-react-native-plugin');
 
+// import PushNotification from 'react-native-push-notification';
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
+import Expo from 'expo';
 import { Permissions } from 'expo';
 
 class HomeScreen extends Component {
@@ -36,17 +41,45 @@ class HomeScreen extends Component {
     header: null,
   };
 
-  componentWillMount() {
+  async componentWillMount() {
     this.getFriends();
+    // await this.registerPush();
+    // this.listener = Expo.Notifications.addListener(this.listen);
+    // debugger;
+
   }
 
   async componentDidMount() {
-    await this.getPushPermission();
+    // await this.getPushPermission();
+    // await this.getPushPermission();
+    // await this.registerPush()
+
+  }
+
+  componentWillUnmount() {
+    // this.listener && Expo.Notifications.removelistener(this.listen);
+  }
+
+
+
+  // listen = ({ origin, data }) => {
+  //   console.log('data bruh ', origin, data);
+  // }
+
+
+  async registerPush() {
+    const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+    if(status !== 'granted') {
+      alert('bruh');
+      return;
+    }
+    const token = await Expo.Notifications.getExpoPushTokenAsync();
+    console.log(token);
   }
 
   async getPushPermission() {
-    // debugger;
-    const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+
+    const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
 
 
 
@@ -55,6 +88,14 @@ class HomeScreen extends Component {
     if(status !== 'granted') {
       console.log(status);
     }
+    debugger;
+    // let p = new Pushwoosh();
+    Pushwoosh.init({
+      "pw_appid": "B288D-CA4EF",
+      "project_number": null
+    });
+    debugger;
+    Pushwoosh.register();
     // const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
   }
 
@@ -127,10 +168,10 @@ class HomeScreen extends Component {
               <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2017</Text>
               <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
-            <View style={{width: 1, backgroundColor: 'blue'}}></View>
+            <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
             <TouchableOpacity style={styles.register}>
               <Text style={styles.registerText}>REGISTER</Text>
-              <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'blue'}}></Image>
+              <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'#55BBDD'}}></Image>
             </TouchableOpacity>
           </View>
 
@@ -166,7 +207,7 @@ const styles = StyleSheet.create({
   },
   registerText: {
     fontSize: 28,
-    color: 'blue',
+    color: '#55BBDD',
     fontFamily: 'roboto-regular'
   },
   dateCountdown: {

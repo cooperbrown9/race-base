@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 
 import { connect } from 'react-redux';
 
 import * as API from '../api/api';
 import * as UserActions from '../action-types/user-action-types';
 import * as Colors from '../style/colors';
+
+import NavBar from '../ui-elements/nav-bar';
 
 class FindFriends extends Component {
 
@@ -32,6 +34,28 @@ class FindFriends extends Component {
       if(err) {
         console.log(err);
       } else {
+        // var uniqueArr = users.filter((u) => {
+        //   return this.props.friends.indexOf(u) == -1;
+        // })
+        // var a = [], diff = [];
+        //
+        //  for (var i = 0; i < this.props.friends.length; i++) {
+        //      a[this.props.friends[i]] = true;
+        //  }
+        //
+        //  for (var i = 0; i < users.length; i++) {
+        //      if (a[users[i]]) {
+        //          delete a[users[i]];
+        //      } else {
+        //          a[users[i]] = true;
+        //      }
+        //  }
+        //
+        //  for (var k in a) {
+        //      diff.push(k);
+        //  }
+
+         // return diff;
         this.setState({ users: users });
       }
     })
@@ -72,6 +96,11 @@ class FindFriends extends Component {
   render() {
     return (
       <View style={styles.container} >
+        <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                leftOnPress={this.props.dismiss}
+                title={<Text style={{ fontFamily: 'roboto-regular', fontSize: 24, color: 'white'}}>Find Friends</Text>}
+        />
+
         <View style={styles.searchContainer} >
           <TextInput
             style={styles.search}
@@ -87,7 +116,7 @@ class FindFriends extends Component {
                 <TouchableOpacity style={styles.userContainer} >
                   <Text style={styles.name}>{user.name}</Text>
                   <Text style={styles.bib}>{user.bib}</Text>
-                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40}}>
+                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40, borderRadius:16, justifyContent:'center'}}>
                     <Text style={styles.addText}>Add</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
@@ -117,14 +146,15 @@ const styles = StyleSheet.create({
     flex: 1, backgroundColor: Colors.CREAM
   },
   addText: {
-    fontFamily: 'roboto-regular',
+    fontFamily: 'roboto-bold',
     fontSize: 24,
-    borderWidth:2, borderRadius:4,
+    borderWidth:2, borderRadius:8,
     width: 64,
     height: 32,
     borderColor:Colors.BLUE, backgroundColor: Colors.BLUE,
     color: 'white',
-    textAlign: 'center'
+    textAlign: 'center',
+    overflow: 'hidden'
   },
   search: {
     flex: 1,
@@ -134,7 +164,9 @@ const styles = StyleSheet.create({
     height: 64
   },
   userContainer: {
-    height: 84, marginLeft: 8, marginRight: 8
+    height: 84, marginLeft: 8, marginRight: 8, marginBottom: 16,
+    borderRadius: 8, backgroundColor: '#e0dfde',
+    justifyContent: 'center'
   },
   name: {
     fontFamily: 'roboto-bold', color: 'black',
@@ -161,12 +193,12 @@ const styles = StyleSheet.create({
     marginLeft: 32, marginRight: 32, marginBottom: 64, marginTop: 16
   },
   closeButton: {
-    backgroundColor: '#F4C81B', borderRadius: 8,
-    height: 48, marginBottom: 16, justifyContent: 'center'
+    backgroundColor: '#55BBDD', borderRadius: 8,
+    height: 64, marginBottom: 16, justifyContent: 'center'
   },
   closeText: {
     color: 'white', backgroundColor: 'transparent',
-    fontFamily: 'roboto-bold', fontSize: 18,
+    fontFamily: 'roboto-bold', fontSize: 24,
     textAlign: 'center'
   },
 });
@@ -174,7 +206,8 @@ const styles = StyleSheet.create({
 var mapStateToProps = state => {
   return {
     userID: state.user.userID,
-    user: state.user.user
+    user: state.user.user,
+    friends: state.friend.friends
   }
 }
 

@@ -62,7 +62,7 @@ class TrackingScreen extends Component {
     // this.setCoordinates();
     await this.getLocationAsync();
 
-    setInterval(async() => {
+    this.getLocationInterval = setInterval(async() => {
 
       let location = await Location.getCurrentPositionAsync({});
 
@@ -78,27 +78,33 @@ class TrackingScreen extends Component {
     }, 2000);
 
     // get friend locations
-    setInterval(() => {
-      let friendCount = 0;
-      let friends = this.props.friends;
-      for(let i = 0; i < this.props.friends.length; i++) {
-        API.getUser(this.props.friends[i]._id, (err, user) => {
-          if(err) {
-            console.log(err);
-            debugger;
-          } else {
-            friendCount++;
-            friends[i].latitude = user.latitude;
-            friends[i].longitude = user.longitude;
-
-            if(friendCount === this.props.friends.length) {
-              this.setState({ friends: friends });
-              this.props.dispatch({ type: FriendActions.UPDATE_ALL_LOCATIONS, friends: friends });
-            }
+    if(this.props.friends.length > 0) {
+      this.getFriendsInterval = setInterval(() => {
+        let friendCount = 0;
+        let friends = this.props.friends;
+        for(let i = 0; i < this.props.friends.length; i++) {
+          var data = {
+            "userID": this.props.friends[i]._id,
+            "name": this.props.friends[i].name
           }
-        })
-      }
-    }, 5000);
+          API.getUserTracking(data, (err, user) => {
+            if(err) {
+              console.log(err);
+              debugger;
+            } else {
+              friendCount++;
+              friends[i].latitude = user.latitude;
+              friends[i].longitude = user.longitude;
+
+              if(friendCount === this.props.friends.length) {
+                this.setState({ friends: friends });
+                this.props.dispatch({ type: FriendActions.UPDATE_ALL_LOCATIONS, friends: friends });
+              }
+            }
+          })
+        }
+      }, 5000);
+    }
 
     let time = "";
 
@@ -150,6 +156,11 @@ class TrackingScreen extends Component {
     // }, 1000);
 
 
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.getLocationInterval);
+    clearInterval(this.getFriendsInterval);
   }
 
   getLocationAsync = async() => {
@@ -396,9 +407,9 @@ class TrackingScreen extends Component {
       <View style={{ position: 'absolute', left: 64, top: 64, width: 200, height: 64 }} >
         <Text>{this.state.runnerTime}</Text>
       </View>
-      <View style={styles.runnerInfoBar}>
+      <ScrollView style={styles.runnerInfoBar}>
         {this.props.friends.map((friend) =>
-          <View style={{backgroundColor: '#F4C81B', flex: 2, marginBottom: 8, justifyContent: 'center', alignItems: 'flex-start'}}>
+          <View style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
             <Text style={styles.name}>{friend.name}</Text>
           </View>
         )}
@@ -434,8 +445,8 @@ class TrackingScreen extends Component {
           </View>
 
         </View>*/}
-      </View>
-      <View style={styles.bottomBar}>
+      </ScrollView>
+      {/*<View style={styles.bottomBar}>
         <View style={{flex:1, flexDirection: 'row', }}>
           <TouchableOpacity style={{flex:1, justifyContent: 'center', alignItems: 'flex-start' }}>
             <Image source={require('../../assets/icons/pointer.png')} style={{height: 26, width: 26, tintColor: '#55BBDD',  marginLeft: 20}}/>
@@ -445,6 +456,7 @@ class TrackingScreen extends Component {
           </TouchableOpacity>
         </View>
       </View>
+      */}
       </View>
     );
   }
@@ -466,11 +478,11 @@ const styles = StyleSheet.create({
   },
   runnerInfoBar: {
     position: 'absolute',
-    left: 10,
-    right: 10,
-    bottom: 70,
+    left: 12,
+    right: 12,
+    bottom: 0,
     backgroundColor: 'transparent',
-    height: 100,
+    height: 200,
     zIndex: 2,
     shadowColor: '#dbdbdb',
     shadowOffset: {width: 12, height: 12},
@@ -497,7 +509,7 @@ const styles = StyleSheet.create({
   },
    name: {
      color: 'white',
-     fontSize: 17,
+     fontSize: 18,
      paddingLeft: 16,
      fontFamily: 'roboto-regular'
 
@@ -739,6 +751,7 @@ const fdude = {'a':[
 ]}
 
 var mapStateToProps = state => {
+  console.log(state.friend.friends);
   return {
     nav: state.nav,
     userID: state.user.userID,

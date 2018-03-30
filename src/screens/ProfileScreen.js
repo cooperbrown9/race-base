@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, AsyncStorage, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, AsyncStorage, Modal } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/api';
@@ -8,6 +8,7 @@ import * as UserActions from '../action-types/user-action-types';
 import * as Colors from '../style/colors';
 
 import FindFriends from './FindFriends';
+import NavBar from '../ui-elements/nav-bar';
 
 class ProfileScreen extends Component {
 
@@ -104,9 +105,10 @@ class ProfileScreen extends Component {
   render() {
     return(
       <View style={styles.container} >
-        <View style={{flex: 1}}>
-          <Text style={styles.headerText} >Profile</Text>
-        </View>
+        <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                leftOnPress={this.props.dismiss}
+                title={<Text style={{ fontFamily: 'roboto-regular', fontSize: 24, color: 'white'}}>Profile</Text>}
+        />
 
         <View style={styles.formView} >
           <Text style={styles.formHeader}>Name</Text>
@@ -115,15 +117,10 @@ class ProfileScreen extends Component {
             style={styles.formField}
             placeholder='Jane'
             value={this.state.name}
+            autoComplete={'none'}
           />
 
-        <Text style={styles.formHeader}>Email</Text>
-          <TextInput
-            onChangeText={(text) => this.setState({ email: text, formChanged: true })}
-            style={styles.formField}
-            placeholder='jane@yahoo.com'
-            value={this.state.bib}
-          />
+
 
           <Text style={styles.formHeader}>Bib #</Text>
           <TextInput
@@ -131,6 +128,7 @@ class ProfileScreen extends Component {
             style={styles.formField}
             placeholder='12345'
             value={this.state.bib}
+            autoComplete={'none'}
           />
         </View>
 
@@ -138,6 +136,12 @@ class ProfileScreen extends Component {
           {(!this.props.userID)
             ? <TouchableOpacity onPress={() => this.checkUser()} style={styles.submitButton} >
                 <Text style={styles.signupText}>{(this.props.userID) ? 'UPDATE' : 'CREATE ACCOUNT'}</Text>
+              </TouchableOpacity>
+            : null
+          }
+          {(this.state.formChanged)
+            ? <TouchableOpacity style={styles.submitButton} onPress={() => this.checkUser()} >
+                <Text style={styles.signupText}>UPDATE</Text>
               </TouchableOpacity>
             : null
           }
@@ -164,15 +168,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.CREAM
   },
   submitContainer: {
-    flex: 1, marginLeft: 64, marginRight: 64, marginTop: 64
+    flex: 1, marginLeft: 32, marginRight: 32, marginTop: 32
   },
   submitButton: {
-    backgroundColor: '#F4C81B', borderRadius: 8,
-    height: 48, marginBottom: 16, justifyContent: 'center'
+    backgroundColor: '#55BBDD', borderRadius: 8,
+    height: 64, marginBottom: 16, justifyContent: 'center',
   },
   signupText: {
-    color: 'black', backgroundColor: 'transparent',
-    fontFamily: 'roboto-bold', fontSize: 18,
+    color: 'white', backgroundColor: 'transparent',
+    fontFamily: 'roboto-bold', fontSize: 24,
     textAlign: 'center'
   },
   headerText: {
@@ -189,7 +193,7 @@ const styles = StyleSheet.create({
     marginLeft: 64, marginBottom: 16, color: Colors.DARK_GREY
   },
   formField: {
-    fontFamily: 'roboto-regular', fontSize: 24,
+    fontFamily: 'roboto-bold', fontSize: 24,
     marginLeft: 64, marginRight: 64, marginBottom: 32, height: 40,
     borderBottomColor: Colors.BLUE, color: 'black',
     borderBottomWidth: 2
