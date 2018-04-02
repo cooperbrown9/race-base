@@ -14,6 +14,12 @@ export default function friend(state = initialState, action) {
         friends: action.friends
       }
 
+    case FriendActions.ADD_FRIEND:
+      return {
+        ...state,
+        friends: [...state.friends, action.friend]
+      }
+
     case FriendActions.SET_FRIENDS_RAW:
       return {
         ...state,

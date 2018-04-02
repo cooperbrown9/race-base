@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 
 import * as API from '../api/api';
 import * as UserActions from '../action-types/user-action-types';
+import * as FriendActions from '../action-types/friend-action-types';
 import * as Colors from '../style/colors';
 
 import NavBar from '../ui-elements/nav-bar';
@@ -34,6 +35,14 @@ class FindFriends extends Component {
       if(err) {
         console.log(err);
       } else {
+
+        for(let i = 0; i < users.length; i++) {
+          for(let j = 1; j < this.props.friends.length; j++) {
+            if(users[i]._id === this.props.friends[j]._id) {
+              users.splice(i, 1);
+            }
+          }
+        }
         // var uniqueArr = users.filter((u) => {
         //   return this.props.friends.indexOf(u) == -1;
         // })
@@ -80,12 +89,14 @@ class FindFriends extends Component {
         console.log(err.message);
         Alert.alert('Sorry, we couldn\'t follow this person at this time!');
       } else {
+        this.props.dispatch({ type: FriendActions.ADD_FRIEND, friend: user });
         let users = this.state.users.filter(u => u !== userToFollow);
         this.setState({ users: users });
         API.getUser(this.props.userID, (e, newUser) => {
           if(e) {
             console.log(e);
           } else {
+            // update yourself
             this.props.dispatch({ type: UserActions.SET_USER, user: newUser });
           }
         })

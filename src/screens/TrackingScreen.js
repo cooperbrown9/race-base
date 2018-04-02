@@ -5,13 +5,16 @@ import { View,
          StyleSheet,
          TouchableOpacity,
          ScrollView,
-         Dimensions
+         Dimensions,
+         Modal
 } from 'react-native';
 import NavBar from '../ui-elements/nav-bar.js';
 import { courseCoords } from '../../assets/bloomsday-path.js';
 import { connect } from 'react-redux';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Constants, Location, Permissions } from 'expo';
+
+import MyFriendsScreen from './MyFriendsScreen';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import Timer from '../ui-elements/timer.js';
@@ -26,24 +29,25 @@ class TrackingScreen extends Component {
     this.state = {
       menuOpen: false,
       runner: {
-        distance: 0.0,
+        // distance: 0.0,
         seconds: 0,
-        time: "",
-        pace: 0,
-        location: { latitude: 0.0, longitude: 0.0 },
+        // time: "",
+        // pace: 0,
+        // location: { latitude: 0.0, longitude: 0.0 },
       },
+      myFriendsPresented: false,
       friends: [],
       runnerDistance: 0,
       runnerSeconds: 0,
       runnerTime: "",
-      runnerPace: "",
+      // runnerPace: "",
       runnerLocation: { latitude: 0, longitude: 0 },
-      coordCounter: 0,
-      currentLocation: { lat: 0, lng: 0 },
-      runnerLocation: {},
+      // coordCounter: 0,
+      // currentLocation: { lat: 0, lng: 0 },
+      // runnerLocation: {},
       userCoords: [],
-      dummyCourse: [],
-      dummyCount: 0
+      // dummyCourse: [],
+      // dummyCount: 0
     };
   }
 
@@ -384,6 +388,7 @@ class TrackingScreen extends Component {
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 leftOnPress={this.toggleMenu}
+                rightOnPress={() => this.setState({ myFriendsPresented: true })}
         />
 
         <MapView
@@ -404,10 +409,8 @@ class TrackingScreen extends Component {
             <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
           )}
     </MapView>
-      <View style={{ position: 'absolute', left: 64, top: 64, width: 200, height: 64 }} >
-        <Text>{this.state.runnerTime}</Text>
-      </View>
-      <ScrollView style={styles.runnerInfoBar}>
+
+      <ScrollView style={styles.myFriendsBar}>
         {this.props.friends.map((friend) =>
           <View style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
             <Text style={styles.name}>{friend.name}</Text>
@@ -446,6 +449,9 @@ class TrackingScreen extends Component {
 
         </View>*/}
       </ScrollView>
+      <Modal animationType={'slide'} transparent={false} visible={this.state.myFriendsPresented} >
+        <MyFriendsScreen dismiss={() => this.setState({ myFriendsPresented: false })}/>
+      </Modal>
       {/*<View style={styles.bottomBar}>
         <View style={{flex:1, flexDirection: 'row', }}>
           <TouchableOpacity style={{flex:1, justifyContent: 'center', alignItems: 'flex-start' }}>
@@ -475,6 +481,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  myFriendsBar: {
+    position:'absolute',
+    height: 120, left: 16, right: 16, bottom: 16,
+    backgroundColor: 'transparent',
+    zIndex: 2
   },
   runnerInfoBar: {
     position: 'absolute',
@@ -511,7 +523,8 @@ const styles = StyleSheet.create({
      color: 'white',
      fontSize: 18,
      paddingLeft: 16,
-     fontFamily: 'roboto-regular'
+     borderRadius: 4,
+     fontFamily: 'roboto-bold'
 
    },
 });

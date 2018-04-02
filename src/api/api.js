@@ -17,6 +17,7 @@ const UPDATE_LOCATION = '/update-location';
 const SEARCH = '/search/';
 
 const FOLLOW_USER = '/follow-user';
+const UNFOLLOW_USER = '/unfollow-user';
 
 export function getSchedule(scheduleID, callback) {
   axios.get(BASE + GET_SCHEDULE + SCHEDULE_ID)
@@ -68,6 +69,13 @@ export function searchUsers(bib, callback) {
 
 export function followUser(data, callback) {
   axios.post(BASE + FOLLOW_USER, data)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
+
+// unfollowID, userID
+export function unfollowUser(data, callback) {
+  axios.post(BASE + UNFOLLOW_USER, data)
     .then(response => callback(null, response.data))
     .catch(e => callback(e))
 }
