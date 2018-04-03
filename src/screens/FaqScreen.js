@@ -60,7 +60,7 @@ class FaqScreen extends React.Component {
 var mapStateToProps = state => {
   return {
     nav: state.nav,
-    menuOpen
+    // menuOpen
   }
 }
 
