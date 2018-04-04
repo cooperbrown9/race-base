@@ -20,7 +20,6 @@ class LoadScreen extends Component {
       API.getUser(userID, (err, user) => {
         if(err) {
           console.log(err);
-          debugger;
           this.props.dispatch({ type: 'START_HOME' });
         } else {
           this.props.dispatch({ type: FriendActions.SET_FRIENDS_RAW, friends: user.following })
