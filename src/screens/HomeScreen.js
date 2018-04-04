@@ -67,37 +67,37 @@ class HomeScreen extends Component {
   // }
 
 
-  async registerPush() {
-    const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
-    if(status !== 'granted') {
-      alert('bruh');
-      return;
-    }
-    const token = await Expo.Notifications.getExpoPushTokenAsync();
-    console.log(token);
-  }
-
-  async getPushPermission() {
-
-    const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
-
-
-
-    console.log(status);
-
-    if(status !== 'granted') {
-      console.log(status);
-    }
-    debugger;
-    // let p = new Pushwoosh();
-    Pushwoosh.init({
-      "pw_appid": "B288D-CA4EF",
-      "project_number": null
-    });
-    debugger;
-    Pushwoosh.register();
-    // const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  }
+  // async registerPush() {
+  //   const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+  //   if(status !== 'granted') {
+  //     alert('bruh');
+  //     return;
+  //   }
+  //   const token = await Expo.Notifications.getExpoPushTokenAsync();
+  //   console.log(token);
+  // }
+  //
+  // async getPushPermission() {
+  //
+  //   const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
+  //
+  //
+  //
+  //   console.log(status);
+  //
+  //   if(status !== 'granted') {
+  //     console.log(status);
+  //   }
+  //   debugger;
+  //   // let p = new Pushwoosh();
+  //   Pushwoosh.init({
+  //     "pw_appid": "B288D-CA4EF",
+  //     "project_number": null
+  //   });
+  //   debugger;
+  //   Pushwoosh.register();
+  //   // const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  // }
 
   getFriends = () => {
     let friendCount = 0;
@@ -107,7 +107,6 @@ class HomeScreen extends Component {
       API.getUser(this.props.friends[i].user_id, (err, user) => {
         if(err) {
           console.log(err);
-          debuger;
         } else {
           friendCount++;
           friends.push(user);
