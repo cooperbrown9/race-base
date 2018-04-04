@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 // var OneSignal = require('react-native-onesignal').OneSignal;
@@ -16,7 +16,7 @@ import axios from 'axios';
 
 import thunk from 'redux-thunk';
 //change
-class App extends React.Component {
+class App extends Component {
 
   constructor() {
     super();
@@ -29,20 +29,16 @@ class App extends React.Component {
   store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
+    // console.disableYellowBox = true;
 
-
-    // DeviceEventEmitter.addListener('pushReceived', (e: Event) => {
-    //   console.warn('pushReceived: ' + JSON.stringify(e));
-    // })
-    console.disableYellowBox = true;
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
     });
-    // this.register();
-    await this.registerForPushNotificationsAsync();
-    this.setState({ fontLoaded: true });
-    // await this.registerForPushNotifications();
+
+    this.setState({ fontLoaded: true }, async() => {
+      await this.registerForPushNotificationsAsync();
+    });
   }
 
   registerForPushNotificationsAsync = async() => {
@@ -51,6 +47,9 @@ class App extends React.Component {
     );
     let finalStatus = existingStatus;
 
+    if(existingStatus === 'granted') {
+      return;
+    }
     // only ask if permissions have not already been determined, because
     // iOS won't necessarily prompt the user a second time.
     if (existingStatus !== 'granted') {
@@ -59,6 +58,7 @@ class App extends React.Component {
       const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
       finalStatus = status;
     }
+
 
     // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
@@ -82,21 +82,7 @@ class App extends React.Component {
 
 
     this._notificationSubscription = Notifications.addListener(this._handleNotification);
-    // return fetch(PUSH_ENDPOINT, {
-    //   method: 'POST',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify({
-    //     token: {
-    //       value: token,
-    //     },
-    //     user: {
-    //       username: 'Brent',
-    //     },
-    //   }),
-    // });
+
   }
 
   _handleNotification = (notification) => {
@@ -104,63 +90,6 @@ class App extends React.Component {
       console.log(notification, 'yup');
     });
   };
-
-  register() {
-    OneSignal.checkPermissions((permissions) => {
-      console.log(permissions);
-    });
-
-    var permissions = {
-      alert: true,
-      badge: true,
-      sound: true
-    }
-
-    OneSignal.requestPermissions(permissions);
-    OneSignal.registerForPushNotifications();
-  }
-
-//   async registerForPushNotifications() {
-//     const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-//
-//   if (status !== 'granted') {
-//     const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-//     if (status !== 'granted') {
-//       return;
-//     }
-//   }
-//   const token = await Notifications.getExpoPushTokenAsync();
-//
-//   this.subscription = Notifications.addListener(this.handleNotification);
-//
-//   this.setState({
-//     token,
-//   }, () => {
-//     this.sendPushNotification();
-//   });
-//   }
-//
-//   sendPushNotification(token = this.state.token, title = 'bruh', body = 'its liiiiiit') {
-//   return fetch('https://exp.host/--/api/v2/push/send', {
-//     body: JSON.stringify({
-//       to: token,
-//       title: title,
-//       body: body,
-//       data: { message: `${title} - ${body}` },
-//     }),
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     method: 'POST',
-//   });
-// }
-
-  // checkUser = async() => {
-  //   let userID = await AsyncStorage.getItem('USER_ID');
-  //   if(userID == null) {
-  //     this.store.dispatch({ type: NavActions.START_CREATE_ACCOUNT });
-  //   }
-  // }
 
   render() {
 
@@ -183,7 +112,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
