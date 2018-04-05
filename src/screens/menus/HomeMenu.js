@@ -13,11 +13,11 @@ class HomeMenu extends Component {
 
   _navigate(path) {
     this.props.dispatch({ type: 'CLOSE' });
-    this.props.navigation.dispatch({ type: path });
+    this.props.nav.dispatch({ type: path });
   }
 
   render() {
-    const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
+    const menu = <Menu navigator={this.props.nav} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
         <HomeScreen />
@@ -29,7 +29,7 @@ class HomeMenu extends Component {
 
 var mapStateToProps = (state) => {
   return {
-    navigator: state.nav,
+    nav: state.nav,
     menuOpen: state.menuStatus.isOpen
   }
 }

@@ -3,14 +3,19 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addNavigationHelpers, StackNavigator } from 'react-navigation';
 
-import ForecastScreen from '../screens/ForecastScreen.js';
-import ResultsScreen from '../screens/ResultsScreen.js';
-import FaqScreen from '../screens/FaqScreen.js';
-import ScheduleScreen from '../screens/ScheduleScreen.js';
-import TrackingScreen from '../screens/TrackingScreen.js';
+import {
+  createReduxBoundAddListener,
+  createReactNavigationReduxMiddleware,
+} from 'react-navigation-redux-helpers';
+
+// import ForecastScreen from '../screens/ForecastScreen.js';
+// import ResultsScreen from '../screens/ResultsScreen.js';
+// import FaqScreen from '../screens/FaqScreen.js';
+// import ScheduleScreen from '../screens/ScheduleScreen.js';
+// import TrackingScreen from '../screens/TrackingScreen.js';
 import HistoricalWeatherScreen from '../screens/HistoricalWeatherScreen.js';
-import FlyOverScreen from '../screens/FlyOverScreen.js';
-import SponsorsScreen from '../screens/SponsorsScreen.js';
+// import FlyOverScreen from '../screens/FlyOverScreen.js';
+// import SponsorsScreen from '../screens/SponsorsScreen.js';
 
 import SideMenu from 'react-native-side-menu';
 import HomeMenu from '../screens/menus/HomeMenu.js';
@@ -23,6 +28,8 @@ import SocialMenu from '../screens/menus/SocialMenu.js';
 import FlyOverMenu from '../screens/menus/FlyOverMenu.js';
 import SponsorsMenu from '../screens/menus/SponsorsMenu.js';
 import CreateUserForm from '../screens/CreateUserForm';
+
+import { addListener } from './store';
 
 import LoadScreen from '../screens/LoadScreen';
 
@@ -40,9 +47,14 @@ export const AppNavigator = StackNavigator({
   Sponsors: {screen: SponsorsMenu},
   CreateUser: { screen: CreateUserForm }
 });
+// const middleware = createReactNavigationReduxMiddleware(
+//   "root",
+//   state => state.nav,
+// );
+// const addListener = createReduxBoundAddListener('root');
 
 const AppNavigatorWithState = ({ dispatch, nav }) => (
-  <AppNavigator navigation={addNavigationHelpers({dispatch, state: nav})} />
+  <AppNavigator navigation={addNavigationHelpers({dispatch: dispatch, state: nav, addListener})} />
 );
 
 

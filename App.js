@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
 import { AppRegistry, StyleSheet, Text, View } from 'react-native';
-// import { connect } from 'react-redux';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
+import thunk from 'redux-thunk';
+// import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 // var OneSignal = require('react-native-onesignal').OneSignal;
 // import * as NavActions from './src/action-types/navigation-action-types';
 
 import { Permissions, Notifications } from 'expo';
-
+import store from './src/navigation/store';
 import MainReducer from './src/reducers/main-reducer.js';
 import AppNavigatorWithState from './src/navigation/navigator.js';
-
+// import {
+//   createReduxBoundAddListener,
+//   createReactNavigationReduxMiddleware,
+// } from 'react-navigation-redux-helpers';
 import { Font } from 'expo';
 import axios from 'axios';
 
-import thunk from 'redux-thunk';
 //change
 class App extends Component {
 
-  store = createStore(MainReducer, applyMiddleware(thunk));
-  
+  // reduxMiddleware = createReactNavigationReduxMiddleware(
+  //   'root',
+  //   (state) => state.nav,
+  // );
+  //
+  // addListener = createReduxBoundAddListener('root');
+  //
+  // middleWare = applyMiddleware(thunk, this.reduxMiddleware);
+
+  // store = createStore(MainReducer, this.middleWare);
+
+  // const addListener = createReduxBoundAddListener('root');
+
   constructor() {
     super();
 
@@ -28,15 +42,16 @@ class App extends Component {
     }
   }
 
+  store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
     // console.disableYellowBox = true;
 
-    await this.registerForPushNotificationsAsync();
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
     });
+    await this.registerForPushNotificationsAsync();
 
     this.setState({ fontLoaded: true });
   }
@@ -92,7 +107,8 @@ class App extends Component {
   };
 
   render() {
-
+    // debugger;
+    // console.log(store);
     if(this.state.fontLoaded) {
       return (
 
@@ -117,5 +133,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+// export class Root extends Component {
+//
+//   render() {
+//     return(
+//       <Provider store={}>
+//       </Provider>
+//     )
+//   }
+// }
+
+var mapStateToProps = state => {
+  // debugger;
+  return {
+    bruh: state
+  }
+}
 
 export default App;
