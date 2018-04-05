@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -16,7 +16,7 @@ import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 
 
-class ForecastScreen extends React.Component {
+class ForecastScreen extends Component {
 
   static navigationOptions = {
     header: null,

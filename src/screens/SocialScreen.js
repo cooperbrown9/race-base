@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -18,7 +18,7 @@ const urlTwitter = "https://mobile.twitter.com/bloomsdayrun";
 const urlFacebook = "https://m.facebook.com/bloomsday/";
 const urlInstaGram = "https://www.instagram.com/bloomsdayrun/";
 
-class SocialScreen extends React.Component {
+class SocialScreen extends Component {
 
   constructor() {
     super();

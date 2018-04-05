@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -11,7 +11,7 @@ import NavBar from '../ui-elements/nav-bar.js';
 import HistoricalDay from '../ui-elements/historical-day.js';
 
 
-export default class HistoricalWeatherScreen extends React.Component {
+export default class HistoricalWeatherScreen extends Component {
 
   static navigationOptions = {
     header: null,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -11,7 +11,7 @@ import { View,
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 
-class Timer extends React.Component {
+class Timer extends Component {
 
   static navigationOptions = {
     header: null

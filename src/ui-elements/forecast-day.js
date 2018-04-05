@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -32,13 +32,13 @@ const ForecastDay = (props) => (
 
 
 ForecastDay.propTypes = {
-  dayOfWeek: React.PropTypes.string,
-  month: React.PropTypes.string,
-  dayOfMonth: React.PropTypes.string,
-  weatherIcon: React.PropTypes.element,
-  actualTemp: React.PropTypes.string,
-  highTemp: React.PropTypes.string,
-  lowTemp: React.PropTypes.string,
+  dayOfWeek: PropTypes.string,
+  month: PropTypes.string,
+  dayOfMonth: PropTypes.string,
+  weatherIcon: PropTypes.element,
+  actualTemp: PropTypes.string,
+  highTemp: PropTypes.string,
+  lowTemp: PropTypes.string,
 };
 
 ForecastDay.defaultProps = {

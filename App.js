@@ -18,6 +18,8 @@ import thunk from 'redux-thunk';
 //change
 class App extends Component {
 
+  store = createStore(MainReducer, applyMiddleware(thunk));
+  
   constructor() {
     super();
 
@@ -26,19 +28,17 @@ class App extends Component {
     }
   }
 
-  store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
     // console.disableYellowBox = true;
 
+    await this.registerForPushNotificationsAsync();
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
     });
 
-    this.setState({ fontLoaded: true }, async() => {
-      await this.registerForPushNotificationsAsync();
-    });
+    this.setState({ fontLoaded: true });
   }
 
   registerForPushNotificationsAsync = async() => {
@@ -112,7 +112,7 @@ class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
   },

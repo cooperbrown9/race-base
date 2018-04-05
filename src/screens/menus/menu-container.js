@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
@@ -15,9 +16,9 @@ const MenuContainer = (props) => (
 
 
 MenuContainer.propTypes = {
-  screen: React.PropTypes.element,
-  navigator: React.PropTypes.object,
-  navigateFunc: React.PropTypes.func
+  screen: PropTypes.element,
+  navigator: PropTypes.object,
+  navigateFunc: PropTypes.func
 }
 
 var mapStateToProps = state => {

@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import SocialScreen from '../SocialScreen.js';
 import Menu from '../Menu.js';
 import * as NavActions from '../../action-types/navigation-action-types.js';
 
-class SocialMenu extends React.Component {
+class SocialMenu extends Component {
 
   static navigationOptions = {
     header: null

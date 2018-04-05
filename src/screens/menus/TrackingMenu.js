@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import Menu from '../Menu.js';
 import TrackingScreen from '../TrackingScreen.js'
 import * as NavActions from '../../action-types/navigation-action-types.js';
 
-class TrackingMenu extends React.Component {
+class TrackingMenu extends Component {
 
   static navigationOptions = {
     header: null

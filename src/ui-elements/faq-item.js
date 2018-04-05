@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -30,10 +30,10 @@ const FAQItem = (props) => (
 
 
 FAQItem.propTypes = {
-  isOpen: React.PropTypes.bool,
-  action: React.PropTypes.func,
-  question: React.PropTypes.string,
-  answer: React.PropTypes.string
+  isOpen: PropTypes.bool,
+  action: PropTypes.func,
+  question: PropTypes.string,
+  answer: PropTypes.string
 };
 
 FAQItem.defaultProps = {

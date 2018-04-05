@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { View, Scroll, Text, Image, StyleSheet } from 'react-native';
 
 const Menu = (props) => {
@@ -13,8 +14,8 @@ const Menu = (props) => {
 }
 
 Menu.propTypes = {
-  currentScreenIndex: React.PropTypes.number.isRequired,
-  pushScreen: React.PropTypes.func
+  currentScreenIndex: PropTypes.number.isRequired,
+  pushScreen: PropTypes.func
 }
 
 const styles = StyleSheet.create({

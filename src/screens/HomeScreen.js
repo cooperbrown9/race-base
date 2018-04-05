@@ -1,5 +1,4 @@
 
-'use strict';
 import React, { Component } from 'react';
 import { View,
          Text,
@@ -14,17 +13,16 @@ import { View,
 } from 'react-native';
 
 import { connect } from 'react-redux';
+// import { Permissions } from 'expo';
+
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
-// var Pushwoosh = require('pushwoosh-react-native-plugin');
 
-// import PushNotification from 'react-native-push-notification';
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
-import Expo from 'expo';
-import { Permissions } from 'expo';
+// import Expo from 'expo';
 
 class HomeScreen extends Component {
 
@@ -43,17 +41,9 @@ class HomeScreen extends Component {
 
   async componentWillMount() {
     this.getFriends();
-    // await this.registerPush();
-    // this.listener = Expo.Notifications.addListener(this.listen);
-    // debugger;
-
   }
 
   async componentDidMount() {
-    // await this.getPushPermission();
-    // await this.getPushPermission();
-    // await this.registerPush()
-
   }
 
   componentWillUnmount() {
@@ -61,43 +51,6 @@ class HomeScreen extends Component {
   }
 
 
-
-  // listen = ({ origin, data }) => {
-  //   console.log('data bruh ', origin, data);
-  // }
-
-
-  // async registerPush() {
-  //   const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
-  //   if(status !== 'granted') {
-  //     alert('bruh');
-  //     return;
-  //   }
-  //   const token = await Expo.Notifications.getExpoPushTokenAsync();
-  //   console.log(token);
-  // }
-  //
-  // async getPushPermission() {
-  //
-  //   const { status } = await Expo.Permissions.askAsync(Expo.Permissions.NOTIFICATIONS);
-  //
-  //
-  //
-  //   console.log(status);
-  //
-  //   if(status !== 'granted') {
-  //     console.log(status);
-  //   }
-  //   debugger;
-  //   // let p = new Pushwoosh();
-  //   Pushwoosh.init({
-  //     "pw_appid": "B288D-CA4EF",
-  //     "project_number": null
-  //   });
-  //   debugger;
-  //   Pushwoosh.register();
-  //   // const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-  // }
 
   getFriends = () => {
     let friendCount = 0;

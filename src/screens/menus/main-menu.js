@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, View, Animated, Easing, ScrollView, TouchableOpacity, Image, Text } from 'react-native';
 import { connect } from 'react-redux';
 import * as NavActions from '../../action-types/navigation-action-types.js';
 import * as Screens from '../../constants/screen-types.js';
 
-class Menu extends React.Component {
+class Menu extends Component {
 
   constructor(props) {
     super(props);
-    var colorVal = new Animated.Value(0);
-    this.state.x = new Animated.Value('green');
+    // var colorVal = new Animated.Value(0);
+    // this.state.x = new Animated.Value('green');
     // this.setState(this.state);
   }
 
   static propTypes = {
-    dispatcher: React.PropTypes.func,
-    dismiss: React.PropTypes.func,
-    from: React.PropTypes.string
+    dispatcher: PropTypes.func,
+    dismiss: PropTypes.func,
+    from: PropTypes.string
   }
 
   state = {
@@ -52,10 +53,10 @@ class Menu extends React.Component {
   }
 
   render() {
-    let color = this.state.x.interpolate({
-      inputRange: [0, 2000],
-      outputRange: ['red', 'blue']
-    });
+    // let color = this.state.x.interpolate({
+    //   inputRange: [0, 2000],
+    //   outputRange: ['red', 'blue']
+    // });
 
     let menuOptions = [
       {name: 'Schedule', iconPath: require('../../../assets/icons/navigation/calendar.png'), path: NavActions.GO_FORECAST},

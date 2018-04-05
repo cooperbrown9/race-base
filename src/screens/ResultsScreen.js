@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View,
          Text,
          Image,
@@ -14,7 +14,7 @@ import SideMenu from 'react-native-side-menu';
 import PropTypes from 'prop-types';
 
 
-class ResultsScreen extends React.Component {
+class ResultsScreen extends Component {
 
   static navigationOptions = {
     header: null,

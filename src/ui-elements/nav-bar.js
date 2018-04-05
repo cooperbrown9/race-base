@@ -1,5 +1,5 @@
 import React from 'react';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 import {
   StyleSheet,
   Text,
@@ -34,17 +34,17 @@ const NavBar = (props) => (
 
 
 NavBar.propTypes = {
-  title: React.PropTypes.element,
-  leftOnPress: React.PropTypes.func,
-  leftButton: React.PropTypes.element,
-  rightOnPress: React.PropTypes.func,
-  rightButton: React.PropTypes.element,
+  title: PropTypes.element,
+  leftOnPress: PropTypes.func,
+  leftButton: PropTypes.element,
+  rightOnPress: PropTypes.func,
+  rightButton: PropTypes.element,
 
 };
 
 NavBar.defaultProps = {
-  leftButton: <View/>,
-  rightButton: <View/>,
+  leftButton: null,
+  rightButton: null,
 };
 
 const FRAME = Dimensions.get('window');

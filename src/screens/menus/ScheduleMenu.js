@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
 import ScheduleScreen from '../ScheduleScreen.js';
 import Menu from '../Menu.js';
 import * as NavActions from '../../action-types/navigation-action-types.js';
 
-class ScheduleMenu extends React.Component {
+class ScheduleMenu extends Component {
 
   static navigationOptions = {
     header: null
