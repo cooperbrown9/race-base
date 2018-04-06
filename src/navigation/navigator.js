@@ -39,7 +39,7 @@ export const AppNavigator = StackNavigator({
   Forecast: {screen: ForecastMenu},
   Tracking: {screen: TrackingMenu},
   Faq: {screen: FaqMenu},
-  HistoricalWeather: {screen: HistoricalWeatherScreen},
+  // HistoricalWeather: {screen: HistoricalWeatherScreen},
   Schedule: {screen: ScheduleMenu},
   Results: {screen: ResultsMenu},
   Social: {screen: SocialMenu},

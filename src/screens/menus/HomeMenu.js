@@ -13,7 +13,7 @@ class HomeMenu extends Component {
 
   _navigate(path) {
     this.props.dispatch({ type: 'CLOSE' });
-    this.props.nav.dispatch({ type: path });
+    this.props.dispatch({ type: path });
   }
 
   render() {

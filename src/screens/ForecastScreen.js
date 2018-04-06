@@ -44,11 +44,8 @@ class ForecastScreen extends Component {
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-              rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
-              title={<TouchableOpacity onPress={this.dropDownMenu}>
-                      <Text style={{color:'white', fontSize: 16}}>Forecast ⌄</Text>
-                     </TouchableOpacity>}
+              title={<Text style={{color:'white', fontSize: 16, fontFamily: 'roboto-bold'}}>Forecast</Text>}
               style={{position:'absolute'}}
       />
       {/*<Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >

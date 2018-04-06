@@ -73,7 +73,6 @@ class TrackingScreen extends Component {
       API.updateLocation({ "userID": this.props.userID, "lat": location.coords.latitude, "lon": location.coords.longitude }, (err, user) => {
         if(err) {
           console.log(err);
-          debugger;
         } else {
           console.log('yup', user);
           this.setState({ runnerLocation: { latitude: user.latitude, longitude: user.longitude } });
@@ -94,7 +93,6 @@ class TrackingScreen extends Component {
           API.getUserTracking(data, (err, user) => {
             if(err) {
               console.log(err);
-              debugger;
             } else {
               friendCount++;
               friends[i].latitude = user.latitude;

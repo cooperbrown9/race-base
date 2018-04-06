@@ -13,6 +13,7 @@ import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import PropTypes from 'prop-types';
 
+const CHRONOTRACK_URL = 'https://api.chronotrack.com/api/results/37865/bib/4?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
 
 class ResultsScreen extends Component {
 
