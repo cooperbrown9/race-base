@@ -9,7 +9,8 @@ import { View,
          Easing,
          Dimensions,
          Button,
-         Modal
+         Modal,
+         Platform
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -129,7 +130,7 @@ class HomeScreen extends Component {
 
 
           <View style={styles.logo}>
-            <Image source={require('../../assets/images/Bloomsday2018_color.png')} style={{height: 95, width: Dimensions.get('window').width*.90}}></Image>
+            <Image source={require('../../assets/images/Bloomsday2018_color.png')} style={styles.logoImage}></Image>
           </View>
         </View>
 
@@ -177,11 +178,36 @@ const styles = StyleSheet.create({
      opacity: 0.6,
   },
   logo: {
-    position: 'absolute',
-    right: 0,
-    left: 0,
-    top: 125,
-    alignItems: 'center'
+    
+    ...Platform.select({
+      ios: {
+        position: 'absolute',
+        right: 0,
+        left: 0,
+        top: 125,
+        alignItems: 'center'
+      },
+      android: {
+        position: 'absolute',
+        right: 0,
+        left: 3,
+        top: 125,
+        alignItems: 'center'
+      },
+    }),
+  },
+  logoImage:{
+    ...Platform.select({
+      ios: {
+        height: 95, 
+        width: Dimensions.get('window').width*.90
+      },
+      android: {
+        height: 95, 
+        width: Dimensions.get('window').width,
+      },
+    }),
+    
   },
 });
 
