@@ -15,7 +15,7 @@ import ForecastDay from '../ui-elements/forecast-day.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import * as Colors from '../style/colors.js';
-import axios from 'react-native-axios';
+import axios from 'axios';
 
 
 class ForecastScreen extends Component {
@@ -24,14 +24,20 @@ class ForecastScreen extends Component {
     header: null,
   };
 
-  compnentDidMount() {
+  componentDidMount() {
     this.loadWeather();
   }
 
 
   state = {
     menuOpen: false,
-    tenDay: []
+    days: [],
+    today: {
+      temp: 50,
+      date: new Date(),
+      month: 'May',
+      day: 'Monday'
+    }
   }
 
   toggleMenu() {
@@ -39,29 +45,75 @@ class ForecastScreen extends Component {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     });
 
-    console.log(this.state.tenDay[1]);
+    console.log(this.state.days[1]);
   }
 
   loadWeather = () => {
+   axios.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22spokane%2C%20wa%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys')
+    .then((response) => {
 
-   axios.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22spokane%2C%20wa%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys').then(response => {
-     // pulls out all available products and stores in newProducts
-     let forecast = [];
+     let forecast = response.data.query.results.channel.item.forecast;
 
-     for(let i = 0; i < response.query.item.forecast.length; i++) {
-       forecast.push(response.query.item.forecast[i]);
-       console.log(forecast[i].code);
-     }
+     this.setState({
+       days: forecast,
+       today: {
+         temp: response.data.query.results.channel.item.condition.temp,
+         date: new Date(response.data.query.results.channel.item.condition.date)
+       }
+     }, () => {
+       this.parseDate();
+     });
 
-     this.setState({tenDay: forecast});
 
-
-   }).catch(e => {
-     concole.log(something);
+   }).catch((e) => {
+     console.log('penis');
    });
  }
 
+ parseDate() {
+   let day = '';
+   let month = '';
+   switch (this.state.today.date.getDay()) {
+     case 0:
+       day = 'Sun';
+       break;
+     case 1:
+       day = 'Mon';
+       break;
+     case 2:
+       day = 'Tue';
+       break;
+     case 3:
+       day ='Wed';
+       break;
+     case 4:
+       day = 'Thu';
+       break;
+     case 5:
+       day = 'Fri';
+       break;
+     case 6:
+       day = 'Sat';
+       break;
+     default:
+       day = 'Mon';
+       break;
+   }
 
+   if(this.state.today.date.getMonth() == 3) {
+     month = 'Apr';
+   }
+   if(this.state.today.date.getMonth() == 4) {
+     month = 'May';
+   }
+   this.setState({
+     today: {
+       ...this.state.today,
+       month: month,
+       day: day
+     }
+   });
+ }
 
 
   dropDownMenu(){
@@ -84,8 +136,8 @@ class ForecastScreen extends Component {
       <ScrollView style={{flex:1}}>
         <View style={styles.currentWeather}>
           <View style={styles.dateInfoContainer}>
-            <Text style={{fontSize: 48, color: '#55BBDD'}}>TUE</Text>
-            <Text style={{fontSize: 24, marginTop:5,  color: '#55BBDD'}}>MAR 12</Text>
+            <Text style={{fontSize: 48, color: '#55BBDD'}}>{this.state.today.day}</Text>
+            <Text style={{fontSize: 24, marginTop:5,  color: '#55BBDD'}}>{this.state.today.month} {this.state.today.date.getDate()}</Text>
           </View>
 
           <View style={styles.weatherIconContainer}>
@@ -93,15 +145,18 @@ class ForecastScreen extends Component {
           </View>
 
           <View style={styles.tempInfoContainer}>
-            <Text style={{fontSize: 36, color: '#55BBDD', }}>{89}</Text>
-            <Text style={{fontSize: 20, color: '#55BBDD', }}>{'H: ' + 90}</Text>
-            <Text style={{fontSize: 20, color: '#55BBDD', }}>{'L: ' + 76}</Text>
+            <Text style={{fontSize: 36, color: '#55BBDD', }}>{this.state.today.temp}°</Text>
+            <Text style={{fontSize: 20, color: '#55BBDD', }}>{''}</Text>
+            <Text style={{fontSize: 20, color: '#55BBDD', }}>{''}</Text>
           </View>
         </View>
-          <ForecastDay/>
-          <ForecastDay/>
-          <ForecastDay/>
-          <ForecastDay/>
+        {(this.state.days.map(day =>
+          <ForecastDay
+            date={new Date(day.date)}
+            highTemp={day.high}
+            lowTemp={day.low}
+          />
+        ))}
 
       </ScrollView>
       </View>

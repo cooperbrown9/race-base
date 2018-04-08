@@ -13,8 +13,8 @@ const ForecastDay = (props) => (
   <View style={styles.forecastDay} >
 
     <View style={styles.dateInfoContainer}>
-      <Text style={{fontSize: 24, color: '#55BBDD', marginLeft: 20}}>{props.dayOfWeek}</Text>
-      <Text style={{fontSize: 15, marginLeft:10, marginTop:5,  color: '#55BBDD'}}>{props.month + ' ' + props.dayOfMonth}</Text>
+      <Text style={{fontSize: 16, color: '#55BBDD', marginLeft: 20}}>{ForecastDay.getDayOfWeek(props.date.getDay())}</Text>
+      <Text style={{fontSize: 12, marginLeft:10, marginTop:5,  color: '#55BBDD'}}>{ForecastDay.getMonthAndDay(props.date.getMonth(), props.date.getDate())}</Text>
     </View>
 
     <View style={styles.weatherIconContainer}>
@@ -30,6 +30,38 @@ const ForecastDay = (props) => (
   </View>
 );
 
+ForecastDay.getDayOfWeek = function(day) {
+  switch (day) {
+    case 0:
+      return 'Sun';
+    case 1:
+      return 'Mon';
+    case 2:
+      return 'Tue';
+    case 3:
+      return 'Wed';
+    case 4:
+      return 'Thu';
+    case 5:
+      return 'Fri';
+    case 6:
+      return 'Sat';
+    default:
+      return 'Mon';
+  }
+}
+
+ForecastDay.getMonthAndDay = function(_month, day) {
+  let month = '';
+  if(_month == 3) {
+    month = 'Apr';
+  }
+  if(_month == 4) {
+    month = 'May';
+  }
+  return month + ' ' + day;
+}
+
 
 ForecastDay.propTypes = {
   dayOfWeek: PropTypes.string,
@@ -39,6 +71,7 @@ ForecastDay.propTypes = {
   actualTemp: PropTypes.string,
   highTemp: PropTypes.string,
   lowTemp: PropTypes.string,
+  date: PropTypes.object
 };
 
 ForecastDay.defaultProps = {
