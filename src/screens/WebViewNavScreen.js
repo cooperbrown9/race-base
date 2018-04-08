@@ -25,6 +25,7 @@ class WebViewNavScreen extends Component {
       title: "",
       canGoBack: false,
       canGoForward: false,
+      closeButton:true,
     }
   }
 
@@ -63,11 +64,15 @@ class WebViewNavScreen extends Component {
   }
 
   render(){
+    var icon = (this.state.closeButton) ? '../../assets/icons/close.png' : '../../assets/icons/bars.png';
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
-        <NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-                leftOnPress={this.toggleMenu.bind(this)}
+        <NavBarWebNav leftButton={<Image source={require('../../assets/icons/close.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+        //<NavBarWebNav leftButton={<Image source={(this.state.closeButton)?require('../../assets/icons/close.png'):require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+        //<NavBarWebNav leftButton={<Image source={require(icon)} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+                //leftOnPress={this.toggleMenu.bind(this)}
+                leftOnPress={ (this.state.closeButton) ? this.props.dismiss : this.toggleMenu.bind(this)}
 
                 title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}

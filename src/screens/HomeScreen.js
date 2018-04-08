@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
-import WebViewScreen from './WebViewScreen';
+import WebViewNavScreen from './WebViewNavScreen';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
@@ -129,7 +129,7 @@ class HomeScreen extends Component {
         </Modal>
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >
-          <WebViewScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>
+          <WebViewNavScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>
         </Modal>
 
           <View style={styles.imageContainer}>
@@ -143,8 +143,8 @@ class HomeScreen extends Component {
               <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
-            <TouchableOpacity style={styles.register}>
-              <Text style={styles.registerText} onClick={() => this.setState({ registrationFormPresented: true }) }>REGISTER</Text>
+            <TouchableOpacity style={styles.register} onPress={() => this.setState({ registrationFormPresented: true }) }>
+              <Text style={styles.registerText} >REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'#55BBDD'}}></Image>
             </TouchableOpacity>
           </View>
