@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View,
          Text,
          Image,
@@ -12,7 +13,7 @@ import NavBarWebNav from '../ui-elements/nav-bar-web-nav.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 
-class WebViewScreen extends React.Component {
+class WebViewScreen extends Component {
 
   constructor() {
     super();
@@ -29,6 +30,11 @@ class WebViewScreen extends React.Component {
     header: null,
   };
 
+  static propTypes = {
+    title: PropTypes.string,
+    url: PropTypes.string
+  }
+
   componentDidMount() {
 
   }
@@ -41,17 +47,17 @@ class WebViewScreen extends React.Component {
 
   onNavigationStateChange(navState) {
     this.setState({
-      canGoBack: navState.canGoBack
+      canGoBack: navState.canGoBack,
       canGoForward : navState.canGoForward
     });
   }
 
   onBack() {
-    this.refs[WEBVIEW_REF].goBack();
+    this.refs[this.WEBVIEW_REF].goBack();
   }
 
   onForward() {
-    this.refs[WEBVIEW_REF].goForward();
+    this.refs[this.WEBVIEW_REF].goForward();
   }
 
   render(){
@@ -64,20 +70,20 @@ class WebViewScreen extends React.Component {
                 backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
                   disabled={!this.state.canGoBack}
                 />}
-                backOnPress={() => this.onBack.bind(this) }
+                backOnPress={() => this.onBack() }
 
                 forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
                   disabled={!this.state.canGoForward}
                 />}
-                forwardOnPress={() => this.onForward.bind(this) }
+                forwardOnPress={() => this.onForward() }
 
-                title={<Text style={{color:'white', fontSize: 16}}>{title}</Text>}
+                title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
         />
 
         <WebView
-          ref={WEBVIEW_REF}
-          source={{uri: url}}
+          ref={ref => {this.WEBVIEW_REF = ref}}
+          source={{uri: this.props.url}}
           style={{flex: 1}}
           onNavigationStateChange=
             {this.onNavigationStateChange.bind(this)}

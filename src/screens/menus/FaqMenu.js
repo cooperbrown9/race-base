@@ -22,7 +22,7 @@ class FaqMenu extends Component {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <WebViewScreen title={FAQ} url={urlFAQ}/>
+        <WebViewScreen title={'FAQ'} url={urlFAQ}/>
       </SideMenu>
 
     )

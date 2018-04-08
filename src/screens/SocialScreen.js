@@ -47,7 +47,7 @@ class SocialScreen extends Component {
 
   onNavigationStateChange(navState) {
     this.setState({
-      canGoBack: navState.canGoBack
+      canGoBack: navState.canGoBack,
       canGoForward : navState.canGoForward
     });
   }

@@ -24,6 +24,7 @@ import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 // import Expo from 'expo';
+import WebViewScreen from './WebViewScreen';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
 
@@ -125,7 +126,7 @@ class HomeScreen extends Component {
         </Modal>
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >
-          <WebViewScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationUserForm.bind(this)}/>
+          <WebViewScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>
         </Modal>
 
           <View style={styles.imageContainer}>
