@@ -8,8 +8,9 @@
     "version": "1.1.4",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
+    "icon": "./assets/icon-bloomsday.png",
     "loading": {
-      "icon": "./assets/icons/loading-icon.png",
+      "icon": "./assets/images/Bloomsday2018_color.png",
       "hideExponentText": false
     },
     "packagerOpts": {

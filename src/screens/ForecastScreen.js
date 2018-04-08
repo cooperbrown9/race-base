@@ -152,6 +152,7 @@ class ForecastScreen extends Component {
         </View>
         {(this.state.days.map(day =>
           <ForecastDay
+            key={day.dayOfMonth}
             date={new Date(day.date)}
             highTemp={day.high}
             lowTemp={day.low}

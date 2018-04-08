@@ -368,7 +368,7 @@ class TrackingScreen extends Component {
 
   mapFriends = () => {
     this.state.friends.map((friend) => (
-      <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
+      <MapView.Marker key={friend.latitude} coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
     ))
   }
 
@@ -404,7 +404,7 @@ class TrackingScreen extends Component {
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.runnerLocation.latitude, longitude: this.state.runnerLocation.longitude }} image={require('../../assets/icons/pin.png')} />
           {this.state.friends.map((friend) =>
-            <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
+            <MapView.Marker  key={friend.latitude} coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
           )}
     </MapView>
 
@@ -414,6 +414,7 @@ class TrackingScreen extends Component {
             <Text style={styles.name}>{friend.name}</Text>
           </View>
         )}
+
 
         {/*<View style={{backgroundColor: 'white', flex: 3, flexDirection: 'row'}}>
 

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
-import AroundTownScreen from '../AroundTownScreen.js';
+import WebViewScreen from '../WebViewScreen.js';
 import Menu from '../Menu.js';
 import * as NavActions from '../../action-types/navigation-action-types.js';
+
+const urlAroundTown = "http://www.visitspokane.com/bloomsday";
 
 class AroundTownMenu extends Component {
 
@@ -20,7 +22,7 @@ class AroundTownMenu extends Component {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <AroundTownScreen />
+        <WebViewScreen title={Around Town} url={urlAroundTown}/>
       </SideMenu>
 
     )

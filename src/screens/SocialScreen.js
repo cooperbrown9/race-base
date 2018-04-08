@@ -45,16 +45,37 @@ class SocialScreen extends Component {
     })
   }
 
+  onNavigationStateChange(navState) {
+    this.setState({
+      canGoBack: navState.canGoBack
+      canGoForward : navState.canGoForward
+    });
+  }
+
+  onBack() {
+    this.refs[WEBVIEW_REF].goBack();
+  }
+
+  onForward() {
+    this.refs[WEBVIEW_REF].goForward();
+  }
+
   render(){
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
-        <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-                leftOnPress={this.toggleMenu.bind(this)}
-                title={<TouchableOpacity>
-                        <Text style={{color:'white', fontSize: 16}}>Social Media</Text>
-                       </TouchableOpacity>}
-                style={{position:'absolute'}}
+      <NavBarWebNav leftButton={<Image source={require('../../assets/icons/close.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+              leftOnPress={this.toggleMenu.bind(this)}
+              backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
+                disabled={!this.state.canGoBack}
+              />}
+              backOnPress={() => this.onBack.bind(this) }
+              forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
+                disabled={!this.state.canGoForward}
+              />}
+              forwardOnPress={() => this.onForward.bind(this) }
+              title={<Text style={{color:'white', fontSize: 16}}>{title}</Text>}
+              style={{position:'absolute'}}
         />
 
         <View style={styles.socBar}>
@@ -88,13 +109,13 @@ class SocialScreen extends Component {
 
     },
     socText: {
-      fontSize: 16,
+      fontSize: 14,
       color: 'white'
     },
 
     selectText: {
-      fontSize: 16,
-      color: 'black'
+      fontSize: 14,
+      color: 'blue'
     },
 
     day: {

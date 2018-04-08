@@ -138,7 +138,7 @@ class ScheduleScreen extends Component {
 
           <ScrollView style={styles.scrollContainer}>
               {(this.state.currentDay != null && this.state.currentDay.length > 0)
-                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem date={model.date} day={model.day} time={model.time} description={model.eventName} location={model.eventLocation}/>))
+                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem key={model.eventName} date={model.date} day={model.day} time={model.time} description={model.eventName} location={model.eventLocation}/>))
                 : null
               }
           </ScrollView>

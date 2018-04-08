@@ -25,6 +25,8 @@ import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 // import Expo from 'expo';
 
+const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
+
 class HomeScreen extends Component {
 
   constructor() {
@@ -80,10 +82,19 @@ class HomeScreen extends Component {
   }
 
   onRegister(){
-
+    this.setState({ registrationFormPresented: true });
   }
+
   dismissCreateUserForm = () => {
-    this.setState({ createUserFormPresented: false });
+    this.setState({
+      createUserFormPresented: false,
+    });
+  }
+
+  dismissRegistrationForm = () => {
+    this.setState({
+      registrationFormPresented: false
+    });
   }
 
   getDaysUntilRace() {
@@ -113,6 +124,9 @@ class HomeScreen extends Component {
           <ProfileScreen dismiss={this.dismissCreateUserForm.bind(this)} />
         </Modal>
 
+        <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >
+          <WebViewScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationUserForm.bind(this)}/>
+        </Modal>
 
           <View style={styles.imageContainer}>
             <Image style={styles.backgroundImage} source={require('../../assets/images/bloomsday-dashboard.png')} />
