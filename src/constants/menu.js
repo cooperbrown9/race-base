@@ -17,8 +17,8 @@ const options = [
   {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_FORECAST},
   {name: 'Tracking & Results', iconPath: require('../../assets/icons/navigation/tracking-results.png'), path: NavActions.GO_TRACKING},
   {name: 'Weather', iconPath: require('../../assets/icons/navigation/weather.png'), path: NavActions.GO_FORECAST},
-  {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_FORECAST},
-  {name: 'Around Town', iconPath: require('../../assets/icons/navigation/school.png'), path: NavActions.GO_FORECAST},
+  {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_SOCIAL},
+  {name: 'Around Town', iconPath: require('../../assets/icons/navigation/school.png'), path: NavActions.GO_AROUNDTOWN},
 
 ];
 
@@ -41,7 +41,7 @@ const Menu = (props) => (
         )
       }
     )}
-    
+
     </ScrollView>
   </View>
 )

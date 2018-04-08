@@ -79,6 +79,9 @@ class HomeScreen extends Component {
     })
   }
 
+  onRegister(){
+
+  }
   dismissCreateUserForm = () => {
     this.setState({ createUserFormPresented: false });
   }
@@ -123,7 +126,7 @@ class HomeScreen extends Component {
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
             <TouchableOpacity style={styles.register}>
-              <Text style={styles.registerText}>REGISTER</Text>
+              <Text style={styles.registerText} onClick={this.onRegister}>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'#55BBDD'}}></Image>
             </TouchableOpacity>
           </View>
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
      opacity: 0.6,
   },
   logo: {
-    
+
     ...Platform.select({
       ios: {
         position: 'absolute',
@@ -199,15 +202,15 @@ const styles = StyleSheet.create({
   logoImage:{
     ...Platform.select({
       ios: {
-        height: 95, 
+        height: 95,
         width: Dimensions.get('window').width*.90
       },
       android: {
-        height: 95, 
+        height: 95,
         width: Dimensions.get('window').width,
       },
     }),
-    
+
   },
 });
 

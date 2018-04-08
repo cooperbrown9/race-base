@@ -26,6 +26,7 @@ import TrackingMenu from '../screens/menus/TrackingMenu.js';
 import ResultsMenu from '../screens/menus/ResultsMenu.js';
 import SocialMenu from '../screens/menus/SocialMenu.js';
 import FlyOverMenu from '../screens/menus/FlyOverMenu.js';
+import AroundTownMenu from '../screens/menus/AroundTownMenu.js';
 import SponsorsMenu from '../screens/menus/SponsorsMenu.js';
 import CreateUserForm from '../screens/CreateUserForm';
 
@@ -44,6 +45,7 @@ export const AppNavigator = StackNavigator({
   Results: {screen: ResultsMenu},
   Social: {screen: SocialMenu},
   FlyOver: {screen: FlyOverMenu},
+  AroundTown: {screen: AroundTownMenu},
   Sponsors: {screen: SponsorsMenu},
   CreateUser: { screen: CreateUserForm }
 });

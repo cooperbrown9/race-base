@@ -70,6 +70,12 @@ export default function nav(state = firstState, action) {
     );
     break;
 
+    case NavActions.GO_AROUNDTOWN:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'AroundTown'}),
+      state
+    );
+    break;
+
     case NavActions.GO_SPONSOR:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Sponsors'}),
       state

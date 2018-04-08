@@ -1,13 +1,11 @@
-
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import SideMenu from 'react-native-side-menu';
-import FlyOverScreen from '../FlyOverScreen.js';
+import AroundTownScreen from '../AroundTownScreen.js';
 import Menu from '../Menu.js';
 import * as NavActions from '../../action-types/navigation-action-types.js';
 
-class FlyOverMenu extends Component {
+class AroundTownMenu extends Component {
 
   static navigationOptions = {
     header: null
@@ -22,7 +20,7 @@ class FlyOverMenu extends Component {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <FlyOverScreen />
+        <AroundTownScreen />
       </SideMenu>
 
     )
@@ -36,4 +34,4 @@ var mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(FlyOverMenu);
+export default connect(mapStateToProps)(AroundTownMenu);
