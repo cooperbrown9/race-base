@@ -55,11 +55,11 @@ class WebViewNavScreen extends Component {
   }
 
   onBack() {
-    this.refs[this.WEBVIEW_REF].goBack();
+    this.WEBVIEW_REF.goBack();
   }
 
   onForward() {
-    this.refs[this.WEBVIEW_REF].goForward();
+    this.WEBVIEW_REF.goForward();
   }
 
   render(){
@@ -72,13 +72,11 @@ class WebViewNavScreen extends Component {
                 title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
 
-                backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
-                  visible={this.state.canGoBack}
+                backButton={<Image source={require('../../assets/icons/back.png')} style={(this.state.canGoBack) ? {height:22, width:22, tintColor: 'white'} : {height:22, width:22, tintColor: 'gray'}}
                 />}
                 backOnPress={() => this.onBack() }
 
-                forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
-                  visible={this.state.canGoForward}
+                forwardButton={<Image source={require('../../assets/icons/forward.png')} style={(this.state.canGoForward) ? {height:22, width:22, tintColor: 'white'} : {height:22, width:22, tintColor: 'gray'}}
                 />}
                 forwardOnPress={() => this.onForward() }
 

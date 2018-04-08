@@ -4,6 +4,7 @@ import SideMenu from 'react-native-side-menu';
 import WebViewScreen from '../WebViewScreen.js';
 import Menu from '../Menu.js';
 import * as NavActions from '../../action-types/navigation-action-types.js';
+import WebViewNavScreen from '../WebViewNavScreen';
 
 const urlAroundTown = "http://www.visitspokane.com/bloomsday";
 

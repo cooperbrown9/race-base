@@ -55,11 +55,11 @@ class SocialScreen extends Component {
   }
 
   onBack() {
-    this.refs[this.WEBVIEW_REF].goBack();
+    this.WEBVIEW_REF.goBack();
   }
 
   onForward() {
-    this.refs[this.WEBVIEW_REF].goForward();
+    this.WEBVIEW_REF.goForward();
   }
 
   render(){
@@ -68,15 +68,14 @@ class SocialScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
-              backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
-                visible={this.state.canGoBack}
+              backButton={<Image source={require('../../assets/icons/back.png')} style={(this.state.canGoBack) ? {height:22, width:22, tintColor: 'white'} : {height:22, width:22, tintColor: 'gray'}}
+
               />}
               backOnPress={() => this.onBack() }
-              forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
-                visible={this.state.canGoForward}
+              forwardButton={<Image source={require('../../assets/icons/forward.png')} style={(this.state.canGoForward) ? {height:22, width:22, tintColor: 'white'} : {height:22, width:22, tintColor: 'gray'}}
               />}
               forwardOnPress={() => this.onForward() }
-              title={<Text style={{color:'white', fontSize: 16}}>{title}</Text>}
+              title={<Text style={{color:'white', fontSize: 16}}>{'Social'}</Text>}
               style={{position:'absolute'}}
         />
 
@@ -96,6 +95,8 @@ class SocialScreen extends Component {
           ref={ref => {this.WEBVIEW_REF = ref}}
           source={{uri: this.state.currentUrl}}
           style={{flex: 1}}
+          onNavigationStateChange=
+            {this.onNavigationStateChange.bind(this)}
         />
 
       </View>

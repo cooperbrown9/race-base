@@ -59,8 +59,7 @@ class WebViewScreen extends Component {
         <WebView
           source={{uri: this.props.url}}
           style={{flex: 1}}
-          onNavigationStateChange=
-            {this.onNavigationStateChange.bind(this)}
+          
         />
 
       </View>
