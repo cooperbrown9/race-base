@@ -14,7 +14,8 @@ import NavBar from '../ui-elements/nav-bar.js';
 import ForecastDay from '../ui-elements/forecast-day.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
-import * as Colors from '../style/colors.js'
+import * as Colors from '../style/colors.js';
+import axios from 'react-native-axios';
 
 
 class ForecastScreen extends Component {
@@ -23,41 +24,43 @@ class ForecastScreen extends Component {
     header: null,
   };
 
+  compnentDidMount() {
+    this.loadWeather();
+  }
+
 
   state = {
     menuOpen: false,
-    
+    tenDay: []
   }
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-    })
+    });
+
+    console.log(this.state.tenDay[1]);
   }
 
-  loadMenuItems = () => {
-   axios.get('https://crave-scoop.herokuapp.com/get-vendor-products/' + this.props.model._id).then(response => {
-     // pulls out all available products and stores in newProducts
-     let newProducts = [];
+  loadWeather = () => {
 
-     for(let i = 0; i < response.data.length; i++) {
-       response.data[i].timeSince = this.calculateTimeSinceUpdate(parseInt(response.data[i].timestamp));
-       if(response.data[i].instock === 'available') {
-         newProducts.push(response.data[i]);
-         console.log(response.data[i]);
-       }
+   axios.get('https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(select%20woeid%20from%20geo.places(1)%20where%20text%3D%22spokane%2C%20wa%22)&format=json&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys').then(response => {
+     // pulls out all available products and stores in newProducts
+     let forecast = [];
+
+     for(let i = 0; i < response.query.item.forecast.length; i++) {
+       forecast.push(response.query.item.forecast[i]);
+       console.log(forecast[i].code);
      }
-     this.setState({ products: newProducts.sort(function(a, b) {
-       if (!a.hasOwnProperty('rank') || isNaN(a.rank) || a.rank == "") {
-         a.rank = 0;
-       }
-       if(!b.hasOwnProperty('rank') || isNaN(b.rank) || b.rank == "") {
-         b.rank = 0;
-       }
-       return parseFloat(a.rank) - parseFloat(b.rank);
-     }) });
+
+     this.setState({tenDay: forecast});
+
+
+   }).catch(e => {
+     concole.log(something);
    });
  }
+
 
 
 
