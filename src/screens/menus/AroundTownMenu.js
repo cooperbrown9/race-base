@@ -23,7 +23,7 @@ class AroundTownMenu extends Component {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <WebViewNavScreen title={'Around Town'} url={urlAroundTown}/>
+        <WebViewNavScreen title={'Around Town'} url={urlAroundTown} />
       </SideMenu>
 
     )
