@@ -7,13 +7,13 @@ import { View,
          Dimensions, WebView
 } from 'react-native';
 import { connect } from 'react-redux';
-import NavBar from '../ui-elements/nav-bar.js';
+import NavBarWebNav from '../ui-elements/nav-bar-web-nav.js';
 // import Menu from './menus/main-menu.js';
 
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 
-class WebViewScreen extends Component {
+class WebViewNavScreen extends Component {
 
   constructor() {
     super();
@@ -23,6 +23,8 @@ class WebViewScreen extends Component {
       webviewPresented: false,
       url: "https://www.google.com",
       title: "",
+      canGoBack: false,
+      canGoForward: false,
     }
   }
 
@@ -45,18 +47,45 @@ class WebViewScreen extends Component {
     })
   }
 
+  onNavigationStateChange(navState) {
+    this.setState({
+      canGoBack: navState.canGoBack,
+      canGoForward : navState.canGoForward
+    });
+  }
+
+  onBack() {
+    this.refs[this.WEBVIEW_REF].goBack();
+  }
+
+  onForward() {
+    this.refs[this.WEBVIEW_REF].goForward();
+  }
+
   render(){
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
-        <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+        <NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
-                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
+
                 title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
+
+                backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
+                  visible={this.state.canGoBack}
+                />}
+                backOnPress={() => this.onBack() }
+
+                forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
+                  visible={this.state.canGoForward}
+                />}
+                forwardOnPress={() => this.onForward() }
+
         />
 
         <WebView
+          ref={ref => {this.WEBVIEW_REF = ref}}
           source={{uri: this.props.url}}
           style={{flex: 1}}
           onNavigationStateChange=
@@ -75,4 +104,4 @@ class WebViewScreen extends Component {
     }
   }
 
-export default connect(mapStateToProps)(WebViewScreen);
+export default connect(mapStateToProps)(WebViewNavScreen);

@@ -8,7 +8,7 @@ import { View,
          Dimensions, WebView, Modal
 } from 'react-native';
 import { connect } from 'react-redux';
-import NavBar from '../ui-elements/nav-bar.js';
+import NavBarWebNav from '../ui-elements/nav-bar-web-nav.js';
 // import Menu from './menus/main-menu.js';
 
 import Menu from './Menu.js';
@@ -27,7 +27,9 @@ class SocialScreen extends Component {
       menuOpen: false,
       webviewPresented: false,
       socialIndex: 0,
-      currentUrl: urlTwitter
+      currentUrl: urlTwitter,
+      canGoBack: false,
+      canGoForward: false,
     }
   }
 
@@ -53,27 +55,27 @@ class SocialScreen extends Component {
   }
 
   onBack() {
-    this.refs[WEBVIEW_REF].goBack();
+    this.refs[this.WEBVIEW_REF].goBack();
   }
 
   onForward() {
-    this.refs[WEBVIEW_REF].goForward();
+    this.refs[this.WEBVIEW_REF].goForward();
   }
 
   render(){
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
-      <NavBarWebNav leftButton={<Image source={require('../../assets/icons/close.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+      <NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
               backButton={<Image source={require('../../assets/icons/back.png')} style={{height:22, width:22, tintColor: 'white'}}
-                disabled={!this.state.canGoBack}
+                visible={this.state.canGoBack}
               />}
-              backOnPress={() => this.onBack.bind(this) }
+              backOnPress={() => this.onBack() }
               forwardButton={<Image source={require('../../assets/icons/forward.png')} style={{height:22, width:22, tintColor: 'white'}}
-                disabled={!this.state.canGoForward}
+                visible={this.state.canGoForward}
               />}
-              forwardOnPress={() => this.onForward.bind(this) }
+              forwardOnPress={() => this.onForward() }
               title={<Text style={{color:'white', fontSize: 16}}>{title}</Text>}
               style={{position:'absolute'}}
         />
@@ -91,6 +93,7 @@ class SocialScreen extends Component {
         </View>
 
         <WebView
+          ref={ref => {this.WEBVIEW_REF = ref}}
           source={{uri: this.state.currentUrl}}
           style={{flex: 1}}
         />

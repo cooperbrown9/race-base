@@ -19,12 +19,12 @@ import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
+import WebViewScreen from './WebViewScreen';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 // import Expo from 'expo';
-import WebViewScreen from './WebViewScreen';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
 
@@ -35,7 +35,8 @@ class HomeScreen extends Component {
 
     this.state = {
       menuOpen: false,
-      createUserFormPresented: false
+      createUserFormPresented: false,
+      registrationFormPresented: false,
     }
   }
 
@@ -82,8 +83,10 @@ class HomeScreen extends Component {
     })
   }
 
-  onRegister(){
-    this.setState({ registrationFormPresented: true });
+  onRegister = () => {
+    this.setState({
+      registrationFormPresented: true
+    });
   }
 
   dismissCreateUserForm = () => {
@@ -141,7 +144,7 @@ class HomeScreen extends Component {
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
             <TouchableOpacity style={styles.register}>
-              <Text style={styles.registerText} onClick={this.onRegister}>REGISTER</Text>
+              <Text style={styles.registerText} onClick={() => this.setState({ registrationFormPresented: true }) }>REGISTER</Text>
               <Image source={require('../../assets/icons/right-arrow.png')} style={{height: 20, width: 20, tintColor:'#55BBDD'}}></Image>
             </TouchableOpacity>
           </View>
