@@ -59,11 +59,24 @@ class ResultsScreen extends Component {
   }
 
   getRaceData() {
+    // sample getRaceData
+    // completed race
+    // https://api.chronotrack.com/api/results/37865/bib/4?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f
+    // incomplete race
+    // https://api.chronotrack.com/api/results/38503/bib/343?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f
+
     const url0 = 'https://api.chronotrack.com/api/results/37865/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
-    // const url = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
+    //const url0 = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     axios.get(url0).then(response => {
       const { entry } = response.data;
-      this.setState({ finishTime: entry.overall_time, avgMile: entry.overall_pace, startTime: response.data.intervals[0].crossing_time });
+      // everything is 0:00 until first response.data.intervals[0].crossing_time != null
+      // estimate pace, finishtime, distance traveled until overall time = null
+      // throttle - 1 minute (store lastChronoTrackCheck Time.Now)
+      this.setState({
+        finishTime: entry.overall_time == null ? "0:00" : entry.overall_time,
+        avgMile: entry.overall_pace == null ? "0:00" :  entry.overall_pace.replace("00:",""),
+        startTime: response.data.intervals[0].crossing_time == null ? "9:00" : response.data.intervals[0].crossing_time.replace("AM",""),
+      });
     }).catch(e => {
       console.log(e);
     })
@@ -115,7 +128,7 @@ class ResultsScreen extends Component {
             </View>
         </View>
         <View style={styles.bottomView}>
-          <TextInput placeholder={'Bib #'} style={styles.input} value={this.state.bibInput} onChangeText={(text) => this.setState({ bibInput: text }) } />
+          <TextInput placeholder={'Bib #'} style={styles.input} value={this.state.bibInput} keyboardType='numeric' returnKeyType={ 'done' } onChangeText={(text) => this.setState({ bibInput: text }) } />
           <TouchableOpacity onPress={() => this.getRaceData()} style={{marginLeft:32,marginRight:32,marginTop:16,height:64,borderRadius:8,backgroundColor:'#a260a9',justifyContent:'center',alignItems:'center'}}>
             <Text style={{fontSize: 24, fontFamily:'roboto-bold', color:'white', textAlign:'center'}}>SEARCH</Text>
           </TouchableOpacity>
