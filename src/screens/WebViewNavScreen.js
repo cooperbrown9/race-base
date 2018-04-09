@@ -62,18 +62,13 @@ class WebViewNavScreen extends Component {
     this.WEBVIEW_REF.goForward();
   }
 
-  //const barsIcon = require('../../assets/icons/bars.png');
-  //const closeIcon = require('../../assets/icons/close.png');
-
   render(){
-    //var icon = (this.props.dismiss != null) ? closeIcon : barsIcon;
-    const { width, height } = Dimensions.get('window');
+    const barsIcon = require('../../assets/icons/bars.png');
+    const closeIcon = require('../../assets/icons/close.png');
+    var icon = (this.props.dismiss != null) ? closeIcon : barsIcon;
     return(
-      // https://facebook.github.io/react-native/docs/images.html
       <View style={{flex:1, backgroundColor: 'white'}}>
-        {/*<NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}*/}
-        <NavBarWebNav leftButton={<Image source={'../../assets/icons/bars.png'} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-        {/*<NavBarWebNav leftButton={<Image source={require(icon)} style={{height: 20, width: 20, tintColor: 'white'}}/>}
+        <NavBarWebNav leftButton={<Image source={icon} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 //leftOnPress={ (this.props.closeButton) ? this.props.dismiss : this.toggleMenu.bind(this)}
                 leftOnPress={ (this.props.dismiss != null) ? this.props.dismiss : this.toggleMenu.bind(this)}
 
@@ -88,7 +83,7 @@ class WebViewNavScreen extends Component {
                 />}
                 forwardOnPress={() => this.onForward() }
 
-        /> */}
+        />
 
         <WebView
           ref={ref => {this.WEBVIEW_REF = ref}}
