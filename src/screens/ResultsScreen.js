@@ -7,7 +7,8 @@ import { View,
          TouchableOpacity,
          ScrollView,
          Dimensions,
-         TextInput
+         TextInput,
+         KeyboardAvoidingView
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -89,7 +90,7 @@ class ResultsScreen extends Component {
   render(){
     const { width, height } = Dimensions.get('window');
     return(
-      <View style={styles.mainContainer}>
+      <KeyboardAvoidingView style={styles.mainContainer} behavior='padding' >
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
@@ -133,7 +134,7 @@ class ResultsScreen extends Component {
             <Text style={{fontSize: 24, fontFamily:'roboto-bold', color:'white', textAlign:'center'}}>SEARCH</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 
