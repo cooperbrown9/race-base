@@ -66,7 +66,6 @@ class WebViewNavScreen extends Component {
     const barsIcon = require('../../assets/icons/bars.png');
     const closeIcon = require('../../assets/icons/close.png');
     var icon = (this.props.dismiss != null) ? closeIcon : barsIcon;
-
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
