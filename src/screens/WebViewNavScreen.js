@@ -62,19 +62,15 @@ class WebViewNavScreen extends Component {
     this.WEBVIEW_REF.goForward();
   }
 
-  //const barsIcon = require('../../assets/icons/bars.png');
-  //const closeIcon = require('../../assets/icons/close.png');
-
   render(){
-    //var icon = (this.props.dismiss != null) ? closeIcon : barsIcon;
+    const barsIcon = require('../../assets/icons/bars.png');
+    const closeIcon = require('../../assets/icons/close.png');
+    var icon = (this.props.dismiss != null) ? closeIcon : barsIcon;
+
     const { width, height } = Dimensions.get('window');
     return(
-      // https://facebook.github.io/react-native/docs/images.html
       <View style={{flex:1, backgroundColor: 'white'}}>
-        //<NavBarWebNav leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-        <NavBarWebNav leftButton={<Image source={'../../assets/icons/bars.png'} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-        //<NavBarWebNav leftButton={<Image source={require(icon)} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-                //leftOnPress={ (this.props.closeButton) ? this.props.dismiss : this.toggleMenu.bind(this)}
+              <NavBarWebNav leftButton={<Image source={icon} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={ (this.props.dismiss != null) ? this.props.dismiss : this.toggleMenu.bind(this)}
 
                 title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
