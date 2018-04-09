@@ -129,6 +129,7 @@ class ProfileScreen extends Component {
             placeholder='12345'
             value={this.state.bib}
             autoComplete={'none'}
+            keyboardType={'numeric'}
           />
         </View>
 

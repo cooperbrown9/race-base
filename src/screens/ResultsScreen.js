@@ -8,7 +8,8 @@ import { View,
          ScrollView,
          Dimensions,
          TextInput,
-         KeyboardAvoidingView
+         KeyboardAvoidingView,
+         ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -30,7 +31,8 @@ class ResultsScreen extends Component {
       fastestMile: 0.0,
       totalDistance: 0.0,
       bibInput: '',
-      startTime: 0.0
+      startTime: 0.0,
+      isLoading: false
     }
   }
 
@@ -84,7 +86,7 @@ class ResultsScreen extends Component {
   }
 
   getRaceData() {
-
+    this.setState({ isLoading: true });
     const url0 = 'https://api.chronotrack.com/api/results/37865/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     //const url0 = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     axios.get(url0).then(response => {
@@ -93,6 +95,7 @@ class ResultsScreen extends Component {
         finishTime: this.estimateFinish(entry),
         avgMile: this.estimatePace(entry),
         startTime: this.estimateStart(response),
+        isLoading: false
       });
       // everything is 0:00 until first response.data.intervals[0].crossing_time != null
       // estimate pace, finishtime, distance traveled until overall time = null
@@ -102,6 +105,7 @@ class ResultsScreen extends Component {
         finishTime: "?",
         avgMile: "0:00",
         startTime: "9:00",
+        isLoading: false
       });
       console.log(e);
     })
@@ -147,7 +151,7 @@ class ResultsScreen extends Component {
                 </View>
                 <View style={{flex: 1, }}>
                   <Text style={{textAlign: 'center', fontWeight: 'bold', color: 'white', fontSize: 22}}>12K</Text>
-                  <Text style={{textAlign: 'center', color: '#FFFFFF', opacity: .7}}>Total Distance</Text>
+                  <Text style={{textAlign: 'center', color: '#FFFFFF', opacity: .7}}>Distance</Text>
                 </View>
               </View>
             </View>
@@ -158,6 +162,10 @@ class ResultsScreen extends Component {
             <Text style={{fontSize: 24, fontFamily:'roboto-bold', color:'white', textAlign:'center'}}>SEARCH</Text>
           </TouchableOpacity>
         </View>
+        {(this.state.isLoading)
+          ? <View style={{position:'absolute',left:0,right:0,top:0,bottom:0,backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center',alignItems:'center'}}><ActivityIndicator size={'large'}/></View>
+          : null
+        }
       </KeyboardAvoidingView>
     );
   }
