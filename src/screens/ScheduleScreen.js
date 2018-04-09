@@ -7,8 +7,8 @@ import { View,
          ScrollView,
          Modal,
          Animated,
-         Dimensions
-
+         Dimensions,
+         ActivityIndicator
 } from 'react-native';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -39,6 +39,7 @@ class ScheduleScreen extends Component {
     sat: false,
     sun: false,
     menuOpen: false,
+    isLoading: true
   }
 
   componentWillMount() {
@@ -87,6 +88,7 @@ class ScheduleScreen extends Component {
    API.getSchedule('5a19fa0d46c95e00147f9904', (err, schedule) => {
      if(err) {
        console.log(err);
+       this.setState({ isLoading: false });
      } else {
        let fri = [], sat = [], sun = [];
        for(let i = 0; i < schedule.length;  i++) {
@@ -100,7 +102,7 @@ class ScheduleScreen extends Component {
        }
        // remember that an index of the day needs to be stored on the schedule object in DB
        // or some timestamp to tell which day it is
-       this.setState({ events: schedule, currentDay: fri, fridayEvents: fri, saturdayEvents: sat, sundayEvents: sun }, () => {
+       this.setState({ events: schedule, currentDay: fri, fridayEvents: fri, saturdayEvents: sat, sundayEvents: sun, isLoading: false }, () => {
          this.forceUpdate();
        });
 
@@ -142,8 +144,10 @@ class ScheduleScreen extends Component {
                 : null
               }
           </ScrollView>
-
-
+        {(this.state.isLoading)
+          ? <View style={{position:'absolute', left:0,right:0,top:0,bottom:0,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size={'large'} color={'black'}/></View>
+          : null
+        }
     </View>
     );
   }

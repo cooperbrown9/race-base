@@ -22,9 +22,9 @@ const ForecastDay = (props) => (
     </View>
 
     <View style={styles.tempInfoContainer}>
-      <Text style={{fontSize: 24, color: '#55BBDD', }}>{props.actualTemp}</Text>
-      <Text style={{fontSize: 15, color: '#55BBDD', }}>{'H: ' + props.highTemp}</Text>
-      <Text style={{fontSize: 15, color: '#55BBDD', }}>{'L: ' + props.lowTemp}</Text>
+      <Text style={{fontSize: 24, color: '#55BBDD', }}></Text>
+      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'H: ' + props.highTemp}</Text>
+      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'L: ' + props.lowTemp}</Text>
     </View>
 
   </View>

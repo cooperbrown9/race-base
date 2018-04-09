@@ -36,7 +36,9 @@ class ForecastScreen extends Component {
       temp: 50,
       date: new Date(),
       month: 'May',
-      day: 'Monday'
+      day: 'Monday',
+      high: '',
+      low: ''
     }
   }
 
@@ -58,9 +60,12 @@ class ForecastScreen extends Component {
        days: forecast,
        today: {
          temp: response.data.query.results.channel.item.condition.temp,
-         date: new Date(response.data.query.results.channel.item.condition.date)
+         date: new Date(response.data.query.results.channel.item.condition.date),
+         high: forecast[0].high,
+         low: forecast[0].low
        }
      }, () => {
+       this.setState({ days: this.state.days.splice(1,this.state.days.length - 1) });
        this.parseDate();
      });
 
@@ -120,7 +125,40 @@ class ForecastScreen extends Component {
     console.log("Drop Down Accessed");
   }
 
+  getIcon(day) {
+    let code = day.code;
+    // let icon =
+    switch(code) {
+      case 32,33,34,36:
+        return 'sunny.png';
+      case 24,25:
+        return 'breezy-cloudy.png';
+      case 3,4,27,28,29,30:
+        return 'partlyCloudy.png';
+      case 5,6,7,8,9,10,11,12,13,14,15,16,17,18:
+        return 'rainy.png';
+      default:
+        return 'partlyCloudy.png';
+
+    }
+  }
+
+  forecastDayFactory = (day) => {
+    let weather = this.getIcon(day);
+    // let icon = require('../../assets/icons/weather/' + weather);
+    return (
+      <ForecastDay
+        key={day.dayOfMonth}
+        date={new Date(day.date)}
+        highTemp={day.high}
+        lowTemp={day.low}
+        icon={<Image source={require('../../assets/icons/weather/sunny.png')} style={{height: 50, width: 65, marginBottom: 5, marginLeft: 40}}/>}
+      />
+    )
+  }
+
   render(){
+
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
@@ -129,9 +167,6 @@ class ForecastScreen extends Component {
               title={<Text style={{color:'white', fontSize: 16, fontFamily: 'roboto-bold'}}>Forecast</Text>}
               style={{position:'absolute'}}
       />
-      {/*<Modal animationType={"slide"} transparent={true} visible={this.state.menuOpen} >
-        <Menu dispatcher={this.props.dispatch} dismiss={() => {this.setState({menuOpen: false})}} from={'Schedule'}/>
-      </Modal>*/}
 
       <ScrollView style={{flex:1}}>
         <View style={styles.currentWeather}>
@@ -146,17 +181,12 @@ class ForecastScreen extends Component {
 
           <View style={styles.tempInfoContainer}>
             <Text style={{fontSize: 36, color: '#55BBDD', }}>{this.state.today.temp}°</Text>
-            <Text style={{fontSize: 20, color: '#55BBDD', }}>{''}</Text>
-            <Text style={{fontSize: 20, color: '#55BBDD', }}>{''}</Text>
+            <Text style={{fontSize: 20, color: '#55BBDD', }}>H: {this.state.today.high}°</Text>
+            <Text style={{fontSize: 20, color: '#55BBDD', }}>L: {this.state.today.low}°</Text>
           </View>
         </View>
         {(this.state.days.map(day =>
-          <ForecastDay
-            key={day.dayOfMonth}
-            date={new Date(day.date)}
-            highTemp={day.high}
-            lowTemp={day.low}
-          />
+          this.forecastDayFactory(day)
         ))}
 
       </ScrollView>
