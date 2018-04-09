@@ -59,26 +59,50 @@ class ResultsScreen extends Component {
 
   }
 
+  estimateStart(response){
+    if (response.data.intervals[0].crossing_time == null){
+        return "9:00";
+    } else{
+      return response.data.intervals[0].crossing_time.replace("AM","");
+    }
+  }
+
+  estimatePace(entry){
+    if (entry.overall_pace == null){
+        return "0:00";
+    } else{
+      return entry.overall_pace.replace("00:","");
+    }
+  }
+
+  estimateFinish(entry){
+    if (entry.overall_time == null){
+        return "0:00";
+    } else{
+      return entry.overall_time.replace("00:","");
+    }
+  }
+
   getRaceData() {
-    // sample getRaceData
-    // completed race
-    // https://api.chronotrack.com/api/results/37865/bib/4?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f
-    // incomplete race
-    // https://api.chronotrack.com/api/results/38503/bib/343?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f
 
     const url0 = 'https://api.chronotrack.com/api/results/37865/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     //const url0 = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     axios.get(url0).then(response => {
       const { entry } = response.data;
+      this.setState({
+        finishTime: this.estimateFinish(entry),
+        avgMile: this.estimatePace(entry),
+        startTime: this.estimateStart(response),
+      });
       // everything is 0:00 until first response.data.intervals[0].crossing_time != null
       // estimate pace, finishtime, distance traveled until overall time = null
       // throttle - 1 minute (store lastChronoTrackCheck Time.Now)
-      this.setState({
-        finishTime: entry.overall_time == null ? "0:00" : entry.overall_time,
-        avgMile: entry.overall_pace == null ? "0:00" :  entry.overall_pace.replace("00:",""),
-        startTime: response.data.intervals[0].crossing_time == null ? "9:00" : response.data.intervals[0].crossing_time.replace("AM",""),
-      });
     }).catch(e => {
+      this.setState({
+        finishTime: "?",
+        avgMile: "0:00",
+        startTime: "9:00",
+      });
       console.log(e);
     })
   }
