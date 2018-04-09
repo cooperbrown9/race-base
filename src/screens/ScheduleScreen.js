@@ -118,7 +118,7 @@ class ScheduleScreen extends Component {
                 leftOnPress={this.toggleMenu.bind(this)}
                 rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
-                        <Text style={{color:'white', fontSize: 16}}>Schedule</Text>
+                        <Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>Schedule</Text>
                        </TouchableOpacity>}
         />
         <View style={styles.dayBar}>
@@ -140,7 +140,7 @@ class ScheduleScreen extends Component {
 
           <ScrollView style={styles.scrollContainer}>
               {(this.state.currentDay != null && this.state.currentDay.length > 0)
-                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem key={model.eventName} date={model.date} day={model.day} time={model.time} description={model.eventName} location={model.eventLocation}/>))
+                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem key={model.eventName} date={model.date} day={model.day} time={model.time + model.timeOfDay} description={model.eventName} location={model.eventLocation}/>))
                 : null
               }
           </ScrollView>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   weekdayText: {
     fontSize: 24,
-    color: 'white', fontFamily: 'roboto-regular'
+    color: 'white', fontFamily: 'roboto-bold'
   },
 
 });

@@ -13,8 +13,8 @@ const ForecastDay = (props) => (
   <View style={styles.forecastDay} >
 
     <View style={styles.dateInfoContainer}>
-      <Text style={{fontSize: 16, color: '#55BBDD', marginLeft: 20}}>{ForecastDay.getDayOfWeek(props.date.getDay())}</Text>
-      <Text style={{fontSize: 12, marginLeft:10, marginTop:5,  color: '#55BBDD'}}>{ForecastDay.getMonthAndDay(props.date.getMonth(), props.date.getDate())}</Text>
+      <Text style={{fontSize: 24, color: '#55BBDD', marginLeft: 20, fontFamily:'roboto-bold'}}>{ForecastDay.getDayOfWeek(props.date.getDay())}</Text>
+      <Text style={{fontSize: 16, marginLeft:10, marginTop:5,  color: '#55BBDD'}}>{ForecastDay.getMonthAndDay(props.date.getMonth(), props.date.getDate())}</Text>
     </View>
 
     <View style={styles.weatherIconContainer}>
@@ -23,8 +23,8 @@ const ForecastDay = (props) => (
 
     <View style={styles.tempInfoContainer}>
       <Text style={{fontSize: 24, color: '#55BBDD', }}></Text>
-      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'H: ' + props.highTemp}</Text>
-      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'L: ' + props.lowTemp}</Text>
+      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'H: ' + props.highTemp}°</Text>
+      <Text style={{fontSize: 18, color: '#55BBDD', }}>{'L: ' + props.lowTemp}°</Text>
     </View>
 
   </View>

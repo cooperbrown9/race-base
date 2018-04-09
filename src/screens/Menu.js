@@ -25,12 +25,20 @@ const options = [
 
 ];
 
+// <TouchableOpacity style={{ position:'absolute',left:32,top:32,height:64,width:64}} onPress={() => { props.navigateFunc(NavActions.GO_HOME)}} >
+//   <View style={styles.imageContainer}>
+//     <Image source={require('../../assets/icons/navigation/left-arrow.png')} style={styles.iconStyle}/>
+//   </View>
+// </TouchableOpacity>
+// <View style={{height:64}}></View>
+
 const Menu = (props) => (
 
   <View style={{backgroundColor: 'white', flex:1}} >
 
     <ScrollView style={styles.container} >
       <View style={{height: 40, backgroundColor: 'transparent'}}></View>
+
       {options.map((menuItem) => {
         return(
           <TouchableOpacity style={styles.menuItem} onPress={() => { props.navigateFunc(menuItem.path) } } key={menuItem.name} >
@@ -63,9 +71,9 @@ const styles = StyleSheet.create({
 
   },
   menuItem: {
-    height: 52,
+    height: 48,
     flexDirection: 'row',
-
+    marginBottom: 8
   },
   iconStyle: {
     height: 36,

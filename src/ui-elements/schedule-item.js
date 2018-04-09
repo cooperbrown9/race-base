@@ -13,20 +13,20 @@ const ScheduleItem = (props) => (
   <View style={{flexDirection: 'row', height: 140, backgroundColor: 'white', flex:1}}>
 
     <View style={styles.verticalBarCircle}>
-      <View style={{backgroundColor: 'grey', width: 1, flex: 1, alignItems: 'center', justifyContent: 'center', }}>
-        <Image source={require('../../assets/icons/solid-circle.png')} style={{height: 40, width: 40, tintColor: '#B7B7B7',}}/>
+      <View style={{backgroundColor: Colors.BLUE, width: 1, flex: 1, alignItems: 'center', justifyContent: 'center', }}>
+        <Image source={require('../../assets/icons/solid-circle.png')} style={{height: 40, width: 40, tintColor: Colors.BLUE,}}/>
       </View>
     </View>
 
     <View style={styles.infoView}>
 
       <View style={styles.dateTime}>
-        <Text style={{fontSize: 10, color: '#B7B7B7'}}>{props.day + ' '}</Text>
-        <View style={{backgroundColor: '#B7B7B7', width: 1}}></View>
-        <Text style={{fontSize: 10, color: '#B7B7B7'}}>{' ' + props.time}</Text>
+        <Text style={{fontSize: 18, color: '#a260a9', fontFamily:'roboto-regular'}}>{props.day + ' '}</Text>
+        <View style={{backgroundColor: '#a260a9', width: 1}}></View>
+        <Text style={{fontSize: 18, color: '#a260a9', fontFamily:'roboto-bold'}}>{' ' + props.time}</Text>
       </View>
-      <Text>{props.description}</Text>
-      <Text style={{color: '#BBBBBB'}}>{props.location}</Text>
+      <Text style={{fontSize:24, fontFamily:'roboto-bold',color:'#b7b7b7'}}>{props.description}</Text>
+      <Text style={{color: '#BBBBBB', fontFamily:'roboto-regular', fontSize:16}}>{props.location}</Text>
 
     </View>
   </View>

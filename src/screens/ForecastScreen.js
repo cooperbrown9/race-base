@@ -17,6 +17,9 @@ import SideMenu from 'react-native-side-menu';
 import * as Colors from '../style/colors.js';
 import axios from 'axios';
 
+const sunny = { img: require('../../assets/icons/weather/sunny.png')}
+const rainy = { img: require('../../assets/icons/weather/rainy.png')}
+const partly_cloudy = { img: require('../../assets/icons/weather/partlyCloudy.png')}
 
 class ForecastScreen extends Component {
 
@@ -129,30 +132,54 @@ class ForecastScreen extends Component {
     let code = day.code;
     // let icon =
     switch(code) {
-      case 32,33,34,36:
-        return 'sunny.png';
-      case 24,25:
-        return 'breezy-cloudy.png';
-      case 3,4,27,28,29,30:
-        return 'partlyCloudy.png';
-      case 5,6,7,8,9,10,11,12,13,14,15,16,17,18:
-        return 'rainy.png';
+      case '32':
+      case '33':
+      case '34':
+      case '36':
+        return sunny;
+      case '24':
+      case '25':
+        console.log('cloudy');
+        return partly_cloudy; //breezy cloudy
+      case '3':
+      case '4':
+      case '27':
+      case '28':
+      case '29':
+      case '30':
+      console.log('sun');
+        return sunny; //partly cloudy
+      case '5':
+      case '6':
+      case '7':
+      case '8':
+      case '9':
+      case '10':
+      case '11':
+      case '12':
+      case '13':
+      case '14':
+      case '15':
+      case '16':
+      case '17':
+      case '18':
+        return rainy;
       default:
-        return 'partlyCloudy.png';
+      console.log('default');
+        return partly_cloudy;
 
     }
   }
 
   forecastDayFactory = (day) => {
     let weather = this.getIcon(day);
-    // let icon = require('../../assets/icons/weather/' + weather);
     return (
       <ForecastDay
         key={day.dayOfMonth}
         date={new Date(day.date)}
         highTemp={day.high}
         lowTemp={day.low}
-        icon={<Image source={require('../../assets/icons/weather/sunny.png')} style={{height: 50, width: 65, marginBottom: 5, marginLeft: 40}}/>}
+        weatherIcon={<Image source={weather.img} style={{height: 48, width: 48, marginBottom: 5, marginLeft: 40}}/>}
       />
     )
   }
@@ -164,14 +191,14 @@ class ForecastScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
               leftOnPress={this.toggleMenu.bind(this)}
-              title={<Text style={{color:'white', fontSize: 16, fontFamily: 'roboto-bold'}}>Forecast</Text>}
+              title={<Text style={{color:'white', fontSize: 20, fontFamily: 'roboto-bold'}}>Forecast</Text>}
               style={{position:'absolute'}}
       />
 
       <ScrollView style={{flex:1}}>
         <View style={styles.currentWeather}>
           <View style={styles.dateInfoContainer}>
-            <Text style={{fontSize: 48, color: '#55BBDD'}}>{this.state.today.day}</Text>
+            <Text style={{fontSize: 48, color: '#55BBDD',fontFamily:'roboto-bold'}}>{this.state.today.day}</Text>
             <Text style={{fontSize: 24, marginTop:5,  color: '#55BBDD'}}>{this.state.today.month} {this.state.today.date.getDate()}</Text>
           </View>
 
@@ -180,7 +207,7 @@ class ForecastScreen extends Component {
           </View>
 
           <View style={styles.tempInfoContainer}>
-            <Text style={{fontSize: 36, color: '#55BBDD', }}>{this.state.today.temp}°</Text>
+            <Text style={{fontSize: 36, color: '#55BBDD', fontFamily:'roboto-bold'}}>{this.state.today.temp}°</Text>
             <Text style={{fontSize: 20, color: '#55BBDD', }}>H: {this.state.today.high}°</Text>
             <Text style={{fontSize: 20, color: '#55BBDD', }}>L: {this.state.today.low}°</Text>
           </View>

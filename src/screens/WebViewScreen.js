@@ -52,14 +52,14 @@ class WebViewScreen extends Component {
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
                 rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
-                title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
+                title={<Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
         />
 
         <WebView
           source={{uri: this.props.url}}
           style={{flex: 1}}
-          
+
         />
 
       </View>

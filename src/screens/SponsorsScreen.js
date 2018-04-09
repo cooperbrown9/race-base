@@ -42,7 +42,7 @@ class SponsorsScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
-                title={<Text style={{color:'white', fontSize: 16}}>Our Sponsors</Text>}
+                title={<Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>Our Sponsors</Text>}
                 style={{position:'absolute'}}
         />
 

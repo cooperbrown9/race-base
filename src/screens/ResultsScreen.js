@@ -60,7 +60,7 @@ class ResultsScreen extends Component {
 
   getRaceData() {
     const url0 = 'https://api.chronotrack.com/api/results/37865/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
-    const url = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
+    // const url = 'https://api.chronotrack.com/api/results/38503/bib/' + this.state.bibInput + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
     axios.get(url0).then(response => {
       const { entry } = response.data;
       this.setState({ finishTime: entry.overall_time, avgMile: entry.overall_pace, startTime: response.data.intervals[0].crossing_time });
