@@ -51,7 +51,7 @@ class MyFriendsScreen extends Component {
                 style={styles.navBarStyle}
         />
 
-      {(this.state.friends.length < 1)
+      {(this.props.myFriends == null)
         ? <View style={{position:'absolute',left:16,right:16,top:100,height:100}} >
             <Text style={{fontFamily:'roboto-regular',fontSize:18,textAlign:'center'}}>You aren't following any friends! Go to Home Screen to add friends</Text>
           </View>
@@ -59,7 +59,7 @@ class MyFriendsScreen extends Component {
       }
 
       <ScrollView style={styles.scrollContainer} >
-          {(this.state.friends.map((friend) => (
+          {(this.state.friends != null) ? (this.state.friends.map((friend) => (
             <View style={styles.friendContainer} >
               <Text style={styles.name}>{friend.name}</Text>
               <Text style={styles.bib}>{friend.bib}</Text>
@@ -67,7 +67,7 @@ class MyFriendsScreen extends Component {
                 <Text style={styles.addText}>Remove</Text>
               </TouchableOpacity>
             </View>
-          )))}
+          ))) : null}
         </ScrollView>
       </View>
     )

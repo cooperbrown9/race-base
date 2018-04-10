@@ -37,7 +37,7 @@ class TrackingScreen extends Component {
         // location: { latitude: 0.0, longitude: 0.0 },
       },
       myFriendsPresented: false,
-      friends: [],
+      friends: [{name:'', latitude:0.0,longitude:0.0}],
       runnerDistance: 0,
       runnerSeconds: 0,
       runnerTime: "",
@@ -61,19 +61,19 @@ class TrackingScreen extends Component {
 
 
   componentWillMount () {
-    // this.setState(this.state);
+    this.setState({friends: [{name:'',latitude:0.0,longitude:0.0}]});
     {
       const START_LATITUDE = 47.6588;
       const START_LONGITUDE = -117.4260;
       this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
     }
 
-    this.setState({ friends: this.props.friends });
   }
 
   async componentDidMount() {
     // initial getLocation, then next part is the interval of getting locations
     await this.getLocationAsync();
+    this.setState({ friends: this.props.friends });
 
     this.getLocationInterval = setInterval(async() => {
 
@@ -428,9 +428,9 @@ class TrackingScreen extends Component {
           <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />*/}
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/pin.png')} />
-          {this.state.friends.map((friend) =>
-            <MapView.Marker  coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
-          )}
+          {(this.state.friends != null) ? this.state.friends.map((friend) =>
+            <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
+          ) : null}
     </MapView>
 
       <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}))} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40}}>
@@ -438,11 +438,11 @@ class TrackingScreen extends Component {
       </TouchableOpacity>
 
       <ScrollView style={styles.myFriendsBar}>
-        {this.props.friends.map((friend) =>
+        {(this.state.friends != null) ? this.state.friends.map((friend) =>
           <View style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
             <Text style={styles.name}>{friend.name}</Text>
           </View>
-        )}
+        ) : null}
 
 
         {/*<View style={{backgroundColor: 'white', flex: 3, flexDirection: 'row'}}>
