@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, AsyncStorage, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, AsyncStorage, Modal, Alert, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/api';
@@ -19,7 +19,8 @@ class ProfileScreen extends Component {
 
 
   static propTypes = {
-    dismiss: PropTypes.func
+    dismiss: PropTypes.func,
+    alert: PropTypes.func
   }
 
   constructor() {
@@ -74,6 +75,7 @@ class ProfileScreen extends Component {
             this.props.dispatch({ type: UserActions.SET_USER, user: newUser })
             AsyncStorage.setItem('USER_ID', newUser._id, () => {
               this.props.dismiss();
+              Alert.alert('Successfully created account!');
             });
           }
         })
@@ -102,9 +104,17 @@ class ProfileScreen extends Component {
     });
   }
 
+  openFindFriends = () => {
+    if(!this.props.userID) {
+      this.props.alert('You need to create an account first!');
+    } else {
+      this.setState({ findFriendsPresented: true })
+    }
+  }
+
   render() {
     return(
-      <View style={styles.container} >
+      <KeyboardAvoidingView style={styles.container} behavior='padding'>
         <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                 leftOnPress={this.props.dismiss}
                 title={<Text style={{ fontFamily: 'roboto-regular', fontSize: 24, color: 'white'}}>Profile</Text>}
@@ -118,6 +128,7 @@ class ProfileScreen extends Component {
             placeholder='Jane'
             value={this.state.name}
             autoComplete={'none'}
+            returnKeyType={'done'}
           />
 
 
@@ -130,6 +141,7 @@ class ProfileScreen extends Component {
             value={this.state.bib}
             autoComplete={'none'}
             keyboardType={'numeric'}
+            returnKeyType={'done'}
           />
         </View>
 
@@ -146,7 +158,7 @@ class ProfileScreen extends Component {
               </TouchableOpacity>
             : null
           }
-          <TouchableOpacity style={styles.submitButton} onPress={() => this.setState({ findFriendsPresented: true })} >
+          <TouchableOpacity style={styles.submitButton} onPress={() => this.openFindFriends()} >
             <Text style={styles.signupText}>FIND FRIENDS</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.submitButton} onPress={this.props.dismiss} >
@@ -158,7 +170,7 @@ class ProfileScreen extends Component {
           <FindFriends dismiss={() => this.setState({ findFriendsPresented: false })} />
         </Modal>
 
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
