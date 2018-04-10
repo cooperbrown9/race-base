@@ -109,6 +109,12 @@ class TrackingScreen extends Component {
           })
         }
       }, 5000);
+
+      setTimeout(() => {
+        const START_LATITUDE = 47.6588;
+        const START_LONGITUDE = -117.4260;
+        this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
+      }, 1000)
     }
 
     let time = "";
