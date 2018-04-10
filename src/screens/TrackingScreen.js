@@ -420,8 +420,8 @@ class TrackingScreen extends Component {
           )}
     </MapView>
 
-      <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} })} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40, tintColor:'white'}}>
-        <Image style={{height:40,width:40}} source={require('../../assets/icons/pointer.png')} />
+      <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}))} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40}}>
+        <Image style={{height:40,width:40,tintColor:'white'}} source={require('../../assets/icons/pointer.png')} />
       </TouchableOpacity>
 
       <ScrollView style={styles.myFriendsBar}>
