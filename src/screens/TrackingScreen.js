@@ -62,6 +62,12 @@ class TrackingScreen extends Component {
 
   componentWillMount () {
     // this.setState(this.state);
+    {
+      const START_LATITUDE = 47.6588;
+      const START_LONGITUDE = -117.4260;
+      this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
+    }
+
     this.setState({ friends: this.props.friends });
   }
 
@@ -109,14 +115,13 @@ class TrackingScreen extends Component {
           })
         }
       }, 5000);
-
-      setTimeout(() => {
-        const START_LATITUDE = 47.6588;
-        const START_LONGITUDE = -117.4260;
-        this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
-      }, 1000)
     }
 
+    setTimeout(() => {
+      const START_LATITUDE = 47.6588;
+      const START_LONGITUDE = -117.4260;
+      this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
+    }, 2000)
     let time = "";
 
     // get user location
@@ -179,7 +184,7 @@ class TrackingScreen extends Component {
 
     if(status !== 'granted') {
       this.setState({ canAccessLocation: false });
-      debugger;
+      //debugger;
       const getLocPermission = await Permissions.getAsync(Permissions.LOCATION);
     } else {
       this.setState({ canAccessLocation: true });
