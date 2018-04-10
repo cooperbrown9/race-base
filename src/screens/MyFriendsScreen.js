@@ -51,6 +51,13 @@ class MyFriendsScreen extends Component {
                 style={styles.navBarStyle}
         />
 
+      {(this.state.friends.length < 1)
+        ? <View style={{position:'absolute',left:16,right:16,top:100,height:100}} >
+            <Text style={{fontFamily:'roboto-regular',fontSize:18,textAlign:'center'}}>You aren't following any friends! Go to Home Screen to add friends</Text>
+          </View>
+        : null
+      }
+
       <ScrollView style={styles.scrollContainer} >
           {(this.state.friends.map((friend) => (
             <View style={styles.friendContainer} >
@@ -83,7 +90,7 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-bold',
     fontSize: 22,
     borderWidth:2, borderRadius:8,
-    width: 84,
+    width: 100,
     height: 32,
     borderColor:'red', backgroundColor: 'red',
     color: 'white',

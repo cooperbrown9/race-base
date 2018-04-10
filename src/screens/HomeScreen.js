@@ -10,7 +10,8 @@ import { View,
          Dimensions,
          Button,
          Modal,
-         Platform
+         Platform,
+         Alert
 } from 'react-native';
 
 import { connect } from 'react-redux';
@@ -108,6 +109,10 @@ class HomeScreen extends Component {
     return diff;
   }
 
+  _alert = (message) => {
+    Alert.alert(message);
+  }
+
   render() {
 
     const { width, height } = Dimensions.get('window');
@@ -125,7 +130,7 @@ class HomeScreen extends Component {
           }
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.createUserFormPresented} >
-          <ProfileScreen dismiss={this.dismissCreateUserForm.bind(this)} />
+          <ProfileScreen alert={(text) => this._alert(text)} dismiss={this.dismissCreateUserForm.bind(this)} />
         </Modal>
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >

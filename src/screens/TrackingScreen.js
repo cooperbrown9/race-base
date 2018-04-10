@@ -41,6 +41,8 @@ class TrackingScreen extends Component {
       runnerDistance: 0,
       runnerSeconds: 0,
       runnerTime: "",
+      myLatitude: 0.0,
+      myLongitude: 0.0,
       // runnerPace: "",
       runnerLocation: { latitude: 0, longitude: 0 },
       // coordCounter: 0,

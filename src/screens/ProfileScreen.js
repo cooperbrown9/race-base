@@ -19,7 +19,8 @@ class ProfileScreen extends Component {
 
 
   static propTypes = {
-    dismiss: PropTypes.func
+    dismiss: PropTypes.func,
+    alert: PropTypes.func
   }
 
   constructor() {
@@ -103,6 +104,14 @@ class ProfileScreen extends Component {
     });
   }
 
+  openFindFriends = () => {
+    if(!this.props.userID) {
+      this.props.alert('You need to create an account first!');
+    } else {
+      this.setState({ findFriendsPresented: true })
+    }
+  }
+
   render() {
     return(
       <KeyboardAvoidingView style={styles.container} behavior='padding'>
@@ -149,7 +158,7 @@ class ProfileScreen extends Component {
               </TouchableOpacity>
             : null
           }
-          <TouchableOpacity style={styles.submitButton} onPress={() => this.setState({ findFriendsPresented: true })} >
+          <TouchableOpacity style={styles.submitButton} onPress={() => this.openFindFriends()} >
             <Text style={styles.signupText}>FIND FRIENDS</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.submitButton} onPress={this.props.dismiss} >
