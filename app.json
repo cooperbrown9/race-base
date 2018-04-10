@@ -21,7 +21,7 @@
       "bundleIdentifier": "com.xapp.racebase"
     },
     "android": {
-      "package": "com.xapp.bloomsday",
+      "package": "com.mtib.bloomsday",
       "versionCode": 5
     },
   }
