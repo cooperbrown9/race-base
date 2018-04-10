@@ -28,6 +28,7 @@ class TrackingScreen extends Component {
     super(props);
     this.state = {
       menuOpen: false,
+      regionSet: false,
       runner: {
         // distance: 0.0,
         seconds: 0,
@@ -63,19 +64,19 @@ class TrackingScreen extends Component {
   }
 
   async componentDidMount() {
-    // this.setCoordinates();
+    // initial getLocation, then next part is the interval of getting locations
     await this.getLocationAsync();
 
     this.getLocationInterval = setInterval(async() => {
 
       let location = await Location.getCurrentPositionAsync({});
+      this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
 
       API.updateLocation({ "userID": this.props.userID, "lat": location.coords.latitude, "lon": location.coords.longitude }, (err, user) => {
         if(err) {
           console.log(err);
         } else {
           console.log('yup', user);
-          this.setState({ runnerLocation: { latitude: user.latitude, longitude: user.longitude } });
         }
       })
     }, 2000);
@@ -170,11 +171,13 @@ class TrackingScreen extends Component {
 
     if(status !== 'granted') {
       this.setState({ canAccessLocation: false });
+      debugger;
+      const getLocPermission = await Permissions.getAsync(Permissions.LOCATION);
     } else {
       this.setState({ canAccessLocation: true });
 
       let location = await Location.getCurrentPositionAsync({});
-      this.setState({ runnerLocation: { latitude: location.coords.latitude, longitude: location.coords.longitude } });
+      this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
       // this.setState({ runnerLocation: { lat: location.coords.latitude, lng: location.coords.longitude }, userCoords: [...this.state.userCoords,  { lat: location.coords.latitude, lng: location.coords.longitude} ] });
     }
   }
@@ -381,6 +384,14 @@ class TrackingScreen extends Component {
     //   mappedUserCoords.push({ latitude: this.state.userCoords[i].lat, longitude: this.state.userCoords[i].lng });
     // }
 
+    const START_LATITUDE = 47.6588;
+    const START_LONGITUDE = -117.4260;
+    const region = {
+      latitude: START_LATITUDE,
+      longitude: START_LONGITUDE,
+      latitudeDelta: 0.0922,
+      longitudeDelta: 0.0421
+    }
     return (
       <View style={{backgroundColor:'transparent', flex: 1}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
@@ -392,9 +403,10 @@ class TrackingScreen extends Component {
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
+          region={(this.state.regionSet) ? region : null}
           initialRegion={{
-            latitude: 47.6588,
-            longitude: -117.4260,
+            latitude: START_LATITUDE,
+            longitude: START_LONGITUDE,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
         }}>
@@ -402,11 +414,15 @@ class TrackingScreen extends Component {
           {/*<MapView.Polyline coordinates={mappedUserCoords} strokeWidth={5} strokeColor={'blue'} />
           <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />*/}
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
-          <MapView.Marker coordinate={{latitude: this.state.runnerLocation.latitude, longitude: this.state.runnerLocation.longitude }} image={require('../../assets/icons/pin.png')} />
+          <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/pin.png')} />
           {this.state.friends.map((friend) =>
             <MapView.Marker  coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
           )}
     </MapView>
+
+      <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} })} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40, tintColor:'white'}}>
+        <Image style={{height:40,width:40}} source={require('../../assets/icons/pointer.png')} />
+      </TouchableOpacity>
 
       <ScrollView style={styles.myFriendsBar}>
         {this.props.friends.map((friend) =>

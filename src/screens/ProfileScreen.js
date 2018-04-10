@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, AsyncStorage, Modal } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, TextInput, AsyncStorage, Modal, Alert, KeyboardAvoidingView } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as API from '../api/api';
@@ -74,6 +74,7 @@ class ProfileScreen extends Component {
             this.props.dispatch({ type: UserActions.SET_USER, user: newUser })
             AsyncStorage.setItem('USER_ID', newUser._id, () => {
               this.props.dismiss();
+              Alert.alert('Successfully created account!');
             });
           }
         })
@@ -104,7 +105,7 @@ class ProfileScreen extends Component {
 
   render() {
     return(
-      <View style={styles.container} >
+      <KeyboardAvoidingView style={styles.container} behavior='padding'>
         <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                 leftOnPress={this.props.dismiss}
                 title={<Text style={{ fontFamily: 'roboto-regular', fontSize: 24, color: 'white'}}>Profile</Text>}
@@ -118,6 +119,7 @@ class ProfileScreen extends Component {
             placeholder='Jane'
             value={this.state.name}
             autoComplete={'none'}
+            returnKeyType={'done'}
           />
 
 
@@ -130,6 +132,7 @@ class ProfileScreen extends Component {
             value={this.state.bib}
             autoComplete={'none'}
             keyboardType={'numeric'}
+            returnKeyType={'done'}
           />
         </View>
 
@@ -158,7 +161,7 @@ class ProfileScreen extends Component {
           <FindFriends dismiss={() => this.setState({ findFriendsPresented: false })} />
         </Modal>
 
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }

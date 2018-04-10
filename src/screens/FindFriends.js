@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Image, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
+import { View, ScrollView, Image, TouchableOpacity, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -106,7 +106,7 @@ class FindFriends extends Component {
 
   render() {
     return (
-      <View style={styles.container} >
+      <KeyboardAvoidingView style={styles.container} behavior='padding' >
         <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                 leftOnPress={this.props.dismiss}
                 title={<Text style={{ fontFamily: 'roboto-regular', fontSize: 24, color: 'white'}}>Find Friends</Text>}
@@ -117,6 +117,8 @@ class FindFriends extends Component {
             style={styles.search}
             onChangeText={(text) => this.setState({ searchText: text })}
             placeholder={'BIB #'}
+            keyboardType={'numeric'}
+            returnKeyType={'done'}
           />
         </View>
 
@@ -146,7 +148,7 @@ class FindFriends extends Component {
           </TouchableOpacity>
         </View>
 
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
