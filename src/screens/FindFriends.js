@@ -37,6 +37,10 @@ class FindFriends extends Component {
       } else {
 
         for(let i = 0; i < users.length; i++) {
+          if(users[i]._id === this.props.userID) {
+            users.splice(i, 1);
+            continue;
+          }
           for(let j = 1; j < this.props.friends.length; j++) {
             if(users[i]._id === this.props.friends[j]._id) {
               users.splice(i, 1);
@@ -126,7 +130,7 @@ class FindFriends extends Component {
           <View style={styles.resultContainer}>
             <ScrollView style={styles.scrollContainer} >
               {(this.state.users.length > 0) ? this.state.users.map((user) => (
-                <TouchableOpacity style={styles.userContainer} >
+                <TouchableOpacity style={styles.userContainer} key={user.bib} >
                   <Text style={styles.name}>{user.name}</Text>
                   <Text style={styles.bib}>{user.bib}</Text>
                   <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40, borderRadius:16, justifyContent:'center'}}>
