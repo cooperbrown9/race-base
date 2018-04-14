@@ -31,6 +31,16 @@ class FindFriends extends Component {
   }
 
   search() {
+    API.searchBib(this.state.searchText, (err, runners) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(runners);
+        this.setState({ users: runners });
+      }
+    })
+    return;
+
     API.searchUsers(this.state.searchText, (err, users) => {
       if(err) {
         console.log(err);
@@ -47,28 +57,6 @@ class FindFriends extends Component {
             }
           }
         }
-        // var uniqueArr = users.filter((u) => {
-        //   return this.props.friends.indexOf(u) == -1;
-        // })
-        // var a = [], diff = [];
-        //
-        //  for (var i = 0; i < this.props.friends.length; i++) {
-        //      a[this.props.friends[i]] = true;
-        //  }
-        //
-        //  for (var i = 0; i < users.length; i++) {
-        //      if (a[users[i]]) {
-        //          delete a[users[i]];
-        //      } else {
-        //          a[users[i]] = true;
-        //      }
-        //  }
-        //
-        //  for (var k in a) {
-        //      diff.push(k);
-        //  }
-
-         // return diff;
         this.setState({ users: users });
       }
     })

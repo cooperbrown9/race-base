@@ -5,8 +5,6 @@ import { View,
          Image,
          StyleSheet,
          TouchableOpacity,
-         Animated,
-         Easing,
          Dimensions,
          Button,
          Modal,
@@ -21,10 +19,12 @@ import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
 import WebViewNavScreen from './WebViewNavScreen';
+import axios from 'axios';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
+// import data from '../../assets/data/data-as-json.json';
 // import Expo from 'expo';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
@@ -49,14 +49,27 @@ class HomeScreen extends Component {
     this.getFriends();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    // let runner = {};
+    // for(let i = 0; i < data.length; i++) {
+    //   runner = {
+    //     'runKeyField': data[i].runKeyField,
+		// 		'runLastName': data[i].runLastName,
+		// 		'runFirstName': data[i].runFirstName,
+		// 		'runAge': data[i].runAge,
+		// 		'runCity': data[i].runCity,
+		// 		'runNumber': data[i].runNumber,
+		// 		'Time': data[i].Time
+    //   }
+    //   axios.post('https://racebaseapi.herokuapp.com/api/upload-single-runner', runner)
+    //   .then(response => console.log(response.data))
+    //   .catch(e => console.log(e));
+    // }
   }
 
   componentWillUnmount() {
     // this.listener && Expo.Notifications.removelistener(this.listen);
   }
-
-
 
   getFriends = () => {
     let friendCount = 0;
@@ -122,8 +135,7 @@ class HomeScreen extends Component {
           {(!this.state.createUserFormPresented)
             ? <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                     leftOnPress={this.toggleMenu.bind(this)}
-                    rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
-                    rightOnPress={() => this.setState({ createUserFormPresented: true }) }
+                    
                     style={styles.navBarStyle}
               />
             : null

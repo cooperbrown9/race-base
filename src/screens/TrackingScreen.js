@@ -43,22 +43,14 @@ class TrackingScreen extends Component {
       runnerTime: "",
       myLatitude: 0.0,
       myLongitude: 0.0,
-      // runnerPace: "",
       runnerLocation: { latitude: 0, longitude: 0 },
-      // coordCounter: 0,
-      // currentLocation: { lat: 0, lng: 0 },
-      // runnerLocation: {},
       userCoords: [],
-      // dummyCourse: [],
-      // dummyCount: 0
     };
   }
 
   static navigationOptions = {
     header: null,
-
   };
-
 
   componentWillMount () {
     this.setState({friends: [{name:'',latitude:0.0,longitude:0.0}]});
@@ -74,48 +66,49 @@ class TrackingScreen extends Component {
     // initial getLocation, then next part is the interval of getting locations
     await this.getLocationAsync();
     this.setState({ friends: this.props.friends });
-
-    this.getLocationInterval = setInterval(async() => {
-
+    setInterval(() => {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
-
-      API.updateLocation({ "userID": this.props.userID, "lat": location.coords.latitude, "lon": location.coords.longitude }, (err, user) => {
-        if(err) {
-          console.log(err);
-        } else {
-          console.log('yup', user);
-        }
-      })
-    }, 2000);
-
-    // get friend locations
-    if(this.props.friends.length > 0) {
-      this.getFriendsInterval = setInterval(() => {
-        let friendCount = 0;
-        let friends = this.props.friends;
-        for(let i = 0; i < this.props.friends.length; i++) {
-          var data = {
-            "userID": this.props.friends[i]._id,
-            "name": this.props.friends[i].name
-          }
-          API.getUserTracking(data, (err, user) => {
-            if(err) {
-              console.log(err);
-            } else {
-              friendCount++;
-              friends[i].latitude = user.latitude;
-              friends[i].longitude = user.longitude;
-
-              if(friendCount === this.props.friends.length) {
-                this.setState({ friends: friends });
-                this.props.dispatch({ type: FriendActions.UPDATE_ALL_LOCATIONS, friends: friends });
-              }
-            }
-          })
-        }
-      }, 5000);
-    }
+    }, 5000);
+    // this.getLocationInterval = setInterval(async() => {
+    //
+    //
+    //   API.updateLocation({ "userID": this.props.userID, "lat": location.coords.latitude, "lon": location.coords.longitude }, (err, user) => {
+    //     if(err) {
+    //       console.log(err);
+    //     } else {
+    //       console.log('yup', user);
+    //     }
+    //   })
+    // }, 2000);
+    //
+    // // get friend locations
+    // if(this.props.friends.length > 0) {
+    //   this.getFriendsInterval = setInterval(() => {
+    //     let friendCount = 0;
+    //     let friends = this.props.friends;
+    //     for(let i = 0; i < this.props.friends.length; i++) {
+    //       var data = {
+    //         "userID": this.props.friends[i]._id,
+    //         "name": this.props.friends[i].name
+    //       }
+    //       API.getUserTracking(data, (err, user) => {
+    //         if(err) {
+    //           console.log(err);
+    //         } else {
+    //           friendCount++;
+    //           friends[i].latitude = user.latitude;
+    //           friends[i].longitude = user.longitude;
+    //
+    //           if(friendCount === this.props.friends.length) {
+    //             this.setState({ friends: friends });
+    //             this.props.dispatch({ type: FriendActions.UPDATE_ALL_LOCATIONS, friends: friends });
+    //           }
+    //         }
+    //       })
+    //     }
+    //   }, 5000);
+    // }
 
     setTimeout(() => {
       const START_LATITUDE = 47.6588;
@@ -123,55 +116,6 @@ class TrackingScreen extends Component {
       this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
     }, 2000)
     let time = "";
-
-    // get user location
-    // setInterval(async() => {
-    //   let { coords } = await Location.getCurrentPositionAsync({});
-    //   this.setState({runnerLocation: { latitude: coords.latitude, longitude: coords.longitude }});
-    //   console.log(this.state.runnerLocation);
-    //   let data = {
-    //     "userID": this.props.userID,
-    //     "lat": coords.latitude,
-    //     "lon": coords.longitude
-    //   }
-    //   API.updateLocation(data, (err, user) => {
-    //     if(err) {
-    //       console.log(err);
-    //       debugger;
-    //     } else {
-    //       console.log(user);
-    //
-    //     }
-    //   })
-    //
-    //   // looking for error in GPS, if location coords are the same as the previous coords, ignore them, otherwise add them
-    //
-    //   // basically takes the location from GPS, chcecks to see if it is different
-    //   // from previous coord, then if so, pushes to array of userCoords
-    //   if (this.state.userCoords[this.state.userCoords.length - 1].lat != this.state.runnerLocation.latitude ||
-    //     this.state.userCoords[this.state.userCoords.length - 1].lng != this.state.runnerLocation.longitude) {
-    //       this.setState({ userCoords: [...this.state.userCoords, { lat: this.state.runnerLocation.latitude, lng: this.state.runnerLocation.longitude }]});
-    //   }
-    // }, 5000);
-
-    // setInterval(() => {
-    //   if (this.state.dummyCount !== courseCoords.length) {
-    //     this.setState({ dummyCourse: [...this.state.dummyCourse, { latitude: courseCoords[this.state.dummyCount].latitude, longitude: courseCoords[this.state.dummyCount].longitude }] });
-    //     this.setState({ dummyCount: ++this.state.dummyCount});
-    //     // add this line to have it run dummy course
-    //     this.handleAddLine();
-    //     // this.trackRunner();
-    //   }
-    // }, 2000);
-
-// debugger;
-    console.log(this.state.runner);
-
-    // setInterval(() => {
-    //   this.runTimer();
-    // }, 1000);
-
-
   }
 
   componentWillUnmount() {
