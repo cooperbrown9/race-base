@@ -15,6 +15,8 @@ const UPDATE_USER = '/update-user';
 const UPDATE_LOCATION = '/update-location';
 
 const SEARCH = '/search/';
+const SEARCH_BIB ='/search-bib/';
+const SEARCH_NAME = '/search-name/';
 
 const FOLLOW_USER = '/follow-user';
 const UNFOLLOW_USER = '/unfollow-user';
@@ -63,6 +65,18 @@ export function updateLocation(data, callback) {
 
 export function searchUsers(bib, callback) {
   axios.get(BASE + SEARCH + bib)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
+
+export function searchBib(bib, callback) {
+  axios.get(BASE + SEARCH_BIB + bib)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
+
+export function searchName(text, callback) {
+  axios.get(BASE + SEARCH_NAME + text)
     .then(response => callback(null, response.data))
     .catch(e => callback(e))
 }

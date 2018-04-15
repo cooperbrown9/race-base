@@ -5,8 +5,6 @@ import { View,
          Image,
          StyleSheet,
          TouchableOpacity,
-         Animated,
-         Easing,
          Dimensions,
          Button,
          Modal,
@@ -21,10 +19,12 @@ import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
 import WebViewNavScreen from './WebViewNavScreen';
+import axios from 'axios';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
+// import data from '../../assets/data/data-as-json.json';
 // import Expo from 'expo';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
@@ -46,37 +46,51 @@ class HomeScreen extends Component {
   };
 
   async componentWillMount() {
-    this.getFriends();
+    // this.getFriends();
   }
 
-  async componentDidMount() {
+  componentDidMount() {
+    // this uploaded all the users to the db so dont touch this
+    // let runner = {};
+    // for(let i = 0; i < data.length; i++) {
+    //   runner = {
+    //     'runKeyField': data[i].runKeyField,
+		// 		'runLastName': data[i].runLastName,
+		// 		'runFirstName': data[i].runFirstName,
+		// 		'runAge': data[i].runAge,
+		// 		'runCity': data[i].runCity,
+		// 		'runNumber': data[i].runNumber,
+		// 		'Time': data[i].Time
+    //   }
+    //   axios.post('https://racebaseapi.herokuapp.com/api/upload-single-runner', runner)
+    //   .then(response => console.log(response.data))
+    //   .catch(e => console.log(e));
+    // }
   }
 
   componentWillUnmount() {
     // this.listener && Expo.Notifications.removelistener(this.listen);
   }
-
-
-
-  getFriends = () => {
-    let friendCount = 0;
-    let friends = [];
-
-    for(let i = 0; i < this.props.friends.length; i++) {
-      API.getUser(this.props.friends[i].user_id, (err, user) => {
-        if(err) {
-          console.log(err);
-        } else {
-          friendCount++;
-          friends.push(user);
-
-          if(friendCount === this.props.friends.length) {
-            this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
-          }
-        }
-      })
-    }
-  }
+  //
+  // getFriends = () => {
+  //   let friendCount = 0;
+  //   let friends = [];
+  //
+  //   for(let i = 0; i < this.props.friends.length; i++) {
+  //     API.getUser(this.props.friends[i].user_id, (err, user) => {
+  //       if(err) {
+  //         console.log(err);
+  //       } else {
+  //         friendCount++;
+  //         friends.push(user);
+  //
+  //         if(friendCount === this.props.friends.length) {
+  //           this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
@@ -122,8 +136,7 @@ class HomeScreen extends Component {
           {(!this.state.createUserFormPresented)
             ? <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                     leftOnPress={this.toggleMenu.bind(this)}
-                    rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height:22, width:22, tintColor: 'white'}}/>}
-                    rightOnPress={() => this.setState({ createUserFormPresented: true }) }
+
                     style={styles.navBarStyle}
               />
             : null
@@ -144,7 +157,7 @@ class HomeScreen extends Component {
 
           <View style={styles.bottomBar}>
             <View style={styles.dateCountdown}>
-              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2017</Text>
+              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2018</Text>
               <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>

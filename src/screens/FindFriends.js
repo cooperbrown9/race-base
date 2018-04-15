@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Image, TouchableOpacity, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, Image, TouchableOpacity, AsyncStorage, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -31,6 +31,16 @@ class FindFriends extends Component {
   }
 
   search() {
+    API.searchBib(this.state.searchText, (err, runners) => {
+      if(err) {
+        console.log(err);
+      } else {
+        console.log(runners);
+        this.setState({ users: runners });
+      }
+    })
+    return;
+
     API.searchUsers(this.state.searchText, (err, users) => {
       if(err) {
         console.log(err);
@@ -47,34 +57,29 @@ class FindFriends extends Component {
             }
           }
         }
-        // var uniqueArr = users.filter((u) => {
-        //   return this.props.friends.indexOf(u) == -1;
-        // })
-        // var a = [], diff = [];
-        //
-        //  for (var i = 0; i < this.props.friends.length; i++) {
-        //      a[this.props.friends[i]] = true;
-        //  }
-        //
-        //  for (var i = 0; i < users.length; i++) {
-        //      if (a[users[i]]) {
-        //          delete a[users[i]];
-        //      } else {
-        //          a[users[i]] = true;
-        //      }
-        //  }
-        //
-        //  for (var k in a) {
-        //      diff.push(k);
-        //  }
-
-         // return diff;
         this.setState({ users: users });
       }
     })
   }
 
-  addUser(userToFollow) {
+  async addUser(userToFollow) {
+    let following = await AsyncStorage.getItem('FOLLOWING');
+    following = JSON.parse(following);
+
+    if(following == null) {
+      following = [];
+      following.push(userToFollow)
+    } else {
+      following.push(userToFollow);
+    }
+
+    this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: following });
+
+    following = JSON.stringify(following);
+    await AsyncStorage.setItem('FOLLOWING', following);
+  }
+
+  addUser0(userToFollow) {
     let data = {
       "userID": this.props.userID,
       "followID": userToFollow._id
@@ -131,8 +136,8 @@ class FindFriends extends Component {
             <ScrollView style={styles.scrollContainer} >
               {(this.state.users.length > 0) ? this.state.users.map((user) => (
                 <TouchableOpacity style={styles.userContainer} key={user.bib} >
-                  <Text style={styles.name}>{user.name}</Text>
-                  <Text style={styles.bib}>{user.bib}</Text>
+                  <Text style={styles.name}>{user.runFirstName} {user.runLastName}</Text>
+                  <Text style={styles.bib}>{user.runNumber}</Text>
                   <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40, borderRadius:16, justifyContent:'center'}}>
                     <Text style={styles.addText}>Add</Text>
                   </TouchableOpacity>
