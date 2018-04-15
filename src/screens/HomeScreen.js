@@ -157,7 +157,7 @@ class HomeScreen extends Component {
 
           <View style={styles.bottomBar}>
             <View style={styles.dateCountdown}>
-              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2017</Text>
+              <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2018</Text>
               <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
