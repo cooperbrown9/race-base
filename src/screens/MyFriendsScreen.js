@@ -28,21 +28,19 @@ class MyFriendsScreen extends Component {
   }
 
   deleteUser = async(unfollow) => {
+    let following = await AsyncStorage.getItem('FOLLOWING');
+    following = JSON.parse(following);
 
-    // var data = {
-    //   "userID": this.props.me._id,
-    //   "unfollowID": unfollow._id
-    // }
-    //
-    // API.unfollowUser(data, (err, user) => {
-    //   if(err) {
-    //     console.log('Couldnt unfollow user');
-    //   } else {
-    //     let friends = this.state.friends.filter(f => f._id !== unfollow._id);
-    //     this.setState({ friends: friends });
-    //     this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
-    //   }
-    // })
+    for(let i = 0; i < following.length; i++) {
+      if(following[i].runNumber === unfollow.runNumber) {
+        following.splice(i, 1);
+        break;
+      }
+    }
+    this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: following });
+    this.setState({ friends: this.props.myFriends })
+    following = JSON.stringify(following);
+    await AsyncStorage.setItem('FOLLOWING', following);
   }
 
   render() {
@@ -63,9 +61,10 @@ class MyFriendsScreen extends Component {
       <ScrollView style={styles.scrollContainer} >
           {(this.state.friends != null) ? (this.state.friends.map((friend) => (
             <View style={styles.friendContainer} >
-              <Text style={styles.name}>{friend.name}</Text>
-              <Text style={styles.bib}>{friend.bib}</Text>
-              <TouchableOpacity onPress={() => this.deleteUser(friend)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40, borderRadius:16, justifyContent:'center'}}>
+              <Text style={styles.name}>{friend.runFirstName} {friend.runLastName}</Text>
+              <Text style={styles.bib}>#{friend.runNumber}  Age: {friend.runAge}</Text>
+              <Text style={styles.city}>{friend.runCity}</Text>
+              <TouchableOpacity onPress={() => this.deleteUser(friend)} style={{position: 'absolute', bottom: 12, right: 12, height: 40, borderRadius:16, justifyContent:'center'}}>
                 <Text style={styles.addText}>Remove</Text>
               </TouchableOpacity>
             </View>
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1, marginTop: 16
   },
   friendContainer: {
-    height: 84, marginLeft: 16, marginRight: 16, marginBottom: 16,
+    height: 120, marginLeft: 16, marginRight: 16, marginBottom: 16,
     borderRadius: 8, backgroundColor: '#e0dfde',
     justifyContent: 'center'
   },
@@ -119,13 +118,19 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     overflow: 'hidden'
   },
+  city: {
+    fontFamily: 'roboto-bold', color: 'grey',
+    fontSize: 16, marginLeft: 16, marginTop: 16
+  },
   name: {
+    position: 'absolute', top: 8, left: 8,
     fontFamily: 'roboto-bold', color: 'black',
-    fontSize: 24, marginLeft: 32, marginBottom: 8
+    fontSize: 24, height: 24
   },
   bib: {
-    fontFamily: 'roboto-regular', color: 'grey',
-    fontSize: 18, marginLeft: 32, marginBottom: 8
+    fontFamily: 'roboto-bold', color: 'grey',
+    fontSize: 16, marginLeft: 12, marginBottom: 8,
+    marginTop: 16
   },
   navBarStyle: {
     backgroundColor: '#55BBDD'
@@ -133,7 +138,6 @@ const styles = StyleSheet.create({
 });
 
 var mapStateToProps = state => {
-  console.log(state.friend.friends);
   return {
     me: state.user.user,
     myFriends: state.friend.friends

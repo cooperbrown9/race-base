@@ -12,7 +12,14 @@ class LoadScreen extends Component {
 
   async componentWillMount() {
     // await this.login();
+    await this.loadFriends();
     this.props.dispatch({ type: 'START_HOME' });
+  }
+
+  async loadFriends() {
+    let following = await AsyncStorage.getItem('FOLLOWING');
+    following = JSON.parse(following);
+    this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: following });
   }
 
   async login() {

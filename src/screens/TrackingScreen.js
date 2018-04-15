@@ -36,6 +36,12 @@ class TrackingScreen extends Component {
         // pace: 0,
         // location: { latitude: 0.0, longitude: 0.0 },
       },
+      region: {
+        latitude: 47.6588,
+        longitude: -117.4260,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      },
       myFriendsPresented: false,
       friends: [{name:'', latitude:0.0,longitude:0.0}],
       runnerDistance: 0,
@@ -120,7 +126,7 @@ class TrackingScreen extends Component {
 
   componentWillUnmount() {
     clearInterval(this.getLocationInterval);
-    clearInterval(this.getFriendsInterval);
+    // clearInterval(this.getFriendsInterval);
   }
 
   getLocationAsync = async() => {
@@ -332,6 +338,22 @@ class TrackingScreen extends Component {
     ))
   }
 
+  friendSelected = (friend) => {
+    // get friend's time estimate here and do the logic to find the location on
+    // the map and set the region here
+
+    // this is dummy data to simulate it shifting
+    this.setState({
+      regionSet: true,
+      region: {
+        latitude: 47.6688,
+        longitude: -117.4360,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421
+      }
+    });
+  }
+
   render() {
     const { width, height } = Dimensions.get('window');
 
@@ -360,7 +382,7 @@ class TrackingScreen extends Component {
         <MapView
           provider={PROVIDER_GOOGLE}
           style={styles.map}
-          region={(this.state.regionSet) ? region : null}
+          region={(this.state.regionSet) ? this.state.region : null}
           initialRegion={{
             latitude: START_LATITUDE,
             longitude: START_LONGITUDE,
@@ -387,9 +409,9 @@ class TrackingScreen extends Component {
 
       <ScrollView style={styles.myFriendsBar}>
         {(this.state.friends != null) ? this.state.friends.map((friend) =>
-          <View style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
-            <Text style={styles.name}>{friend.name}</Text>
-          </View>
+          <TouchableOpacity onPress={(friend) => this.friendSelected(friend)} style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
+            <Text style={styles.name}>{friend.runFirstName} {friend.runLastName}</Text>
+          </TouchableOpacity>
         ) : null}
 
 
@@ -740,7 +762,6 @@ const fdude = {'a':[
 ]}
 
 var mapStateToProps = state => {
-  console.log(state.friend.friends);
   return {
     nav: state.nav,
     userID: state.user.userID,

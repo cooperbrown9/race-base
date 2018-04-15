@@ -46,10 +46,11 @@ class HomeScreen extends Component {
   };
 
   async componentWillMount() {
-    this.getFriends();
+    // this.getFriends();
   }
 
   componentDidMount() {
+    // this uploaded all the users to the db so dont touch this
     // let runner = {};
     // for(let i = 0; i < data.length; i++) {
     //   runner = {
@@ -70,26 +71,26 @@ class HomeScreen extends Component {
   componentWillUnmount() {
     // this.listener && Expo.Notifications.removelistener(this.listen);
   }
-
-  getFriends = () => {
-    let friendCount = 0;
-    let friends = [];
-
-    for(let i = 0; i < this.props.friends.length; i++) {
-      API.getUser(this.props.friends[i].user_id, (err, user) => {
-        if(err) {
-          console.log(err);
-        } else {
-          friendCount++;
-          friends.push(user);
-
-          if(friendCount === this.props.friends.length) {
-            this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
-          }
-        }
-      })
-    }
-  }
+  //
+  // getFriends = () => {
+  //   let friendCount = 0;
+  //   let friends = [];
+  //
+  //   for(let i = 0; i < this.props.friends.length; i++) {
+  //     API.getUser(this.props.friends[i].user_id, (err, user) => {
+  //       if(err) {
+  //         console.log(err);
+  //       } else {
+  //         friendCount++;
+  //         friends.push(user);
+  //
+  //         if(friendCount === this.props.friends.length) {
+  //           this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
+  //         }
+  //       }
+  //     })
+  //   }
+  // }
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
@@ -135,7 +136,7 @@ class HomeScreen extends Component {
           {(!this.state.createUserFormPresented)
             ? <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
                     leftOnPress={this.toggleMenu.bind(this)}
-                    
+
                     style={styles.navBarStyle}
               />
             : null
