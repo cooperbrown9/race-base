@@ -66,7 +66,7 @@ class TrackingScreen extends Component {
     // initial getLocation, then next part is the interval of getting locations
     await this.getLocationAsync();
     this.setState({ friends: this.props.friends });
-    setInterval(() => {
+    setInterval(async() => {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
     }, 5000);
@@ -372,7 +372,7 @@ class TrackingScreen extends Component {
           <MapView.Polyline coordinates={this.state.dummyCourse} strokeWidth={4} strokeColor={'green'} />*/}
 
           <MapView.Marker coordinate={{latitude: courseCoords[0].latitude, longitude: courseCoords[0].longitude}} image={require('../../assets/icons/start48.png')} />
-          <MapView.Marker coordinate={{latitude: 47.662184, longitude: -117.426651}} image={require('../../assets/icons/finish48.png')} />
+          <MapView.Marker coordinate={{latitude: 47.662184, longitude: -117.426651}} image={require('../../assets/icons/Finish48.png')} />
 
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/pin.png')} />

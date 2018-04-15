@@ -45,7 +45,7 @@ class App extends Component {
   store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
-    // console.disableYellowBox = true;
+    console.disableYellowBox = true;
 
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),

@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Image, TouchableOpacity, StyleSheet, AsyncStorage, Modal } from 'react-native';
 import { connect } from 'react-redux';
 
 import NavBar from '../ui-elements/nav-bar';
+import FindFriends from './FindFriends';
 
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
@@ -13,7 +14,8 @@ class MyFriendsScreen extends Component {
   constructor() {
     super();
     this.state = {
-      friends: [{name:'', bib:''}]
+      friends: [{name:'', bib:''}],
+      findFriendsPresented: false
     }
   }
 
@@ -25,22 +27,22 @@ class MyFriendsScreen extends Component {
     this.setState({ friends: this.props.myFriends });
   }
 
-  deleteUser = (unfollow) => {
-    // debugger;
-    var data = {
-      "userID": this.props.me._id,
-      "unfollowID": unfollow._id
-    }
+  deleteUser = async(unfollow) => {
 
-    API.unfollowUser(data, (err, user) => {
-      if(err) {
-        console.log('Couldnt unfollow user');
-      } else {
-        let friends = this.state.friends.filter(f => f._id !== unfollow._id);
-        this.setState({ friends: friends });
-        this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
-      }
-    })
+    // var data = {
+    //   "userID": this.props.me._id,
+    //   "unfollowID": unfollow._id
+    // }
+    //
+    // API.unfollowUser(data, (err, user) => {
+    //   if(err) {
+    //     console.log('Couldnt unfollow user');
+    //   } else {
+    //     let friends = this.state.friends.filter(f => f._id !== unfollow._id);
+    //     this.setState({ friends: friends });
+    //     this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
+    //   }
+    // })
   }
 
   render() {
@@ -69,6 +71,15 @@ class MyFriendsScreen extends Component {
             </View>
           ))) : null}
         </ScrollView>
+
+        <TouchableOpacity style={styles.submitButton} onPress={() => this.setState({ findFriendsPresented: true })} >
+          <Text style={styles.signupText}>FIND FRIENDS</Text>
+        </TouchableOpacity>
+
+        <Modal animationType={"slide"} transparent={false} visible={this.state.findFriendsPresented}>
+          <FindFriends dismiss={() => this.setState({ findFriendsPresented: false })} />
+        </Modal>
+
       </View>
     )
   }
@@ -77,6 +88,17 @@ class MyFriendsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  submitButton: {
+    position: 'absolute', zIndex: 10001,
+    backgroundColor: '#55BBDD', borderRadius: 8,
+    height: 64, bottom: 32, left: 32, right: 32,
+    justifyContent: 'center',
+  },
+  signupText: {
+    color: 'white', backgroundColor: 'transparent',
+    fontFamily: 'roboto-bold', fontSize: 24,
+    textAlign: 'center'
   },
   scrollContainer: {
     flex: 1, marginTop: 16

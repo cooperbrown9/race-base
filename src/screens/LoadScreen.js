@@ -11,7 +11,8 @@ class LoadScreen extends Component {
 
 
   async componentWillMount() {
-    await this.login();
+    // await this.login();
+    this.props.dispatch({ type: 'START_HOME' });
   }
 
   async login() {
