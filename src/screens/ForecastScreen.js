@@ -12,10 +12,13 @@ import { View,
 import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import ForecastDay from '../ui-elements/forecast-day.js';
+import HistoricalDay from '../ui-elements/historical-day.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
 import * as Colors from '../style/colors.js';
+import RoundButton from '../ui-elements/round-button.js';
 import axios from 'axios';
+import historicalData from '../../assets/data/HistoricalJson.json';
 
 const sunny = { img: require('../../assets/icons/weather/sunny.png')}
 const rainy = { img: require('../../assets/icons/weather/rainy.png')}
@@ -42,7 +45,25 @@ class ForecastScreen extends Component {
       day: 'Monday',
       high: '',
       low: ''
+    },
+    historicalDays: historicalData,
+    historical: 'See Historical',
+    historicalOn: false,
+
+
+  }
+
+  onHistoricalSwitch() {
+    if(this.state.historicalOn){
+      this.setState({historical:'See Historical', historicalOn: false});
+    } else{
+      this.setState({historical:'See Current', historicalOn: true});
     }
+    console.log("Button switch: "+ this.state.historicalOn);
+  }
+
+  getHistoricalState() {
+    return this.state.historicalOn;
   }
 
   toggleMenu() {
@@ -74,7 +95,7 @@ class ForecastScreen extends Component {
 
 
    }).catch((e) => {
-     console.log('penis');
+     console.log('error');
    });
  }
 
@@ -184,8 +205,17 @@ class ForecastScreen extends Component {
     )
   }
 
-  render(){
+  historicalForecastDayFactory = (day) => {
+    return (
+      <HistoricalDay
+        date={day.title}
+        temp8={day.weatherBlocks[0].temp + '°'}
+        temp11={day.weatherBlocks[1].temp + '°'}
+        temp2={day.weatherBlocks[2].temp + '°'}/>
+    )
+  }
 
+  render(){
     const { width, height } = Dimensions.get('window');
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
@@ -194,7 +224,36 @@ class ForecastScreen extends Component {
               title={<Text style={{color:'white', fontSize: 20, fontFamily: 'roboto-bold'}}>Forecast</Text>}
               style={{position:'absolute'}}
       />
+    {/*Historical Forecast*/}
+    {this.state.historicalOn ?
+    <ScrollView style={{flex:1}}>
+      {(this.state.historicalDays.map(day =>
+        this.historicalForecastDayFactory(day)
+      ))}
+    </ScrollView> :
+    <ScrollView style={{flex:1}}>
+      <View style={styles.currentWeather}>
+        <View style={styles.dateInfoContainer}>
+          <Text style={{fontSize: 48, color: '#55BBDD',fontFamily:'roboto-bold'}}>{this.state.today.day}</Text>
+          <Text style={{fontSize: 24, marginTop:5,  color: '#55BBDD'}}>{this.state.today.month} {this.state.today.date.getDate()}</Text>
+        </View>
 
+        <View style={styles.weatherIconContainer}>
+          <Image source={require('../../assets/icons/weather/partlyCloudy.png')} style={{marginLeft: 45, height: 80, width:80, resizeMode:'contain'}}/>
+        </View>
+
+        <View style={styles.tempInfoContainer}>
+          <Text style={{fontSize: 36, color: '#55BBDD', fontFamily:'roboto-bold'}}>{this.state.today.temp}°</Text>
+          <Text style={{fontSize: 20, color: '#55BBDD', }}>H: {this.state.today.high}°</Text>
+          <Text style={{fontSize: 20, color: '#55BBDD', }}>L: {this.state.today.low}°</Text>
+        </View>
+      </View>
+      {(this.state.days.map(day =>
+        this.forecastDayFactory(day)
+      ))}
+    </ScrollView>}
+
+      {/*}//Current Forecast
       <ScrollView style={{flex:1}}>
         <View style={styles.currentWeather}>
           <View style={styles.dateInfoContainer}>
@@ -215,8 +274,15 @@ class ForecastScreen extends Component {
         {(this.state.days.map(day =>
           this.forecastDayFactory(day)
         ))}
-
-      </ScrollView>
+      </ScrollView>*/}
+    {/*) : (
+      <View>
+        <Text>Historical</Text>
+      </View>
+    )}*/ }
+      <View style={styles.historicalCurrentButton}>
+          <RoundButton title={this.state.historical} onPress={this.onHistoricalSwitch.bind(this)} bgColor={'#55BBDD'} borderOn={false} />
+      </View>
       </View>
     );
   }
@@ -309,6 +375,14 @@ const styles = StyleSheet.create({
     marginRight: 64,
     marginLeft: 64,
     marginTop: 128
+  },
+  historicalCurrentButton: {
+    position: 'absolute',
+    right: 0,
+    left: 0,
+    marginLeft: 100,
+    marginRight: 100,
+    bottom: 0
   }
 
 
