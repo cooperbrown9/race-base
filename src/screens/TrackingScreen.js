@@ -22,6 +22,7 @@ import Timer from '../ui-elements/timer.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
 
+
 class TrackingScreen extends Component {
 
   constructor(props) {
@@ -43,14 +44,17 @@ class TrackingScreen extends Component {
         longitudeDelta: 0.0421
       },
       myFriendsPresented: false,
-      friends: [{name:'', latitude:0.0,longitude:0.0}],
+      friends: [{name:'', latitude:0.0, longitude:0.0}],
       runnerDistance: 0,
       runnerSeconds: 0,
       runnerTime: "",
       myLatitude: 0.0,
       myLongitude: 0.0,
       runnerLocation: { latitude: 0, longitude: 0 },
+      runnerPace: 12, // minute per miles
+      runnerEstDelayedStartTime: 15, // minutes added to 9:00
       userCoords: [],
+      distances: [],
     };
   }
 
@@ -68,14 +72,31 @@ class TrackingScreen extends Component {
 
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     // initial getLocation, then next part is the interval of getting locations
-    await this.getLocationAsync();
+    //await this.getLocationAsync();
+    this.initMapDistances();
     this.setState({ friends: this.props.friends });
-    setInterval(async() => {
-      let location = await Location.getCurrentPositionAsync({});
-      this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
-    }, 5000);
+    // setInterval(async() => {
+    //   let location = await Location.getCurrentPositionAsync({});
+    //   this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
+    // }, 5000);
+
+    var debug = true;
+    var raceStart = new Date(2018,5,6,9,0,0,0);
+    var raceEnd = new Date(2018,5,6,14,0,0,0);
+
+    if (debug || (new Date() - raceEnd < 0)){
+      let interval = 10*1000;
+      setInterval( () => {
+        let now = new Date();
+        let raceActive = ((now - raceStart) > 0 && (now - raceEnd) < 0);
+        if (raceActive){
+          this.updateRunnerLocation(this.state.selectedFriend);
+        }
+      }, interval);
+    }
+
     // this.getLocationInterval = setInterval(async() => {
     //
     //
@@ -121,6 +142,9 @@ class TrackingScreen extends Component {
       const START_LONGITUDE = -117.4260;
       this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
     }, 2000)
+
+    // SET 30 SEC TIMER IF MAY 6TH 9AM - 2PM
+    Timer
     let time = "";
   }
 
@@ -187,8 +211,9 @@ class TrackingScreen extends Component {
     })
   }
 
-  trackRunner = () => {
-    let coords = this.state.userCoords;
+  initMapDistances() {
+
+      let coords = this.state.userCoords;
 
       if(courseCoords.length > 1) {
         console.log(courseCoords);
@@ -229,20 +254,10 @@ class TrackingScreen extends Component {
             var d = R * c; // Distance in miles
             console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
             totalDistance.push(d);
-
-            const newTotal = totalDistance.reduce(getSum).toFixed(2);
-          // this.setState({ runner: { distance: newTotal }});
-            console.log('total distance is ' + newTotal);
           }
-          if (i == this.state.dummyCount - 1) {
-            console.log('last one');
-            const newTotal = totalDistance.reduce(getSum).toFixed(2);
-
-            this.setState({
-              runnderDistance: newTotal
-            });
-            console.log('total distance is now ' + this.state.totalDistance)
-          }
+          this.setState({
+            distances: totalDistance
+          });
         }
       }  
     }
@@ -338,20 +353,148 @@ class TrackingScreen extends Component {
     ))
   }
 
+  toMinutes(minSec){
+    // 05:50 > 5.8333
+
+  }
+
+
+
+  toMinutes(t) {
+    try{
+      // 05:50
+      var arr = t.split(':');
+      return parseFloat(parseInt(arr[0], 10) + '.' + parseInt((arr[1]/6)*10, 10));
+    }
+    catch (e) {
+      return 0;
+    }
+  }
+
+  estimateStart(response){
+    if (response.data.intervals[0].crossing_time == null){
+        return "9:00";
+    } else{
+      return response.data.intervals[0].crossing_time.replace("AM","");
+    }
+  }
+
+  estimatePace(response){
+    if (response.data.intervals.length > 1){
+      if (response.data.intervals[1].name != null && response.data.intervals[1].name.Contains("Doomsday")){
+        let pace = toMinutes(response.data.intervals[1].pace); // 05:50
+        return pace;
+      }
+    }
+    return this.state.selectedFriend.runnerPace;
+  }
+
+  estimateFinish(entry){
+    if (entry.overall_time == null){
+        return "0:00";
+    } else{
+      return entry.overall_time.replace("00:","");
+    }
+  }
+
+  getStartTime(){
+    return new Date(2018,5,6,9,0,0,0);
+  }
+
+  getAdjustedStartDate(){
+    debugger;
+    let minutes = Math.round(this.state.selectedFriend.runnerEstDelayedStartTime);
+    return this.addMinutes(this.getStartTime(), minutes);
+  }
+
+  addMinutes(date, minutes) {
+      return new Date(date.getTime() + minutes*60000);
+  }
+
+  addSeconds(date, seconds) {
+      return new Date(date.getTime() + seconds*1000);
+  }
+
+
+  updateRunnerLocation(friend) {
+    debugger;
+    const START_INTERVAL = 0.0;
+    const DOOMSDAY_HILL_BOTTOM_INTERVAL = 4.8;
+    const DOOMSDAY_HILL_TOP_INTERVAL = 5.47;
+    const FINISH_INTERVAL = 7.456;
+
+    if (friend != null){
+      let realStart = this.getAdjustedStartDate();
+
+      var d = Date(); // now
+      let elapsedTime = d - realStart;
+
+      let runnerDistance = elapsedTime * friend.pace;
+      if (runnerDistance > FINISH_INTERVAL && friend.runnerLastInterval != 'Finish'){
+        // show Results popup
+        friend.runnerLastInterval = "Finish";
+      } else if (runnerDistance > DOOMSDAY_HILL_TOP_INTERVAL && friend.runnerLastInterval != 'Top'){
+        // check chronotrack if it's been 30 sec since last call
+        friend.runnerLastInterval = "Top";
+      } else if (runnerDistance > DOOMSDAY_HILL_BOTTOM_INTERVAL && friend.runnerLastInterval != 'Bottom'){
+        // check chronotrack if it's been 30 sec since last call
+        if (friend.runnerNextAllowedChronoCall - this.addSeconds(30) < 0){
+          API.getBibInfo(friend.runnerBib, (err, response) => {
+            debugger;
+            if (err){
+              console.log('Error',err);
+            } else{
+              // set runnerpace here if past DOOMSDAY_HILL_BOTTOM_INTERVAL
+              let pace = estimatePace(response.entry);
+              friend.pace = pace;
+              friend.runnerDistance = runnerDistance;
+              friend.runnerLastInterval = 'Bottom';
+              //let start = estimateStart(response);
+              this.calcLocationFromDistance(friend);
+            }
+          })
+        }
+      } else if (friend.runnerLastInterval != 'Finish') {
+        friend.runnerDistance = runnerDistance;
+        this.calcLocationFromDistance(friend);
+      }
+    }
+
+  }
+
+  calcLocationFromDistance(friend){
+
+    let found = false;
+    let dist = friend.runnerDistance;
+    let maxDist = 20;
+    for(let i=0; i<this.state.distances.length && !found; i++){
+        if (dist > this.state.distances[i] && i < this.courseCoords.length){
+          friend.latitude = this.courseCoords[i].latitude;
+          friend.longitude = this.courseCoords[i].longitude;
+          this.setState({selectedFriend: friend});
+          found = true;
+        }
+    }
+  }
+
   friendSelected = (friend) => {
     // get friend's time estimate here and do the logic to find the location on
     // the map and set the region here
+    this.setState({selectedFriend: friend}, () => {
+      debugger;
+      this.updateRunnerLocation(friend);
+    });
 
     // this is dummy data to simulate it shifting
-    this.setState({
-      regionSet: true,
-      region: {
-        latitude: 47.6688,
-        longitude: -117.4360,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421
-      }
-    });
+    // this.setState({
+    //   regionSet: true,
+    //   region: {
+    //     latitude: friend.latitude,
+    //     longitude: friend.longitude,
+    //     latitudeDelta: 0.0922,
+    //     longitudeDelta: 0.0421
+    //   }
+    // });
   }
 
   render() {
@@ -408,8 +551,8 @@ class TrackingScreen extends Component {
       </TouchableOpacity>
 
       <ScrollView style={styles.myFriendsBar}>
-        {(this.state.friends != null) ? this.state.friends.map((friend) =>
-          <TouchableOpacity onPress={(friend) => this.friendSelected(friend)} style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
+        { (this.state.friends != null) ? this.state.friends.map((friend) =>
+          <TouchableOpacity onPress={() => this.friendSelected(friend)} style={{backgroundColor: '#F4C81B', marginBottom: 8, height: 40, justifyContent: 'center', alignItems: 'flex-start'}}>
             <Text style={styles.name}>{friend.runFirstName} {friend.runLastName}</Text>
           </TouchableOpacity>
         ) : null}
@@ -765,7 +908,7 @@ var mapStateToProps = state => {
   return {
     nav: state.nav,
     userID: state.user.userID,
-    friends: state.friend.friends
+    friends: state.friend.friends,
   }
 }
 
