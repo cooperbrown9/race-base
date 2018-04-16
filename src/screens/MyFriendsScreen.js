@@ -20,27 +20,12 @@ class MyFriendsScreen extends Component {
   }
 
   static propTypes = {
-    dismiss: PropTypes.func
+    dismiss: PropTypes.func,
+    dismissWithRunner: PropTypes.func
   }
 
   componentDidMount() {
     this.setState({ friends: this.props.myFriends });
-  }
-
-  deleteUser = async(unfollow) => {
-    let following = await AsyncStorage.getItem('FOLLOWING');
-    following = JSON.parse(following);
-
-    for(let i = 0; i < following.length; i++) {
-      if(following[i].runNumber === unfollow.runNumber) {
-        following.splice(i, 1);
-        break;
-      }
-    }
-    this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: following });
-    this.setState({ friends: this.props.myFriends })
-    following = JSON.stringify(following);
-    await AsyncStorage.setItem('FOLLOWING', following);
   }
 
   render() {

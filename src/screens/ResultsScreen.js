@@ -9,13 +9,15 @@ import { View,
          Dimensions,
          TextInput,
          KeyboardAvoidingView,
-         ActivityIndicator
+         ActivityIndicator,
+         Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 
 import NavBar from '../ui-elements/nav-bar.js';
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
+import FindFriends from './FindFriends';
 import axios from 'axios';
 
 const CHRONOTRACK_URL = 'https://api.chronotrack.com/api/results/37865/bib/4?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
@@ -32,7 +34,9 @@ class ResultsScreen extends Component {
       totalDistance: 0.0,
       bibInput: '',
       startTime: 0.0,
-      isLoading: false
+      isLoading: false,
+      findFriendsPresented: false,
+      runner: {}
     }
   }
 
@@ -115,10 +119,28 @@ class ResultsScreen extends Component {
     console.log("Drop Down Accessed");
   }
 
+  _dismissFindFriends = (runner) => {
+    try {
+      this.setState({
+        finishTime: runner.entry.overall_time,
+        avgMile: runner.entry.overall_pace,
+        startTime: '9:00',
+        findFriendsPresented: false,
+        runnerName: runner.name
+      });
+    } catch(e) {
+      this.setState({ finishTime: '?', avgMile:'?',startTime:'?',isLoading:false})
+    }
+  }
+
   render(){
     const { width, height } = Dimensions.get('window');
     return(
       <KeyboardAvoidingView style={styles.mainContainer} behavior='padding' >
+        <Modal animationType={'slide'} transparent={false} visible={this.state.findFriendsPresented} >
+          <FindFriends dismiss={() => this.setState({ findFriendsPresented: false })} dismissWithRunner={(runner) => this._dismissFindFriends(runner)} />
+        </Modal>
+
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
@@ -154,11 +176,11 @@ class ResultsScreen extends Component {
                   <Text style={{textAlign: 'center', color: '#FFFFFF', opacity: .7}}>Distance</Text>
                 </View>
               </View>
+              <Text style={{marginTop:64,color:'white',textAlign:'center', fontSize:24, fontFamily:'roboto-bold'}}>{(this.state.runnerName != null) ? this.state.runnerName : ''}</Text>
             </View>
         </View>
         <View style={styles.bottomView}>
-          <TextInput placeholder={'Bib #'} style={styles.input} value={this.state.bibInput} keyboardType='numeric' returnKeyType={ 'done' } onChangeText={(text) => this.setState({ bibInput: text }) } />
-          <TouchableOpacity onPress={() => this.getRaceData()} style={{marginLeft:32,marginRight:32,marginTop:16,height:64,borderRadius:8,backgroundColor:'#a260a9',justifyContent:'center',alignItems:'center'}}>
+          <TouchableOpacity onPress={() => this.setState({ findFriendsPresented: true })} style={{marginLeft:32,marginRight:32,marginTop:16,height:64,borderRadius:8,backgroundColor:'#a260a9',justifyContent:'center',alignItems:'center'}}>
             <Text style={{fontSize: 24, fontFamily:'roboto-bold', color:'white', textAlign:'center'}}>SEARCH</Text>
           </TouchableOpacity>
         </View>

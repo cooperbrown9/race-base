@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, ScrollView, Image, TouchableOpacity, AsyncStorage, Text, TextInput, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, Image,
+  TouchableOpacity, AsyncStorage, Text, TextInput, Alert,
+  StyleSheet, KeyboardAvoidingView, ActivityIndicator }
+  from 'react-native';
 
 import { connect } from 'react-redux';
 
@@ -9,6 +12,7 @@ import * as UserActions from '../action-types/user-action-types';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as Colors from '../style/colors';
 
+import axios from 'axios';
 import NavBar from '../ui-elements/nav-bar';
 
 class FindFriends extends Component {
@@ -18,12 +22,16 @@ class FindFriends extends Component {
 
     this.state = {
       searchText: "",
-      users: []
+      users: [],
+      loading: false,
+      isError: false,
+      errorMessage: ''
     }
   }
 
   static propTypes = {
-    dismiss: PropTypes.func
+    dismiss: PropTypes.func,
+    dismissWithRunner: PropTypes.func
   }
 
   componentDidMount() {
@@ -31,86 +39,43 @@ class FindFriends extends Component {
   }
 
   search() {
-    API.searchBib(this.state.searchText, (err, runners) => {
+    this.setState({ loading: true });
+    API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
       if(err) {
         console.log(err);
+        this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
       } else {
         console.log(runners);
-        this.setState({ users: runners });
-      }
-    })
-    return;
-
-    API.searchUsers(this.state.searchText, (err, users) => {
-      if(err) {
-        console.log(err);
-      } else {
-
-        for(let i = 0; i < users.length; i++) {
-          if(users[i]._id === this.props.userID) {
-            users.splice(i, 1);
-            continue;
-          }
-          for(let j = 1; j < this.props.friends.length; j++) {
-            if(users[i]._id === this.props.friends[j]._id) {
-              users.splice(i, 1);
-            }
-          }
+        if(runners.length === 0) {
+          this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+        } else {
+          this.setState({ loading: false, users: runners, isError: false });
         }
-        this.setState({ users: users });
       }
     })
   }
 
-  async addUser(userToFollow) {
-    let following = await AsyncStorage.getItem('FOLLOWING');
-    following = JSON.parse(following);
-
-    if(following == null) {
-      following = [];
-      following.push(userToFollow)
-    } else {
-      following.push(userToFollow);
-    }
-
-    this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: following });
-
-    following = JSON.stringify(following);
-    await AsyncStorage.setItem('FOLLOWING', following);
-  }
-
-  addUser0(userToFollow) {
-    let data = {
-      "userID": this.props.userID,
-      "followID": userToFollow._id
-    }
-
-    for(let i = 0; i < this.props.user.following.length; i++) {
-      if(this.props.user.following[i].user_id === userToFollow._id) {
-        let users = this.state.users.filter(u => u !== userToFollow);
-        this.setState({ users: users });
-        return;
-      }
-    }
-
-    API.followUser(data, (err, user) => {
-      if(err) {
-        console.log(err.message);
-        Alert.alert('Sorry, we couldn\'t follow this person at this time!');
-      } else {
-        this.props.dispatch({ type: FriendActions.ADD_FRIEND, friend: user });
-        let users = this.state.users.filter(u => u !== userToFollow);
-        this.setState({ users: users });
-        API.getUser(this.props.userID, (e, newUser) => {
-          if(e) {
-            console.log(e);
+  addUser(userToFollow) {
+    this.setState({ loading: true });
+    // let dummyURL = 'https://api.chronotrack.com/api/results/37865/bib/2?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f'
+    // axios.get(dummyURL)
+    axios.get('https://api.chronotrack.com/api/results/37865/bib/' + userToFollow.runNumber + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f')
+      .then(response => {
+        this.setState({ loading: false, users: [], searchText: '' }, () => {
+          console.log(response.data);
+          if(response.data.error) {
+            console.log('This user has not completed the race yet!');
+            this.setState({ isError: true, errorMessage: 'This user has not completed the race yet!' });
           } else {
-            // update yourself
-            this.props.dispatch({ type: UserActions.SET_USER, user: newUser });
+            // dismiss and pass back user
+            response.data.name = userToFollow.runFirstName + ' ' + userToFollow.runLastName;
+            this.props.dismissWithRunner(response.data);
           }
         })
-      }
-    })
+      })
+      .catch(e => {
+        console.log(e);
+      })
   }
 
   render() {
@@ -125,11 +90,16 @@ class FindFriends extends Component {
           <TextInput
             style={styles.search}
             onChangeText={(text) => this.setState({ searchText: text })}
-            placeholder={'BIB #'}
+            placeholder={'Runner\'s Name'}
             keyboardType={'numeric'}
             returnKeyType={'done'}
           />
-        </View>
+      </View>
+      {(this.state.isError)
+        ? <Text style={{marginTop:0,color:'red',textAlign:'center',fontFamily:'roboto-regular'}}>{this.state.errorMessage}</Text>
+        : null
+      }
+
 
         {(this.state.users.length > 0) ?
           <View style={styles.resultContainer}>
@@ -138,8 +108,9 @@ class FindFriends extends Component {
                 <TouchableOpacity style={styles.userContainer} key={user.bib} >
                   <Text style={styles.name}>{user.runFirstName} {user.runLastName}</Text>
                   <Text style={styles.bib}>{user.runNumber}</Text>
-                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 30, bottom: 30, right: 32, height: 40, borderRadius:16, justifyContent:'center'}}>
-                    <Text style={styles.addText}>Add</Text>
+                  <Text style={styles.city}>{user.runCity}</Text>
+                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 140,bottom: 4, right: 4, height: 50, borderRadius:8, justifyContent:'center', alignItems:'center'}}>
+                    <Text style={styles.addText}>RESULTS</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
               )) : null}
@@ -152,10 +123,13 @@ class FindFriends extends Component {
           <TouchableOpacity onPress={() => this.search()} style={styles.closeButton} >
             <Text style={styles.closeText}>SEARCH</Text>
           </TouchableOpacity>
-          <TouchableOpacity onPress={this.props.dismiss} style={styles.closeButton} >
-            <Text style={styles.closeText}>CLOSE</Text>
-          </TouchableOpacity>
         </View>
+        {(this.state.loading)
+          ? <View style={{position:'absolute',left:0,right:0,top:0,bottom:0,zIndex:10001,backgroundColor:'rgba(0,0,0,0.5)',justifyContent:'center',alignItems:'center'}} >
+              <ActivityIndicator size={'large'} />
+            </View>
+          : null
+        }
 
       </KeyboardAvoidingView>
     )
@@ -171,8 +145,7 @@ const styles = StyleSheet.create({
     fontFamily: 'roboto-bold',
     fontSize: 24,
     borderWidth:2, borderRadius:8,
-    width: 64,
-    height: 32,
+    height: 40,
     borderColor:Colors.BLUE, backgroundColor: Colors.BLUE,
     color: 'white',
     textAlign: 'center',
@@ -186,21 +159,25 @@ const styles = StyleSheet.create({
     height: 64
   },
   userContainer: {
-    height: 84, marginLeft: 8, marginRight: 8, marginBottom: 16,
+    height: 100, marginLeft: 8, marginRight: 8, marginBottom: 16,
     borderRadius: 8, backgroundColor: '#e0dfde',
     justifyContent: 'center'
   },
   name: {
     fontFamily: 'roboto-bold', color: 'black',
-    fontSize: 24, marginLeft: 32, marginBottom: 8
+    fontSize: 24, marginLeft: 16, marginBottom: 8
   },
   bib: {
     fontFamily: 'roboto-regular', color: 'grey',
-    fontSize: 18, marginLeft: 32, marginBottom: 8
+    fontSize: 18, marginLeft: 16, marginBottom: 4
+  },
+  city: {
+    fontFamily: 'roboto-bold', color: 'grey',
+    fontSize: 16, marginLeft: 16, marginTop: 8
   },
   searchContainer: {
     flex: 1, alignItems: 'stretch', flexDirection: 'row',
-    marginTop: 32, marginBottom: 32,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
+    marginTop: 16, marginBottom: 32,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
     justifyContent: 'center', alignItems: 'center'
   },
   resultContainer: {
@@ -212,7 +189,7 @@ const styles = StyleSheet.create({
     flex: 1
   },
   closeContainer: {
-    marginLeft: 32, marginRight: 32, marginBottom: 64, marginTop: 16
+    marginLeft: 32, marginRight: 32, marginBottom: 16, marginTop: 16
   },
   closeButton: {
     backgroundColor: '#55BBDD', borderRadius: 8,

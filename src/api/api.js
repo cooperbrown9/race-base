@@ -97,6 +97,10 @@ export function searchName(text, callback) {
     .catch(e => callback(e))
 }
 
+export function searchResultsByName(name, callback) {
+  
+}
+
 export function followUser(data, callback) {
   axios.post(BASE + FOLLOW_USER, data)
     .then(response => callback(null, response.data))

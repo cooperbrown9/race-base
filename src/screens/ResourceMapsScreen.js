@@ -66,7 +66,7 @@ class ResourceMapsScreen extends Component {
             <Text style={this.state.mapIndex===2 ? styles.selectText : styles.socText}>Elevation</Text>
           </TouchableOpacity>
         </View>
-          <ScrollView horizontal={true} styles={{flex:-1}} contentOffset={{x: this.state.offset, y: 0}} >
+          <ScrollView horizontal={true} styles={{flex:1}} contentOffset={{x: this.state.offset, y: 0}} >
             <Image source={this.state.currentMap} resizeMode="contain" style={{alignSelf: 'stretch', height: FRAME.height - ((FRAME.height === 812) ? 84 : 64) - 48 }}/>
           </ScrollView>
 
