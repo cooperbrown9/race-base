@@ -29,6 +29,7 @@ import FlyOverMenu from '../screens/menus/FlyOverMenu.js';
 import AroundTownMenu from '../screens/menus/AroundTownMenu.js';
 import SponsorsMenu from '../screens/menus/SponsorsMenu.js';
 import CreateUserForm from '../screens/CreateUserForm';
+import ResourceMapsMenu from '../screens/menus/ResourceMapsMenu.js'
 
 import { addListener } from './store';
 
@@ -40,7 +41,7 @@ export const AppNavigator = StackNavigator({
   Forecast: {screen: ForecastMenu},
   Tracking: {screen: TrackingMenu},
   Faq: {screen: FaqMenu},
-  // HistoricalWeather: {screen: HistoricalWeatherScreen},
+  ResourceMaps: {screen: ResourceMapsMenu},
   Schedule: {screen: ScheduleMenu},
   Results: {screen: ResultsMenu},
   Social: {screen: SocialMenu},

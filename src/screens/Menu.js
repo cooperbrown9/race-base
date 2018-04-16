@@ -16,6 +16,7 @@ const options = [
   {name: 'Schedule', iconPath: require('../../assets/icons/navigation/calendar.png'), path: NavActions.GO_SCHEDULE},
   {name: 'FAQ', iconPath: require('../../assets/icons/navigation/faq.png'), path: NavActions.GO_FAQ},
   {name: 'Maps', iconPath: require('../../assets/icons/navigation/maps.png'), path: NavActions.GO_TRACKING},
+  {name: 'Resource Maps', iconPath: require('../../assets/icons/navigation/handshake.png'), path: NavActions.GO_RESOURCE_MAPS},
   {name: 'Weather', iconPath: require('../../assets/icons/navigation/weather.png'), path: NavActions.GO_FORECAST},
   {name: 'Tracking & Results', iconPath: require('../../assets/icons/navigation/tracking-results.png'), path: NavActions.GO_RESULTS},
   {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_SOCIAL},

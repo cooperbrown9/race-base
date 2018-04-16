@@ -42,8 +42,8 @@ export default function nav(state = firstState, action) {
       state
     );
     break;
-    case NavActions.GO_HISTORICAL:
-      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'HistoricalWeather'}),
+    case NavActions.GO_RESOURCE_MAPS:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'ResourceMaps'}),
       state
     );
     break;
