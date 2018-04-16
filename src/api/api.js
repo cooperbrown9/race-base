@@ -21,6 +21,22 @@ const SEARCH_NAME = '/search-name/';
 const FOLLOW_USER = '/follow-user';
 const UNFOLLOW_USER = '/unfollow-user';
 
+const CHRONOTRACK_URL = 'https://api.chronotrack.com/api/results/37865/bib/4?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
+
+function ConstructChronoUrl(bib){
+  return 'https://api.chronotrack.com/api/results/37865/bib/' + bib + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f';
+}
+
+export function getBibInfo(bib, callback) {
+  var url = ConstructChronoUrl(bib);
+  axios.get(url)
+    .then((response) => {
+      debugger;
+      callback(null, response)
+    })
+    .catch(e => callback(e))
+}
+
 export function getSchedule(scheduleID, callback) {
   axios.get(BASE + GET_SCHEDULE + SCHEDULE_ID)
     .then(response => callback(null, response.data.events))
