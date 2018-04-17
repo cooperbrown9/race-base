@@ -91,7 +91,7 @@ class FindFriends extends Component {
             style={styles.search}
             onChangeText={(text) => this.setState({ searchText: text })}
             placeholder={'Runner\'s Name'}
-            keyboardType={'numeric'}
+            keyboardType={'default'}
             returnKeyType={'done'}
           />
       </View>
