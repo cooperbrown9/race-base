@@ -116,7 +116,6 @@ class ScheduleScreen extends Component {
       <View style={{backgroundColor:'transparent', flex: 1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 leftOnPress={this.toggleMenu.bind(this)}
-                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
                         <Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>Schedule</Text>
                        </TouchableOpacity>}

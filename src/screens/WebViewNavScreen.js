@@ -69,7 +69,6 @@ class WebViewNavScreen extends Component {
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
         <NavBarWebNav leftButton={<Image source={icon} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-                //leftOnPress={ (this.props.closeButton) ? this.props.dismiss : this.toggleMenu.bind(this)}
                 leftOnPress={ (this.props.dismiss != null) ? this.props.dismiss : this.toggleMenu.bind(this)}
 
                 title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
