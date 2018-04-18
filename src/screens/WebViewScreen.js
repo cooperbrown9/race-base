@@ -53,7 +53,6 @@ class WebViewScreen extends Component {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     });
-    this.setState({url: 'https://www.google.com'});
   }
 
   render(){

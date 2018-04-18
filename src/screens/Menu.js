@@ -21,7 +21,7 @@ const options = [
   {name: 'Race Results', iconPath: require('../../assets/icons/navigation/tracking-results.png'), path: NavActions.GO_RESULTS},
   {name: 'Social', iconPath: require('../../assets/icons/navigation/chat.png'), path: NavActions.GO_SOCIAL},
   {name: 'Around Town', iconPath: require('../../assets/icons/navigation/school.png'), path: NavActions.GO_AROUNDTOWN},
-  //{name: 'Fly Over Video', iconPath: require('../../assets/icons/navigation/play.png'), path: NavActions.GO_FLYOVER},
+  {name: 'Fly Over Video', iconPath: require('../../assets/icons/navigation/play.png'), path: NavActions.GO_FLYOVER},
   {name: 'Sponsors', iconPath: require('../../assets/icons/navigation/handshake.png'), path: NavActions.GO_SPONSOR},
 
 ];
