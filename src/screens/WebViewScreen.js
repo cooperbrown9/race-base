@@ -23,6 +23,7 @@ class WebViewScreen extends Component {
       webviewPresented: false,
       url: "https://www.google.com",
       title: "",
+      actualUrl: 'https://www.google.com'
     }
   }
 
@@ -36,19 +37,15 @@ class WebViewScreen extends Component {
   }
 
   componentDidMount() {
-
+    this.setState({actualUrl: this.props.url});
+    debugger;
   }
 
   componentWillUnmount() {
-    if (url.Contains('vimeo'))
+    debugger;
+    if (this.state.actualUrl.includes('vimeo'))
     {
-        this.setState({uri: 'https://www.google.com'});
-    }
-  }
-
-  componentDidUnmount() {
-    if (url.Contains('vimeo'))
-    {
+        this.setState({actualUrl: 'https://www.google.com'});
     }
   }
 
@@ -70,8 +67,7 @@ class WebViewScreen extends Component {
         />
 
         <WebView
-          ref={ref => {this.WEBVIEW_REF = ref}}
-          source={{uri: this.props.url}}
+          source={{uri: this.state.actualUrl}}
           style={{flex: 1}}
         />
 
