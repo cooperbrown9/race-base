@@ -39,6 +39,19 @@ class WebViewScreen extends Component {
 
   }
 
+  componentWillUnmount() {
+    if (url.Contains('vimeo'))
+    {
+        this.setState({uri: 'https://www.google.com'});
+    }
+  }
+
+  componentDidUnmount() {
+    if (url.Contains('vimeo'))
+    {
+    }
+  }
+
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
@@ -51,14 +64,15 @@ class WebViewScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
+                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
         />
 
         <WebView
+          ref={ref => {this.WEBVIEW_REF = ref}}
           source={{uri: this.props.url}}
           style={{flex: 1}}
-
         />
 
       </View>
