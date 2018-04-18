@@ -37,16 +37,19 @@ class WebViewScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({actualUrl: this.props.url});
-    debugger;
+    // this.setState({actualUrl: this.props.url});
+    // setTimeout(() => {
+      this.props.dispatch({ type: 'SET_URL', url: 'https://vimeo.com/208591364/1b1e96dcc3' });
+
+    // },2000)
   }
 
   componentWillUnmount() {
-    debugger;
-    if (this.state.actualUrl.includes('vimeo'))
-    {
-        this.setState({actualUrl: 'https://www.google.com'});
-    }
+    // debugger;
+    // if (this.state.actualUrl.includes('vimeo'))
+    // {
+    //     this.setState({actualUrl: 'https://www.google.com'});
+    // }
   }
 
   toggleMenu() {
@@ -67,7 +70,7 @@ class WebViewScreen extends Component {
         />
 
         <WebView
-          source={{uri: this.state.actualUrl}}
+          source={{uri: this.props.actualUrl}}
           style={{flex: 1}}
         />
 
@@ -79,7 +82,7 @@ class WebViewScreen extends Component {
   var mapStateToProps = state => {
     return {
       nav: state.nav,
-
+      actualUrl: state.user.url
     }
   }
 

@@ -29,6 +29,7 @@ import * as API from '../api/api';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
 
+// Bundle ID is com.xapp.lilacbloomsday
 class HomeScreen extends Component {
 
   constructor() {
