@@ -13,6 +13,13 @@ class FlyOverMenu extends Component {
 
   static navigationOptions = {
     header: null
+    
+  }
+  
+  componentDidMount() {
+    debugger;
+    console.log("hello");
+    
   }
 
   _navigate(path) {

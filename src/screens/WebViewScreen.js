@@ -23,6 +23,8 @@ class WebViewScreen extends Component {
       webviewPresented: false,
       url: "https://www.google.com",
       title: "",
+      actualUrl: "https://www.google.com",
+      
     }
   }
 
@@ -36,26 +38,25 @@ class WebViewScreen extends Component {
   }
 
   componentDidMount() {
-
+    this.setState({actualUrl: this.props.url});
+    
   }
 
   componentWillUnmount() {
-    if (url.Contains('vimeo'))
+    if (this.props.url.includes('vimeo'))
     {
-        this.setState({uri: 'https://www.google.com'});
+        this.setState({actualUrl: 'https://www.google.com'});
     }
+    debugger;
   }
 
-  componentDidUnmount() {
-    if (url.Contains('vimeo'))
-    {
-    }
-  }
+  
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
-    })
+    });
+    this.setState({url: 'https://www.google.com'});
   }
 
   render(){
@@ -70,8 +71,8 @@ class WebViewScreen extends Component {
         />
 
         <WebView
-          ref={ref => {this.WEBVIEW_REF = ref}}
-          source={{uri: this.props.url}}
+          
+          source={{uri: this.state.actualUrl}}
           style={{flex: 1}}
         />
 
