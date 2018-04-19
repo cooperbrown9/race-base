@@ -60,6 +60,12 @@ export default function nav(state = firstState, action) {
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Tracking'}),
       state
     );
+
+    case NavActions.GO_RACEMAP:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'RaceMap'}),
+      state
+    );
+
     // for(let i = 0;i < nextState.routes.length; i++) {
     //   if(nextState.routes[i].routeName != null && nextState.routes[i].routeName === 'FlyOver') {
     //     nextState.routes.splice(i, 1);

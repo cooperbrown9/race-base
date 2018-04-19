@@ -9,5 +9,6 @@ export const GO_SOCIAL = 'navigation/social';
 export const GO_AROUNDTOWN = 'navigation/aroundtown';
 export const GO_SPONSOR = 'navigation/sponsors';
 export const GO_RESOURCE_MAPS = 'navigation/resourcemaps';
+export const GO_RACEMAP = 'navigation/racemap';
 
 export const START_CREATE_ACCOUNT = 'navigation/create-account';

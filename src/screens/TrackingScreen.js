@@ -72,15 +72,15 @@ class TrackingScreen extends Component {
 
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // initial getLocation, then next part is the interval of getting locations
-    //await this.getLocationAsync();
+    await this.getLocationAsync();
     this.initMapDistances();
     this.setState({ friends: this.props.friends });
-    // setInterval(async() => {
-    //   let location = await Location.getCurrentPositionAsync({});
-    //   this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
-    // }, 5000);
+    setInterval(async() => {
+      let location = await Location.getCurrentPositionAsync({});
+      this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
+    }, 5000);
 
     var debug = true;
     var raceStart = new Date(2018,5,6,9,0,0,0);
@@ -141,10 +141,8 @@ class TrackingScreen extends Component {
       const START_LATITUDE = 47.6588;
       const START_LONGITUDE = -117.4260;
       this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
-    }, 2000)
+    }, 2000);
 
-    // SET 30 SEC TIMER IF MAY 6TH 9AM - 2PM
-    Timer
     let time = "";
   }
 

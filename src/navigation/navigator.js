@@ -30,6 +30,7 @@ import AroundTownMenu from '../screens/menus/AroundTownMenu.js';
 import SponsorsMenu from '../screens/menus/SponsorsMenu.js';
 import CreateUserForm from '../screens/CreateUserForm';
 import ResourceMapsMenu from '../screens/menus/ResourceMapsMenu.js'
+import RaceMapMenu from '../screens/menus/RaceMapMenu.js'
 
 import { addListener } from './store';
 
@@ -48,6 +49,7 @@ export const AppNavigator = StackNavigator({
   FlyOver: {screen: FlyOverMenu},
   AroundTown: {screen: AroundTownMenu},
   Sponsors: {screen: SponsorsMenu},
+  RaceMap: {screen: RaceMapMenu},
   CreateUser: { screen: CreateUserForm }
 });
 // const middleware = createReactNavigationReduxMiddleware(
