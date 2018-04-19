@@ -64,7 +64,6 @@ class WebViewScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
-                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
         />
