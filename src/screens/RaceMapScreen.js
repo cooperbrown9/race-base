@@ -59,19 +59,19 @@ class RaceMapScreen extends Component {
   };
 
   componentWillMount () {
-    this.setState({friends: [{name:'',latitude:0.0,longitude:0.0}]});
-    {
-      const START_LATITUDE = 47.6588;
-      const START_LONGITUDE = -117.4260;
-      this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
-    }
+    // this.setState({friends: [{name:'',latitude:0.0,longitude:0.0}]});
+    // {
+      // const START_LATITUDE = 47.6588;
+      // const START_LONGITUDE = -117.4260;
+      // this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}));
+    // }
 
   }
 
   async componentDidMount() {
     // initial getLocation, then next part is the interval of getting locations
     await this.getLocationAsync();
-    this.setState({ friends: this.props.friends });
+    // this.setState({ friends: this.props.friends });
     setInterval(async() => {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
@@ -113,97 +113,8 @@ class RaceMapScreen extends Component {
     })
   }
 
-  // replace courseCoords with the array of points the user has gone,
-  // course coords use dummy counter to simulate moving
-  handleAddLine = () => {
-    let coords = this.state.dummyCourse;
-
-    if(coords.length > 1) {
-      console.log(courseCoords);
-
-      const totalDistance = [];
-      const totalCoordinates = coords.length - 1;
-      const totalCoordinatesAdjusted = totalCoordinates - 1;
-
-      function getSum(total, num) {
-        return total + num;
-      }
-
-      for (var i = 0; i < this.state.dummyCount; i++) {
-        if (i != this.state.dummyCount) {
-          const lat1 = courseCoords[i].latitude;
-          const lon1 = courseCoords[i].longitude;
-          const lat2 = courseCoords[i+1].latitude;
-          const lon2 = courseCoords[i+1].longitude;
-
-          // this.setState({ currentLocation: {lat: lat1, lng: lon1}});
-
-          console.log(lat1);
-          console.log(lon1);
-
-          function deg2rad(deg) {
-            return deg * (Math.PI/180)
-          }
-
-          var R = 3959; // Radius of the earth in miles
-          var dLat = deg2rad(lat2-lat1);  // deg2rad below
-          var dLon = deg2rad(lon2-lon1);
-          var a =
-            Math.sin(dLat/2) * Math.sin(dLat/2) +
-            Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-            Math.sin(dLon/2) * Math.sin(dLon/2)
-            ;
-          var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-          var d = R * c; // Distance in miles
-          console.log('line segment ' + (i+1) + ' of ' + totalCoordinates + ' length is ' + d);
-          totalDistance.push(d);
-
-          const newTotal = totalDistance.reduce(getSum).toFixed(2);
-          // this.setState({ runner: { distance: newTotal }});
-          console.log('total distance is ' + newTotal);
-        }
-        if (i == this.state.dummyCount - 1) {
-          console.log('last one');
-          const newTotal = totalDistance.reduce(getSum).toFixed(2);
-
-          this.setState({
-            runnerDistance: newTotal
-          });
-          console.log('total distance is now ' + this.state.runnerDistance)
-        }
-      }
-    }  
-  }
-
-  setCoordinates = () => {
-    this.state.coordinates = [
-
-      {lat: 47.66269942589627, lng: -117.40363597869873},
-
-      {lat: 47.65837821539351, lng: -117.40168333053589},
-
-      {lat: 47.658118064216744, lng: -117.41284132003784},
-
-      {lat: 47.66134095679338, lng: -117.41844177246094},
-
-      {lat: 47.66488157353775, lng: -117.41567373275757}
-
-    ];
-
-    this.setState({ coordinates: this.state.coordinates });
-  }
-
-  dropDownMenu(){
-    console.log('Drop Down Accessed');
-  }
   render() {
     const { width, height } = Dimensions.get('window');
-
-    // let userCoords = this.state.userCoords;
-    // let mappedUserCoords = [];
-    // for(let i = 0; i < this.state.userCoords.length; i++) {
-    //   mappedUserCoords.push({ latitude: this.state.userCoords[i].lat, longitude: this.state.userCoords[i].lng });
-    // }
 
     const START_LATITUDE = 47.6588;
     const START_LONGITUDE = -117.4260;
@@ -232,15 +143,11 @@ class RaceMapScreen extends Component {
           }}>
           <MapView.Polyline coordinates={courseCoords} strokeWidth={5} strokeColor={'yellow'} />
 
-          <MapView.Marker coordinate={{latitude: courseCoords[0].latitude, longitude: courseCoords[0].longitude}} image={require('../../assets/icons/start48.png')} />
           <MapView.Marker coordinate={{latitude: 47.662184, longitude: -117.426651}} image={require('../../assets/icons/finish.png')} />
 
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
           <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/pin.png')} />
-          {(this.state.friends != null) ? this.state.friends.map((friend) =>
-            <MapView.Marker coordinate={{latitude: friend.latitude, longitude: friend.longitude }} image={require('../../assets/icons/pin.png')} />
-          ) : null}
-    </MapView>
+        </MapView>
 
       <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}))} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40}}>
         <Image style={{height:40,width:40,tintColor:'white'}} source={require('../../assets/icons/pointer.png')} />
@@ -250,6 +157,308 @@ class RaceMapScreen extends Component {
       </View>
     );
 
+  }
+}
+
+
+const styles = StyleSheet.create({
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 0,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  myFriendsBar: {
+    position:'absolute',
+    height: 120, left: 16, right: 16, bottom: 16,
+    backgroundColor: 'transparent',
+    zIndex: 2
+  },
+  runnerInfoBar: {
+    position: 'absolute',
+    left: 12,
+    right: 12,
+    bottom: 0,
+    backgroundColor: 'transparent',
+    height: 200,
+    zIndex: 2,
+    shadowColor: '#dbdbdb',
+    shadowOffset: {width: 12, height: 12},
+    shadowOpacity: 1.0,
+    shadowRadius: 8,
+  },
+  bottomBar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 60,
+    backgroundColor: 'white',
+    zIndex: 2,
+
+  },
+  navBar: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 64,
+    zIndex: 2
+  },
+   name: {
+     color: 'white',
+     fontSize: 18,
+     paddingLeft: 16,
+     borderRadius: 4,
+     fontFamily: 'roboto-bold'
+
+   },
+});
+
+const fdude = {'a':[
+{
+"elementType":"labels",
+"stylers":[
+{
+  "visibility":"off"
+},
+{
+  "color":"#f49f53"
+}
+]
+},
+{
+"featureType":"landscape",
+"stylers":[
+{
+  "color":"#f9ddc5"
+},
+{
+  "lightness":-7
+}
+]
+},
+{
+"featureType":"road",
+"stylers":[
+{
+  "color":"#813033"
+},
+{
+  "lightness":43
+}
+]
+},
+{
+"featureType":"poi.business",
+"stylers":[
+{
+  "color":"#645c20"
+},
+{
+  "lightness":38
+}
+]
+},
+{
+"featureType":"water",
+"stylers":[
+{
+  "color":"#1994bf"
+},
+{
+  "saturation":-69
+},
+{
+  "gamma":0.99
+},
+{
+  "lightness":43
+}
+]
+},
+{
+"featureType":"road.local",
+"elementType":"geometry.fill",
+"stylers":[
+{
+  "color":"#f19f53"
+},
+{
+  "weight":1.3
+},
+{
+  "visibility":"on"
+},
+{
+  "lightness":16
+}
+]
+},
+{
+"featureType":"poi.business"
+},
+{
+"featureType":"poi.park",
+"stylers":[
+{
+  "color":"#645c20"
+},
+{
+  "lightness":39
+}
+]
+},
+{
+"featureType":"poi.school",
+"stylers":[
+{
+  "color":"#a95521"
+},
+{
+  "lightness":35
+}
+]
+},
+{
+
+},
+{
+"featureType":"poi.medical",
+"elementType":"geometry.fill",
+"stylers":[
+{
+  "color":"#813033"
+},
+{
+  "lightness":38
+},
+{
+  "visibility":"off"
+}
+]
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+
+},
+{
+"elementType":"labels"
+},
+{
+"featureType":"poi.sports_complex",
+"stylers":[
+{
+  "color":"#9e5916"
+},
+{
+  "lightness":32
+}
+]
+},
+{
+
+},
+{
+"featureType":"poi.government",
+"stylers":[
+{
+  "color":"#9e5916"
+},
+{
+  "lightness":46
+}
+]
+},
+{
+"featureType":"transit.station",
+"stylers":[
+{
+  "visibility":"off"
+}
+]
+},
+{
+"featureType":"transit.line",
+"stylers":[
+{
+  "color":"#813033"
+},
+{
+  "lightness":22
+}
+]
+},
+{
+"featureType":"transit",
+"stylers":[
+{
+  "lightness":38
+}
+]
+},
+{
+"featureType":"road.local",
+"elementType":"geometry.stroke",
+"stylers":[
+{
+  "color":"#f19f53"
+},
+{
+  "lightness":-10
+}
+]
+},
+{
+
+},
+{
+
+},
+{
+
+}
+]}
+
+
+var mapStateToProps = state => {
+  return {
+    nav: state.nav
   }
 }
 
