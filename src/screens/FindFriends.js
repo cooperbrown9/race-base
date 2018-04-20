@@ -15,6 +15,8 @@ import * as Colors from '../style/colors';
 import axios from 'axios';
 import NavBar from '../ui-elements/nav-bar';
 
+import { Keyboard } from 'react-native';
+
 class FindFriends extends Component {
 
   constructor() {
@@ -39,6 +41,7 @@ class FindFriends extends Component {
   }
 
   search() {
+    Keyboard.dismiss();
     this.setState({ loading: true });
     API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
       if(err) {
@@ -59,13 +62,25 @@ class FindFriends extends Component {
     this.setState({ loading: true });
     // let dummyURL = 'https://api.chronotrack.com/api/results/37865/bib/2?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f'
     // axios.get(dummyURL)
-    axios.get('https://api.chronotrack.com/api/results/37865/bib/' + userToFollow.runNumber + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f')
+    //{
+      // TEST DATA - COMMENT OUT
+      //const RaceId = '38503';
+      //userToFollow.runNumber = 343;
+      //userToFollow.runNumber = 2; // finished
+      //userToFollow.runNumber = 3; // 3 intervals
+      //userToFollow.runNumber = 4; // not started
+    //}
+    //{
+      // BLOOMSDAY RACEID - UNCOMMENT
+      const RaceId = '37865';
+    //}
+    axios.get('https://api.chronotrack.com/api/results/' + RaceId + '/bib/' + userToFollow.runNumber + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f')
       .then(response => {
         this.setState({ loading: false, users: [], searchText: '' }, () => {
           console.log(response.data);
           if(response.data.error) {
             console.log('This user has not completed the race yet!');
-            this.setState({ isError: true, errorMessage: 'This user has not completed the race yet!' });
+            this.setState({ isError: true, errorMessage: 'This runner has not started the race.' });
           } else {
             // dismiss and pass back user
             response.data.name = userToFollow.runFirstName + ' ' + userToFollow.runLastName;
@@ -107,9 +122,9 @@ class FindFriends extends Component {
               {(this.state.users.length > 0) ? this.state.users.map((user) => (
                 <TouchableOpacity style={styles.userContainer} key={user.bib} >
                   <Text style={styles.name}>{user.runFirstName} {user.runLastName}</Text>
-                  <Text style={styles.bib}>{user.runNumber}</Text>
+                  <Text style={styles.bib}>Bib: {user.runNumber}</Text>
                   <Text style={styles.city}>{user.runCity}</Text>
-                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 140,bottom: 4, right: 4, height: 50, borderRadius:8, justifyContent:'center', alignItems:'center'}}>
+                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 180, bottom: 4, right: 4, height: 50, borderRadius:8, justifyContent:'center', alignItems:'center'}}>
                     <Text style={styles.addText}>RESULTS</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
