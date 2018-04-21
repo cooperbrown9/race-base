@@ -61,17 +61,13 @@ class ResultsScreen extends Component {
   }
 
   compnentDidMount() {
-    console.log( Dimensions.get('window').height);
-
   }
 
   state = {
-    menuOpen: false,
-
+    menuOpen: false
   }
 
   toMinutes(t) {
-    //debugger;
     try{
       // 05:50
       var arr = t.split(':');

@@ -17,6 +17,7 @@ const UPDATE_LOCATION = '/update-location';
 const SEARCH = '/search/';
 const SEARCH_BIB ='/search-bib/';
 const SEARCH_NAME = '/search-name/';
+const SEARCH_FIRST_LAST = '/search-first-last/';
 
 const FOLLOW_USER = '/follow-user';
 const UNFOLLOW_USER = '/unfollow-user';
@@ -97,8 +98,15 @@ export function searchName(text, callback) {
     .catch(e => callback(e))
 }
 
+export function searchFirstLast(first, last, callback) {
+  let url = BASE + SEARCH_FIRST_LAST + first + '/' + last;
+  axios.get(url)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
+
 export function searchResultsByName(name, callback) {
-  
+
 }
 
 export function followUser(data, callback) {

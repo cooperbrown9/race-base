@@ -24,6 +24,8 @@ class FindFriends extends Component {
 
     this.state = {
       searchText: "",
+      searchFirst: "",
+      searchLast: "",
       users: [],
       loading: false,
       isError: false,
@@ -43,7 +45,7 @@ class FindFriends extends Component {
   search() {
     Keyboard.dismiss();
     this.setState({ loading: true });
-    API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
+    API.searchFirstLast(this.state.searchFirst.toUpperCase(), this.state.searchLast.toUpperCase(), (err, runners) => {
       if(err) {
         console.log(err);
         this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
@@ -80,7 +82,7 @@ class FindFriends extends Component {
           console.log(response.data);
           if(response.data.error) {
             console.log('This user has not completed the race yet!');
-            this.setState({ isError: true, errorMessage: 'This runner has not started the race.' });
+            this.setState({ isError: true, loading: false, errorMessage: 'This runner has not started the race.' });
           } else {
             // dismiss and pass back user
             response.data.name = userToFollow.runFirstName + ' ' + userToFollow.runLastName;
@@ -89,6 +91,7 @@ class FindFriends extends Component {
         })
       })
       .catch(e => {
+        this.setState({ loading: false });
         console.log(e);
       })
   }
@@ -104,12 +107,21 @@ class FindFriends extends Component {
         <View style={styles.searchContainer} >
           <TextInput
             style={styles.search}
-            onChangeText={(text) => this.setState({ searchText: text })}
-            placeholder={'Runner\'s Name'}
+            onChangeText={(text) => this.setState({ searchFirst: text })}
+            placeholder={'Runner\'s First Name'}
+            keyboardType={'default'}
+            returnKeyType={'done'}
+          />
+
+          <TextInput
+            style={styles.search}
+            onChangeText={(text) => this.setState({ searchLast: text })}
+            placeholder={'Runner\'s Last Name'}
             keyboardType={'default'}
             returnKeyType={'done'}
           />
       </View>
+
       {(this.state.isError)
         ? <Text style={{marginTop:0,color:'red',textAlign:'center',fontFamily:'roboto-regular'}}>{this.state.errorMessage}</Text>
         : null
@@ -167,11 +179,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   search: {
-    flex: 1,
     borderBottomColor: Colors.BLUE, borderBottomWidth: 2,
     color: 'black', fontFamily: 'roboto-regular',
     backgroundColor: 'transparent', fontSize: 24,
-    height: 64
+    height: 48, marginBottom: 32
   },
   userContainer: {
     height: 100, marginLeft: 8, marginRight: 8, marginBottom: 16,
@@ -191,19 +202,20 @@ const styles = StyleSheet.create({
     fontSize: 16, marginLeft: 16, marginTop: 8
   },
   searchContainer: {
-    flex: 1, alignItems: 'stretch', flexDirection: 'row',
-    marginTop: 16, marginBottom: 32,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
-    justifyContent: 'center', alignItems: 'center'
+    flex: 1, alignItems: 'stretch', flexDirection: 'column',
+    marginTop: 64,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
+    justifyContent: 'flex-start'
   },
   resultContainer: {
     flex: 4,
-    marginLeft: 16, marginRight: 16, marginBottom:16,
+    marginLeft: 16, marginRight: 16, marginBottom:16, marginTop: 28,
     backgroundColor: 'transparent'
   },
   scrollContainer: {
     flex: 1
   },
   closeContainer: {
+    // flex: 2, justifyContent: 'flex-end', backgroundColor:'orange',
     marginLeft: 32, marginRight: 32, marginBottom: 16, marginTop: 16
   },
   closeButton: {
