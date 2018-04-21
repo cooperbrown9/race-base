@@ -2,7 +2,6 @@
   "expo": {
     "name": "Bloomsday 2018",
     "description": "An empty new project",
-    "slug": "bloomsday",
     "privacy": "public",
     "sdkVersion": "24.0.0",
     "version": "2.1",
