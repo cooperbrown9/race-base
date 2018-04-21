@@ -75,7 +75,7 @@ class RaceMapScreen extends Component {
     setInterval(async() => {
       let location = await Location.getCurrentPositionAsync({});
       this.setState({ myLatitude: location.coords.latitude, myLongitude: location.coords.longitude });
-    }, 5000);
+    }, 30000);
 
     setTimeout(() => {
       const START_LATITUDE = 47.6588;
@@ -146,7 +146,7 @@ class RaceMapScreen extends Component {
           <MapView.Marker coordinate={{latitude: 47.662184, longitude: -117.426651}} image={require('../../assets/icons/finish.png')} />
 
           <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
-          <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/pin.png')} />
+          <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/button.png')} />
         </MapView>
 
       <TouchableOpacity onPress={() => this.setState({regionSet:true,currentRegion:{latitude:START_LATITUDE,longitude:START_LONGITUDE,latitudeDelta:0.0922,longitudeDelta:0.0421} },()=>this.setState({regionSet:false}))} style={{position:'absolute', top: 100, right: 16, height: 40, width: 40}}>

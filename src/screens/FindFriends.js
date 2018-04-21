@@ -124,7 +124,7 @@ class FindFriends extends Component {
                   <Text style={styles.name}>{user.runFirstName} {user.runLastName}</Text>
                   <Text style={styles.bib}>Bib: {user.runNumber}</Text>
                   <Text style={styles.city}>{user.runCity}</Text>
-                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 160, bottom: 4, right: 4, height: 50, marginLeft: 0, marginRight: 0, borderRadius:8, justifyContent:'center', alignItems:'center'}}>
+                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 120, bottom: 4, right: 4, height: 50, marginLeft: 0, marginRight: 8, borderRadius:8, justifyContent:'center', alignItems:'center', backgroundColor:Colors.BLUE}}>
                     <Text style={styles.addText}>RESULTS</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
@@ -158,9 +158,9 @@ const styles = StyleSheet.create({
   },
   addText: {
     fontFamily: 'roboto-bold',
-    fontSize: 24,
+    fontSize: 18,
     borderWidth:2, borderRadius:8,
-    height: 40,
+    height: 32, marginTop: 4,
     borderColor:Colors.BLUE, backgroundColor: Colors.BLUE,
     color: 'white',
     textAlign: 'center',
