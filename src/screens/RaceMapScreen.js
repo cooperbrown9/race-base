@@ -145,7 +145,7 @@ class RaceMapScreen extends Component {
 
           <MapView.Marker coordinate={{latitude: 47.662184, longitude: -117.426651}} image={require('../../assets/icons/finish.png')} />
 
-          <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/pin.png')} />
+          <MapView.Marker coordinate={{latitude: 47.6588, longitude: -117.4260}} image={require('../../assets/icons/start48.png')} />
           <MapView.Marker coordinate={{latitude: this.state.myLatitude, longitude: this.state.myLongitude }} image={require('../../assets/icons/button.png')} />
         </MapView>
 
