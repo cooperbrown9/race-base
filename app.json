@@ -1,10 +1,9 @@
 {
   "expo": {
-    "name": "Bloomsday 2018",
     "description": "An empty new project",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "2.1",
+    "version": "2.2",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon-bloomsday.png",
