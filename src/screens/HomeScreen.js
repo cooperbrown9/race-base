@@ -46,7 +46,7 @@ class HomeScreen extends Component {
     header: null,
   };
 
-  async componentWillMount() {
+  componentWillMount() {
     // this.getFriends();
   }
 
