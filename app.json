@@ -6,6 +6,9 @@
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon-bloomsday.png",
+    "splash": {
+      "image": "./assets/images/Bloomsday2018_color.png"
+    },
     "loading": {
       "icon": "./assets/images/Bloomsday2018_color.png",
       "hideExponentText": false
