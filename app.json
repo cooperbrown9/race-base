@@ -2,7 +2,7 @@
   "expo": {
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "2.5",
+    "version": "2.6",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon-bloomsday.png",
