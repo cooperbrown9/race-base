@@ -2,12 +2,13 @@
   "expo": {
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "2.6",
+    "version": "2.7",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon-bloomsday.png",
     "splash": {
-      "image": "./assets/images/Bloomsday2018_color.png"
+      "image": "./assets/images/Bloomsday2018_color.png",
+      "backgroundColor": "#55BBDD"
     },
     "loading": {
       "icon": "./assets/images/Bloomsday2018_color.png",

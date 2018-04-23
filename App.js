@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, StyleSheet, Text, View } from 'react-native';
+import { AppRegistry, StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 import { Provider, connect } from 'react-redux';
 import thunk from 'redux-thunk';
 // import { Provider } from 'react-redux';
@@ -45,7 +45,7 @@ class App extends Component {
   store = createStore(MainReducer, applyMiddleware(thunk));
 
   async componentDidMount() {
-    console.disableYellowBox = true;
+    // console.disableYellowBox = true;
 
     await Font.loadAsync({
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
@@ -96,7 +96,7 @@ class App extends Component {
     });
 
 
-    this._notificationSubscription = Notifications.addListener(this._handleNotification);
+    // this._notificationSubscription = Notifications.addListener(this._handleNotification);
 
   }
 
@@ -119,7 +119,7 @@ class App extends Component {
       );
     } else {
       return (
-        <View style={styles.container}></View>
+        <View style={styles.container}><ActivityIndicator size='large'/></View>
       )
     }
   }

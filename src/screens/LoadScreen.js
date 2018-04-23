@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, ActivityIndicator, AsyncStorage } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import * as UserActions from '../action-types/user-action-types';
@@ -51,7 +51,7 @@ class LoadScreen extends Component {
 
 var mapStateToProps = state => {
   return {
-    ...state
+    // ...state
   }
 }
 
