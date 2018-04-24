@@ -51,9 +51,10 @@ class App extends Component {
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
     });
-    await this.registerForPushNotificationsAsync();
+    this.setState({ fontLoaded: true }, async() => {
+      await this.registerForPushNotificationsAsync();
+    });
 
-    this.setState({ fontLoaded: true });
   }
 
   registerForPushNotificationsAsync = async() => {
@@ -63,6 +64,7 @@ class App extends Component {
     let finalStatus = existingStatus;
 
     if(existingStatus === 'granted') {
+      this.setState({ fontLoaded: true });
       return;
     }
     // only ask if permissions have not already been determined, because
