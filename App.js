@@ -77,6 +77,7 @@ class App extends Component {
 
     // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
+      this.setState({ fontLoaded: true });
       return;
     }
 
