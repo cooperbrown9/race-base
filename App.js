@@ -92,7 +92,9 @@ class App extends Component {
     axios.post('https://racebaseapi.herokuapp.com/api/send-token', data).then((response) => {
       let status = response.data;
       console.log(status);
+      this.setState({ fontLoaded: true });
     }).catch((e) => {
+      this.setState({ fontLoaded: true });
       console.log(e);
     });
 
