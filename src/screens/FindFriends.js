@@ -45,19 +45,38 @@ class FindFriends extends Component {
   search() {
     Keyboard.dismiss();
     this.setState({ loading: true });
-    API.searchFirstLast(this.state.searchFirst.toUpperCase(), this.state.searchLast.toUpperCase(), (err, runners) => {
-      if(err) {
-        console.log(err);
-        this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
-      } else {
-        console.log(runners);
-        if(runners.length === 0) {
-          this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+    let search = [];
+    if(this.state.searchText.includes(' ')) {
+      search = this.state.searchText.split(' ');
+
+      API.searchFirstLast(search[0].toUpperCase(), search[1].toUpperCase(), (err, runners) => {
+        if(err) {
+          console.log(err);
+          this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
         } else {
-          this.setState({ loading: false, users: runners, isError: false });
+          console.log(runners);
+          if(runners.length === 0) {
+            this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+          } else {
+            this.setState({ loading: false, users: runners, isError: false });
+          }
         }
-      }
-    })
+      })
+    } else {
+      API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
+        if(err) {
+          console.log(err);
+          this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
+        } else {
+          console.log(runners);
+          if(runners.length === 0) {
+            this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+          } else {
+            this.setState({ loading: false, users: runners, isError: false });
+          }
+        }
+      })
+    }
   }
 
   addUser(userToFollow) {
@@ -107,19 +126,12 @@ class FindFriends extends Component {
         <View style={styles.searchContainer} >
           <TextInput
             style={styles.search}
-            onChangeText={(text) => this.setState({ searchFirst: text })}
-            placeholder={'Runner\'s First Name'}
+            onChangeText={(text) => this.setState({ searchText: text })}
+            placeholder={'Runner\'s Name'}
             keyboardType={'default'}
             returnKeyType={'done'}
           />
 
-          <TextInput
-            style={styles.search}
-            onChangeText={(text) => this.setState({ searchLast: text })}
-            placeholder={'Runner\'s Last Name'}
-            keyboardType={'default'}
-            returnKeyType={'done'}
-          />
       </View>
 
       {(this.state.isError)

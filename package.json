@@ -1,6 +1,7 @@
 {
+  "name": "Bloomsday 2018",
   "main": "node_modules/expo/AppEntry.js",
-  "version": "2.0",
+  "version": "2.7",
   "description": "Hello Expo!",
   "author": "",
   "private": false,
