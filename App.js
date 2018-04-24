@@ -51,6 +51,7 @@ class App extends Component {
       'roboto-regular': require('./assets/fonts/Roboto-Regular.ttf'),
       'roboto-bold': require('./assets/fonts/Roboto-Bold.ttf')
     });
+
     this.setState({ fontLoaded: true }, async() => {
       await this.registerForPushNotificationsAsync();
     });
@@ -58,7 +59,7 @@ class App extends Component {
   }
 
   registerForPushNotificationsAsync = async() => {
-    const { status: existingStatus } = await Permissions.getAsync(
+    let { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
     let finalStatus = existingStatus;
@@ -79,27 +80,31 @@ class App extends Component {
 
     // Stop here if the user did not grant permissions
     if (finalStatus !== 'granted') {
-      this.setState({ fontLoaded: true });
-      return;
+      this.setState({ fontLoaded: true }, () => {
+        return;
+      });
     }
 
     // Get the token that uniquely identifies this device
-    let token = await Notifications.getExpoPushTokenAsync();
-    let data = {
-      'token': token
+    let data = {};
+    if(finalStatus === 'granted') {
+      let token = await Notifications.getExpoPushTokenAsync();
+      data = {
+        'token': token
+      }
     }
 
     // POST the token to your backend server from where you can retrieve it to send push notifications.
-
-    axios.post('https://racebaseapi.herokuapp.com/api/send-token', data).then((response) => {
-      let status = response.data;
-      console.log(status);
-      this.setState({ fontLoaded: true });
-    }).catch((e) => {
-      this.setState({ fontLoaded: true });
-      console.log(e);
-    });
-
+    if(finalStatus === 'granted') {
+      axios.post('https://racebaseapi.herokuapp.com/api/send-token', data).then((response) => {
+        let status = response.data;
+        console.log(status);
+        this.setState({ fontLoaded: true });
+      }).catch((e) => {
+        this.setState({ fontLoaded: true });
+        console.log(e);
+      });
+    }
 
     // this._notificationSubscription = Notifications.addListener(this._handleNotification);
 
@@ -112,8 +117,6 @@ class App extends Component {
   };
 
   render() {
-    // debugger;
-    // console.log(store);
     if(this.state.fontLoaded) {
       return (
 
@@ -150,7 +153,6 @@ const styles = StyleSheet.create({
 // }
 
 var mapStateToProps = state => {
-  // debugger;
   return {
     bruh: state
   }
