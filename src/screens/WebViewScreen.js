@@ -23,8 +23,7 @@ class WebViewScreen extends Component {
       webviewPresented: false,
       url: "https://www.google.com",
       title: "",
-      actualUrl: "https://www.google.com",
-      
+      actualUrl: 'https://www.google.com'
     }
   }
 
@@ -38,25 +37,25 @@ class WebViewScreen extends Component {
   }
 
   componentDidMount() {
-    this.setState({actualUrl: this.props.url});
-    
+    // this.setState({actualUrl: this.props.url});
+    // setTimeout(() => {
+      this.props.dispatch({ type: 'SET_URL', url: 'https://vimeo.com/208591364/1b1e96dcc3' });
+
+    // },2000)
   }
 
   componentWillUnmount() {
-    if (this.props.url.includes('vimeo'))
-    {
-        this.setState({actualUrl: 'https://www.google.com'});
-    }
-    debugger;
+    // debugger;
+    // if (this.state.actualUrl.includes('vimeo'))
+    // {
+    //     this.setState({actualUrl: 'https://www.google.com'});
+    // }
   }
-
-  
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     });
-    this.setState({url: 'https://www.google.com'});
   }
 
   render(){
@@ -65,14 +64,12 @@ class WebViewScreen extends Component {
       <View style={{flex:1, backgroundColor: 'white'}}>
         <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={this.toggleMenu.bind(this)}
-                rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}} />}
                 title={<Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
         />
 
         <WebView
-          
-          source={{uri: this.state.actualUrl}}
+          source={{uri: this.props.actualUrl}}
           style={{flex: 1}}
         />
 
@@ -84,7 +81,7 @@ class WebViewScreen extends Component {
   var mapStateToProps = state => {
     return {
       nav: state.nav,
-
+      actualUrl: state.user.url
     }
   }
 

@@ -7,7 +7,8 @@ const initialUserState = {
     bib: ''
   },
   isLoggedIn: false,
-  userID: null
+  userID: null,
+  url: 'https://vimeo.com/208591364/1b1e96dcc3'
 }
 
 export default function user(state = initialUserState, action) {
@@ -18,6 +19,12 @@ export default function user(state = initialUserState, action) {
         user: action.user,
         userID: action.user._id,
         isLoggedIn: true
+      }
+
+    case 'SET_URL':
+      return {
+        ...state,
+        url: action.url
       }
 
     case 'GET_USER':

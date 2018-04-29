@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "Bloomsday 2018",
-    "description": "An empty new project",
-    "slug": "bloomsday",
     "privacy": "public",
     "sdkVersion": "24.0.0",
-    "version": "1.2.1",
+    "version": "2.10",
     "orientation": "portrait",
     "primaryColor": "#cccccc",
     "icon": "./assets/icon-bloomsday.png",
+    "splash": {
+      "image": "./assets/images/Bloomsday2018_color.png",
+      "backgroundColor": "#55BBDD"
+    },
     "loading": {
       "icon": "./assets/images/Bloomsday2018_color.png",
       "hideExponentText": false
@@ -18,11 +19,11 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.xapp.racebase"
+      "bundleIdentifier": "com.xapp.lilacbloomsday"
     },
     "android": {
       "package": "com.mtib.bloomsday",
-      "versionCode": 2
+      "versionCode": 6
     },
   }
 }

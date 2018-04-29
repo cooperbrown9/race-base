@@ -29,6 +29,7 @@ import * as API from '../api/api';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
 
+// Bundle ID is com.xapp.lilacbloomsday
 class HomeScreen extends Component {
 
   constructor() {
@@ -45,7 +46,7 @@ class HomeScreen extends Component {
     header: null,
   };
 
-  async componentWillMount() {
+  componentWillMount() {
     // this.getFriends();
   }
 
@@ -118,9 +119,16 @@ class HomeScreen extends Component {
 
   getDaysUntilRace() {
     var now = new Date();
+    if(now.getMonth() === 4 && now.getDate() === 6) {
+      return 'Today';
+    }
+    if(now.getMonth() === 4 && now.getDate() === 5) {
+      return '1 Day';
+    }
     var raceday = new Date("2018/05/06"); // yr,mo,da May 6, 2018
     var diff = Math.floor((raceday - now) / 86400000);
-    return diff;
+
+    return diff + ' Days';
   }
 
   _alert = (message) => {
@@ -158,7 +166,7 @@ class HomeScreen extends Component {
           <View style={styles.bottomBar}>
             <View style={styles.dateCountdown}>
               <Text style={{fontSize: 12, color: 'gray', marginBottom: 3, marginTop: 10}}>May 6, 2018</Text>
-              <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} Days</Text>
+              <Text style={{fontSize: 20,}}>{this.getDaysUntilRace()} </Text>
             </View>
             <View style={{width: 1, backgroundColor: '#55BBDD'}}></View>
             <TouchableOpacity style={styles.register} onPress={() => this.setState({ registrationFormPresented: true }) }>

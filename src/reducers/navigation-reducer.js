@@ -41,6 +41,11 @@ export default function nav(state = firstState, action) {
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'Tracking'}),
       state
     );
+
+    case NavActions.GO_RACEMAP:
+      nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'RaceMap'}),
+      state
+    );
     break;
     case NavActions.GO_RESOURCE_MAPS:
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'ResourceMaps'}),
@@ -68,6 +73,7 @@ export default function nav(state = firstState, action) {
       nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({routeName: 'FlyOver'}),
       state
     );
+
     break;
 
     case NavActions.GO_AROUNDTOWN:

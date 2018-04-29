@@ -13,17 +13,17 @@ class FlyOverMenu extends Component {
 
   static navigationOptions = {
     header: null
-    
+
   }
-  
+
   componentDidMount() {
-    debugger;
     console.log("hello");
-    
+
   }
 
   _navigate(path) {
     this.props.dispatch({type: 'CLOSE'  });
+    this.props.dispatch({ type: 'SET_URL', url: 'https://www.google.com'})
     this.props.navigation.dispatch({ type: path });
   }
 

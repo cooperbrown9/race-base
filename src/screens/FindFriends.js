@@ -15,6 +15,8 @@ import * as Colors from '../style/colors';
 import axios from 'axios';
 import NavBar from '../ui-elements/nav-bar';
 
+import { Keyboard } from 'react-native';
+
 class FindFriends extends Component {
 
   constructor() {
@@ -22,6 +24,8 @@ class FindFriends extends Component {
 
     this.state = {
       searchText: "",
+      searchFirst: "",
+      searchLast: "",
       users: [],
       loading: false,
       isError: false,
@@ -39,33 +43,65 @@ class FindFriends extends Component {
   }
 
   search() {
+    Keyboard.dismiss();
     this.setState({ loading: true });
-    API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
-      if(err) {
-        console.log(err);
-        this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
-      } else {
-        console.log(runners);
-        if(runners.length === 0) {
-          this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+    let search = [];
+    if(this.state.searchText.includes(' ')) {
+      search = this.state.searchText.split(' ');
+
+      API.searchFirstLast(search[0].toUpperCase(), search[1].toUpperCase(), (err, runners) => {
+        if(err) {
+          console.log(err);
+          this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
         } else {
-          this.setState({ loading: false, users: runners, isError: false });
+          console.log(runners);
+          if(runners.length === 0) {
+            this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+          } else {
+            this.setState({ loading: false, users: runners, isError: false });
+          }
         }
-      }
-    })
+      })
+    } else {
+      API.searchName(this.state.searchText.toUpperCase(), (err, runners) => {
+        if(err) {
+          console.log(err);
+          this.setState({ loading: false, isError: true, errorMessage:'error searching for users, check network connection!' });
+        } else {
+          console.log(runners);
+          if(runners.length === 0) {
+            this.setState({ loading: false, isError: true, errorMessage: 'Did not find any users with this name!' });
+          } else {
+            this.setState({ loading: false, users: runners, isError: false });
+          }
+        }
+      })
+    }
   }
 
   addUser(userToFollow) {
     this.setState({ loading: true });
     // let dummyURL = 'https://api.chronotrack.com/api/results/37865/bib/2?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f'
     // axios.get(dummyURL)
-    axios.get('https://api.chronotrack.com/api/results/37865/bib/' + userToFollow.runNumber + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f')
+    //{
+      // TEST DATA - COMMENT OUT
+      //const RaceId = '38503';
+      //userToFollow.runNumber = 343;
+      //userToFollow.runNumber = 2; // finished
+      //userToFollow.runNumber = 3; // 3 intervals
+      //userToFollow.runNumber = 4; // not started
+    //}
+    //{
+      // BLOOMSDAY RACEID - UNCOMMENT
+      const RaceId = '37865';
+    //}
+    axios.get('https://api.chronotrack.com/api/results/' + RaceId + '/bib/' + userToFollow.runNumber + '?format=json&client_id=727dae7f&user_id=matt%40ransdellbrown.com&user_pass=cf5d3438ea8d630cb91e3d89fc8e9021cbd00b5f')
       .then(response => {
         this.setState({ loading: false, users: [], searchText: '' }, () => {
           console.log(response.data);
           if(response.data.error) {
             console.log('This user has not completed the race yet!');
-            this.setState({ isError: true, errorMessage: 'This user has not completed the race yet!' });
+            this.setState({ isError: true, loading: false, errorMessage: 'This runner has not started the race.' });
           } else {
             // dismiss and pass back user
             response.data.name = userToFollow.runFirstName + ' ' + userToFollow.runLastName;
@@ -74,6 +110,7 @@ class FindFriends extends Component {
         })
       })
       .catch(e => {
+        this.setState({ loading: false });
         console.log(e);
       })
   }
@@ -94,7 +131,9 @@ class FindFriends extends Component {
             keyboardType={'default'}
             returnKeyType={'done'}
           />
+
       </View>
+
       {(this.state.isError)
         ? <Text style={{marginTop:0,color:'red',textAlign:'center',fontFamily:'roboto-regular'}}>{this.state.errorMessage}</Text>
         : null
@@ -107,9 +146,9 @@ class FindFriends extends Component {
               {(this.state.users.length > 0) ? this.state.users.map((user) => (
                 <TouchableOpacity style={styles.userContainer} key={user.bib} >
                   <Text style={styles.name}>{user.runFirstName} {user.runLastName}</Text>
-                  <Text style={styles.bib}>{user.runNumber}</Text>
+                  <Text style={styles.bib}>Bib: {user.runNumber}</Text>
                   <Text style={styles.city}>{user.runCity}</Text>
-                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 140,bottom: 4, right: 4, height: 50, borderRadius:8, justifyContent:'center', alignItems:'center'}}>
+                  <TouchableOpacity onPress={() => this.addUser(user)} style={{position: 'absolute', top: 40, width: 120, bottom: 4, right: 4, height: 50, marginLeft: 0, marginRight: 8, borderRadius:8, justifyContent:'center', alignItems:'center', backgroundColor:Colors.BLUE}}>
                     <Text style={styles.addText}>RESULTS</Text>
                   </TouchableOpacity>
                 </TouchableOpacity>
@@ -143,20 +182,19 @@ const styles = StyleSheet.create({
   },
   addText: {
     fontFamily: 'roboto-bold',
-    fontSize: 24,
+    fontSize: 18,
     borderWidth:2, borderRadius:8,
-    height: 40,
+    height: 32, marginTop: 4,
     borderColor:Colors.BLUE, backgroundColor: Colors.BLUE,
     color: 'white',
     textAlign: 'center',
     overflow: 'hidden'
   },
   search: {
-    flex: 1,
     borderBottomColor: Colors.BLUE, borderBottomWidth: 2,
     color: 'black', fontFamily: 'roboto-regular',
     backgroundColor: 'transparent', fontSize: 24,
-    height: 64
+    height: 48, marginBottom: 32
   },
   userContainer: {
     height: 100, marginLeft: 8, marginRight: 8, marginBottom: 16,
@@ -176,19 +214,20 @@ const styles = StyleSheet.create({
     fontSize: 16, marginLeft: 16, marginTop: 8
   },
   searchContainer: {
-    flex: 1, alignItems: 'stretch', flexDirection: 'row',
-    marginTop: 16, marginBottom: 32,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
-    justifyContent: 'center', alignItems: 'center'
+    flex: 1, alignItems: 'stretch', flexDirection: 'column',
+    marginTop: 64,marginLeft: 32, marginRight: 32, backgroundColor: 'transparent',
+    justifyContent: 'flex-start'
   },
   resultContainer: {
     flex: 4,
-    marginLeft: 16, marginRight: 16, marginBottom:16,
+    marginLeft: 16, marginRight: 16, marginBottom:16, marginTop: 28,
     backgroundColor: 'transparent'
   },
   scrollContainer: {
     flex: 1
   },
   closeContainer: {
+    // flex: 2, justifyContent: 'flex-end', backgroundColor:'orange',
     marginLeft: 32, marginRight: 32, marginBottom: 16, marginTop: 16
   },
   closeButton: {
