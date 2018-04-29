@@ -23,7 +23,7 @@
     },
     "android": {
       "package": "com.mtib.bloomsday",
-      "versionCode": 6
+      "versionCode": 7
     },
   }
 }
