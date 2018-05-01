@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "752948298810",
+    "firebase_url": "https://bloomsday2018.firebaseio.com",
+    "project_id": "bloomsday2018",
+    "storage_bucket": "bloomsday2018.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752948298810:android:01423a8ad28bff1e",
+        "android_client_info": {
+          "package_name": "com.mtib.bloomsday"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752948298810-h078r5a2kskms1p5fkva2b70aduqesre.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNUkISQ62xXpH0wTyaQBRPGwGxp0Ax0xM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
