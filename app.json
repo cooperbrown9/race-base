@@ -24,7 +24,7 @@
     "android": {
       "package": "com.mtib.bloomsday",
       "googleServicesFile": "./google-services.json",
-      "versionCode": 6
+      "versionCode": 8
     },
   }
 }
