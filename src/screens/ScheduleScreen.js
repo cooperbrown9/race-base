@@ -30,20 +30,24 @@ class ScheduleScreen extends Component {
   state = {
     events: [],
     currentIndex: 0,
-    fridayEvents: [],
-    saturdayEvents: [],
-    sundayEvents: [],
+    dayOneEvents: [],
+    dayTwoEvents: [],
+    dayThreeEvents: [],
     currentDay:[],
     isVisible: true,
-    fri: true,
-    sat: false,
-    sun: false,
+    dayOne: true,
+    dayTwo: false,
+    dayThree: false,
+    dayOneDate: 'MAY 4',
+    dayTwoDate: 'MAY 5',
+    dayThreeDate: 'MAY 6',
+    dayOneWeekday: 'FRI',
+    dayTwoWeekday: 'SAT',
+    dayThreeWeekday: 'SUN',
     menuOpen: false,
     isLoading: true
   }
 
-  componentWillMount() {
-  }
 
   componentDidMount(){
     this.loadSchedule();
@@ -57,14 +61,14 @@ class ScheduleScreen extends Component {
 
 
   _updateEvents = () => {
-    if(this.state.fri){
-      this.setState({currentDay: this.state.fridayEvents});
+    if(this.state.dayOne){
+      this.setState({currentDay: this.state.dayOneEvents});
     }
-    if(this.state.sat){
-      this.setState({currentDay: this.state.saturdayEvents});
+    if(this.state.dayTwo){
+      this.setState({currentDay: this.state.dayTwoEvents});
     }
-    if(this.state.sun){
-      this.setState({currentDay: this.state.sundayEvents});
+    if(this.state.dayThree){
+      this.setState({currentDay: this.state.dayThreeEvents});
     }
   }
 
@@ -72,16 +76,16 @@ class ScheduleScreen extends Component {
     console.log('Drop Down Accessed');
   }
 
-  _onPressFriday = () =>{
-    this.setState({ currentDay: this.state.fridayEvents });
+  _onPressDayOne = () =>{
+    this.setState({ currentDay: this.state.dayOneEvents });
   }
 
-  _onPressSaturday = () =>{
-    this.setState({ currentDay: this.state.saturdayEvents });
+  _onPressDayTwo = () =>{
+    this.setState({ currentDay: this.state.dayTwoEvents });
   }
 
-  _onPressSunday = () =>{
-    this.setState({ currentDay: this.state.sundayEvents });
+  _onPressDayThree = () =>{
+    this.setState({ currentDay: this.state.dayThreeEvents });
   }
 
  loadSchedule = () => {
@@ -102,7 +106,7 @@ class ScheduleScreen extends Component {
        }
        // remember that an index of the day needs to be stored on the schedule object in DB
        // or some timestamp to tell which day it is
-       this.setState({ events: schedule, currentDay: fri, fridayEvents: fri, saturdayEvents: sat, sundayEvents: sun, isLoading: false }, () => {
+       this.setState({ events: schedule, currentDay: dayOne, dayOneEvents: dayOne, dayTwoEvents: dayTwo, dayThreeEvents: dayThree, isLoading: false }, () => {
          this.forceUpdate();
        });
 
@@ -122,16 +126,16 @@ class ScheduleScreen extends Component {
         />
         <View style={styles.dayBar}>
           <TouchableOpacity style={styles.day} onPress={this._onPressFriday} >
-            <Text style={styles.dayText}>MAY 4</Text>
-            <Text style={styles.weekdayText}>FRI</Text>
+            <Text style={styles.dayText}>{this.state.dayOneDate}</Text>
+            <Text style={styles.weekdayText}>{this.state.dayOneWeekday}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.day} onPress={this._onPressSaturday}>
-            <Text style={styles.dayText}>MAY 5</Text>
-            <Text style={styles.weekdayText}>SAT</Text>
+            <Text style={styles.dayText}>{this.state.dayTwoDate}</Text>
+            <Text style={styles.weekdayText}>{this.state.dayTwoWeekday}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.day} onPress={this._onPressSunday}>
-            <Text style={styles.dayText}>MAY 6</Text>
-            <Text style={styles.weekdayText}>SUN</Text>
+            <Text style={styles.dayText}>{this.state.dayThreeDate}</Text>
+            <Text style={styles.weekdayText}>{this.state.dayThreeWeekday}</Text>
           </TouchableOpacity>
 
 
@@ -142,6 +146,13 @@ class ScheduleScreen extends Component {
                 ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem key={model.eventName} date={model.date} day={model.day} time={model.time + model.timeOfDay} description={model.eventName} location={model.eventLocation}/>))
                 : null
               }
+              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', height: 72, borderBottomColor: 'grey', borderBottomWidth: .5}}>
+                <Text style={{fontSize: 22, marginLeft: 20}}>8am</Text>
+                <View style={{paddingLeft: 45}}>
+                  <Text style={{fontSize: 20}}>Worship Service</Text>
+                  <Text style={{fontSize: 12, color: 'grey'}}>Floating Stage</Text>
+                </View>
+              </View>
           </ScrollView>
         {(this.state.isLoading)
           ? <View style={{position:'absolute', left:0,right:0,top:0,bottom:0,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size={'large'} color={'black'}/></View>
