@@ -71,7 +71,7 @@ class WebViewNavScreen extends Component {
         <NavBarWebNav leftButton={<Image source={icon} style={{height: 20, width: 20, tintColor: 'white'}}/>}
                 leftOnPress={ (this.props.dismiss != null) ? this.props.dismiss : this.toggleMenu.bind(this)}
 
-                title={<Text style={{color:'white', fontSize: 16}}>{this.props.title}</Text>}
+                title={<Text style={{color:'white', fontSize: 16, fontFamily:'roboto-bold'}}>{this.props.title}</Text>}
                 style={{position:'absolute'}}
 
                 backButton={<Image source={require('../../assets/icons/back.png')} style={(this.state.canGoBack) ? {height:22, width:22, tintColor: 'white'} : {height:22, width:22, tintColor: 'gray'}}
