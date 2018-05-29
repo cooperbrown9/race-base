@@ -59,6 +59,7 @@ class App extends Component {
   }
 
   registerForPushNotificationsAsync = async() => {
+    
     let { status: existingStatus } = await Permissions.getAsync(
       Permissions.NOTIFICATIONS
     );
