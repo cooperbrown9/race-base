@@ -58,12 +58,14 @@ container:{
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    marginLeft: 20
+    marginLeft: 20,
   },
   open: {
     fontSize: 14,
-    color: 'gray',
+    color: 'white',
     paddingBottom: 15,
+    backgroundColor: 'grey'
+
   },
   closed: {
     height: 0
