@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
 
-class RegistrationModal extends Component {
+export default class RegistrationModal extends Component {
 
   constructor() {
     super();
@@ -17,6 +17,10 @@ class RegistrationModal extends Component {
 
   static propTypes = {
     dismiss: PropTypes.func
+  }
+
+  componentDidMount() {
+
   }
 
   fieldFactory(placeholder, text, updateState, keyboard = 'default') {
@@ -38,10 +42,10 @@ class RegistrationModal extends Component {
   render() {
     return(
 
-      <View>
-
-      <View>
-    )
+      <View style={styles.container} >
+        <Text>bruuuuh</Text>
+      </View>
+    );
   }
 }
 
@@ -58,5 +62,3 @@ const styles = StyleSheet.create({
     color: 'green', fontSize: 24, fontFamily: 'roboto-bold'
   },
 })
-
-export default RegistrationModal;

@@ -134,9 +134,10 @@ class HomeScreen extends Component {
           <ProfileScreen alert={(text) => this._alert(text)} dismiss={this.dismissCreateUserForm.bind(this)} />
         </Modal>
 
-        <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >
-          {/*<WebViewNavScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>*/}
-          <RegistrationModal/>
+        {/*<WebViewNavScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>*/}
+        {/**/}
+        <Modal animationType={"slide"} transparent={false} visible={this.state.registrationFormPresented} >
+          <RegistrationModal dismiss={() => this.setState({ registrationFormPresented: false })} />
         </Modal>
 
           <View style={styles.imageContainer}>
