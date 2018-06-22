@@ -20,6 +20,7 @@ import Menu from './menus/main-menu.js';
 import ProfileScreen from './ProfileScreen';
 import WebViewNavScreen from './WebViewNavScreen';
 import axios from 'axios';
+import RegistrationModal from '../modals/RegistrationModal';
 
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
@@ -134,7 +135,8 @@ class HomeScreen extends Component {
         </Modal>
 
         <Modal animationType={"slide"} transparent={true} visible={this.state.registrationFormPresented} >
-          <WebViewNavScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>
+          {/*<WebViewNavScreen title={"Register"} url={urlRegister} dismiss={this.dismissRegistrationForm.bind(this)}/>*/}
+          <RegistrationModal/>
         </Modal>
 
           <View style={styles.imageContainer}>

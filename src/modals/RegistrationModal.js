@@ -23,7 +23,7 @@ class RegistrationModal extends Component {
     return (
       <View style={styles.fieldContainer} >
         <TextInput
-          selectionColor={Colors.PURPLE} autoCorrect={false}
+          selectionColor={'blue'} autoCorrect={false}
           style={styles.field}
           placeholder={placeholder}
           onChangeText={(text) => updateState(text)}
