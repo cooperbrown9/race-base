@@ -20,9 +20,10 @@ class FaqMenu extends Component {
 
   render() {
     const menu = <Menu navigator={this.props.navigator} navigateFunc={this._navigate.bind(this)} />
+    // <WebViewScreen title={'FAQ'} url={urlFAQ}/>
     return(
       <SideMenu menu={menu} isOpen={this.props.menuOpen} >
-        <WebViewScreen title={'FAQ'} url={urlFAQ}/>
+        
       </SideMenu>
 
     )

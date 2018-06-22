@@ -24,7 +24,7 @@ import axios from 'axios';
 import * as Screens from '../constants/screen-types.js';
 import * as FriendActions from '../action-types/friend-action-types';
 import * as API from '../api/api';
-// import data from '../../assets/data/data-as-json.json';
+// import data from '../../assets/data/bib-data.json';
 // import Expo from 'expo';
 
 const urlRegister = "http://www.bloomsdayrun.org/registration/register-online";
@@ -60,8 +60,7 @@ class HomeScreen extends Component {
 		// 		'runFirstName': data[i].runFirstName,
 		// 		'runAge': data[i].runAge,
 		// 		'runCity': data[i].runCity,
-		// 		'runNumber': data[i].runNumber,
-		// 		'Time': data[i].Time
+		// 		'runNumber': data[i].runNumber
     //   }
     //   axios.post('https://racebaseapi.herokuapp.com/api/upload-single-runner', runner)
     //   .then(response => console.log(response.data))
@@ -70,28 +69,8 @@ class HomeScreen extends Component {
   }
 
   componentWillUnmount() {
-    // this.listener && Expo.Notifications.removelistener(this.listen);
+
   }
-  //
-  // getFriends = () => {
-  //   let friendCount = 0;
-  //   let friends = [];
-  //
-  //   for(let i = 0; i < this.props.friends.length; i++) {
-  //     API.getUser(this.props.friends[i].user_id, (err, user) => {
-  //       if(err) {
-  //         console.log(err);
-  //       } else {
-  //         friendCount++;
-  //         friends.push(user);
-  //
-  //         if(friendCount === this.props.friends.length) {
-  //           this.props.dispatch({ type: FriendActions.SET_FRIENDS, friends: friends });
-  //         }
-  //       }
-  //     })
-  //   }
-  // }
 
   toggleMenu() {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
@@ -125,7 +104,7 @@ class HomeScreen extends Component {
     if(now.getMonth() === 4 && now.getDate() === 5) {
       return '1 Day';
     }
-    var raceday = new Date("2018/05/06"); // yr,mo,da May 6, 2018
+    var raceday = new Date("2019/05/06"); // yr,mo,da May 6, 2018
     var diff = Math.floor((raceday - now) / 86400000);
 
     return diff + ' Days';
@@ -254,7 +233,6 @@ const styles = StyleSheet.create({
         width: Dimensions.get('window').width,
       },
     }),
-
   },
 });
 
