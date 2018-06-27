@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, TextInput, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, TextInput, ScrollView, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import RoundButton from '../ui-elements/round-button.js';
+import NavBar from '../ui-elements/nav-bar';
 
 export default class RegistrationModal extends Component {
 
@@ -11,7 +13,8 @@ export default class RegistrationModal extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      phone: ''
+      phone: '',
+      age: '',
     }
   }
 
@@ -22,6 +25,13 @@ export default class RegistrationModal extends Component {
   componentDidMount() {
 
   }
+
+  enterOnPress(){
+
+
+  }
+
+
 
   fieldFactory(placeholder, text, updateState, keyboard = 'default') {
     return (
@@ -42,8 +52,27 @@ export default class RegistrationModal extends Component {
   render() {
     return(
 
-      <View style={styles.container} >
-        <Text>bruuuuh</Text>
+      <View style={styles.container}>
+        <NavBar leftButton={<Image source={require('../../assets/icons/close.png')} style={{height:20, width:20, tintColor: 'white'}}/>}
+                leftOnPress={this.props.dismiss}
+                title={<Text style={{color: 'white', fontSize: 24, fontFamily: 'roboto-bold'}}>Registration</Text>}
+                style={styles.navBarStyle}
+        />
+
+        <ScrollView>
+          <View style={{height:32}}/>
+          {this.fieldFactory('First Name', this.state.firstName, (text) => this.setState({firstName: text}))}
+          {this.fieldFactory('Last Name', this.state.lastName, (text) => this.setState({lastName: text}))}
+          {this.fieldFactory('Email', this.state.email, (text) => this.setState({email: text}))}
+          {this.fieldFactory('Phone Number', this.state.phone, (text) => this.setState({phone: text}))}
+          {this.fieldFactory('Age', this.state.age, (text) => this.setState({age: text}))}
+
+        <View style={styles.bottomView}>
+          <TouchableOpacity onPress={this.props.dismiss} style={{marginLeft:32,marginRight:32,marginTop:16,height:64,borderRadius:8,backgroundColor:'#a260a9',justifyContent:'center',alignItems:'center'}}>
+            <Text style={{fontSize: 24, fontFamily:'roboto-bold', color:'white', textAlign:'center'}}>ENTER</Text>
+          </TouchableOpacity>
+        </View>
+        </ScrollView>
       </View>
     );
   }
@@ -51,14 +80,24 @@ export default class RegistrationModal extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   fieldContainer: {
     marginLeft: 32, marginRight: 32, marginBottom: 32,
     height: 64, justifyContent: 'center',
-    borderBottomColor: 'yellow', borderBottomWidth: 2
+    borderBottomColor: '#55BBDD', borderBottomWidth: 2
+  },
+  bottomView: {
+    flex: 1,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    marginBottom: 20
+  },
+  navBarStyle: {
+    backgroundColor: '#55BBDD',
+    height: 25
   },
   field: {
-    color: 'green', fontSize: 24, fontFamily: 'roboto-bold'
+    color: 'black', fontSize: 24, fontFamily: 'roboto-bold'
   },
 })

@@ -64,10 +64,10 @@ class FaqScreen extends React.Component {
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-              rightButton={<Image source={require('../../assets/icons/profile.png')} style={{height: 22, width: 22, tintColor: 'white'}}/>}
+            
               leftOnPress={this.toggleMenu.bind(this)}
               title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
-                      <Text style={{color:'white', fontSize: 16}}>FAQ ⌄</Text>
+                      <Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>FAQ</Text>
                      </TouchableOpacity>}
               style={{position:'absolute'}}
       />
