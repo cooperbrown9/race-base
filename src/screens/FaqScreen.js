@@ -14,7 +14,8 @@ import FAQItem from '../ui-elements/faq-item.js';
 
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
-
+import * as API from '../api/api';
+import axios from 'axios';
 
 class FaqScreen extends React.Component {
 
@@ -45,6 +46,10 @@ class FaqScreen extends React.Component {
     console.log("Drop Down Accessed");
   }
 
+  componentDidMount(){
+    
+  }
+
   toggleMenu = () => {
     console.log('it works fam');
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
@@ -64,7 +69,7 @@ class FaqScreen extends React.Component {
     return(
       <View style={{flex:1, backgroundColor: 'white'}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
-            
+
               leftOnPress={this.toggleMenu.bind(this)}
               title={<TouchableOpacity onPress={this.dropDownMenu.bind(this)}>
                       <Text style={{color:'white', fontSize: 20, fontFamily:'roboto-bold'}}>FAQ</Text>

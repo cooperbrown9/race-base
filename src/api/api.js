@@ -3,6 +3,7 @@ import axios from 'axios';
 const BASE = 'https://racebaseapi.herokuapp.com/api';
 
 const SCHEDULE_ID = '5a8a2a876379700014073825';
+const RACE_ID = '5b39a17a80f82000144e8dfc';
 
 const CREATE_USER = '/create-user';
 
@@ -10,6 +11,7 @@ const GET_USER = '/get-user/';
 const GET_USER_TRACKING = '/get-user-tracking';
 const GET_USER_LOCATION = '/get-user-location/';
 const GET_SCHEDULE = '/get-schedule/';
+const GET_FAQ = '/get-faq/';
 
 const UPDATE_USER = '/update-user';
 const UPDATE_LOCATION = '/update-location';
@@ -38,9 +40,48 @@ export function getBibInfo(bib, callback) {
     .catch(e => callback(e))
 }
 
-export function getSchedule(scheduleID, callback) {
-  axios.get(BASE + GET_SCHEDULE + SCHEDULE_ID)
-    .then(response => callback(null, response.data.events))
+
+export function getSchedule(callback) {
+  axios.get(BASE + GET_SCHEDULE + RACE_ID)
+    .then(response => {
+      response.data.events.map((e) => {
+        e.event_end = new Date(e.event_end)
+      });
+
+      var orderedDays = response.data.events.sort(function(a,b){
+        return a.event_end > b.event_end;
+      });
+
+      var dayOneArray = [];
+      var dayTwoArray = [];
+      var dayThreeArray = [];
+
+      dayOneArray.push(orderedDays[0]);
+      var count = 0;
+      for(let i = 1; i < orderedDays.length; i++){
+        if(orderedDays[i].event_end.getDate() != orderedDays[i-1].event_end.getDate()){
+          count++;
+        }
+
+        if(count == 0){
+          dayOneArray.push(orderedDays[i]);
+        }
+        if(count == 1){
+          dayTwoArray.push(orderedDays[i]);
+        }
+        if(count == 2){
+          dayThreeArray.push(orderedDays[i]);
+        }
+
+      }
+
+      let scheduleModel = {
+        dayOne: dayOneArray,
+        dayTwo: dayTwoArray,
+        dayThree: dayThreeArray
+      }
+      callback(null, scheduleModel)
+    })
     .catch(e => callback(e))
 }
 

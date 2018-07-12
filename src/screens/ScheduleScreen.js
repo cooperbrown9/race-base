@@ -34,6 +34,7 @@ class ScheduleScreen extends Component {
     dayTwoEvents: [],
     dayThreeEvents: [],
     currentDay:[],
+    schedule: [],
     isVisible: true,
     dayOne: true,
     dayTwo: false,
@@ -89,29 +90,14 @@ class ScheduleScreen extends Component {
   }
 
  loadSchedule = () => {
-   API.getSchedule('5a19fa0d46c95e00147f9904', (err, schedule) => {
-     if(err) {
-       console.log(err);
-       this.setState({ isLoading: false });
-     } else {
-       let fri = [], sat = [], sun = [];
-       for(let i = 0; i < schedule.length;  i++) {
-         if(schedule[i].day === 'Fri') {
-           fri.push(schedule[i]);
-         } else if(schedule[i].day === 'Sat') {
-           sat.push(schedule[i]);
-         } else {
-           sun.push(schedule[i]);
-         }
-       }
-       // remember that an index of the day needs to be stored on the schedule object in DB
-       // or some timestamp to tell which day it is
-       this.setState({ events: schedule, currentDay: dayOne, dayOneEvents: dayOne, dayTwoEvents: dayTwo, dayThreeEvents: dayThree, isLoading: false }, () => {
-         this.forceUpdate();
-       });
-
-     }
-   })
+    API.getSchedule((err, schedule) => {
+      if(err) {
+        console.log(err);
+      } else {
+        this.setState({schedule: schedule});
+        debugger;
+      }
+    })
  }
 
   render() {
@@ -125,15 +111,15 @@ class ScheduleScreen extends Component {
                        </TouchableOpacity>}
         />
         <View style={styles.dayBar}>
-          <TouchableOpacity style={styles.day} onPress={this._onPressFriday} >
+          <TouchableOpacity style={styles.day} onPress={this._onPressDayOne} >
             <Text style={styles.dayText}>{this.state.dayOneDate}</Text>
             <Text style={styles.weekdayText}>{this.state.dayOneWeekday}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.day} onPress={this._onPressSaturday}>
+          <TouchableOpacity style={styles.day} onPress={this._onPressDayTwo}>
             <Text style={styles.dayText}>{this.state.dayTwoDate}</Text>
             <Text style={styles.weekdayText}>{this.state.dayTwoWeekday}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.day} onPress={this._onPressSunday}>
+          <TouchableOpacity style={styles.day} onPress={this._onPressDayThree}>
             <Text style={styles.dayText}>{this.state.dayThreeDate}</Text>
             <Text style={styles.weekdayText}>{this.state.dayThreeWeekday}</Text>
           </TouchableOpacity>
