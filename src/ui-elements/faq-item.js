@@ -16,7 +16,7 @@ const FAQItem = (props) => (
   <TouchableOpacity style={styles.container} onPress={props.action}>
 
     <View style={styles.questionContainer}>
-      <Text style={{fontSize: 16, color: 'gray', paddingTop: 15, paddingBottom: 15}}>{props.question}</Text>
+      <Text style={{fontSize: 16, color: 'grey', paddingTop: 15, paddingBottom: 15}}>{props.question}</Text>
       <Text style={props.isOpen ? styles.open : styles.closed}>{props.answer}</Text>
     </View>
 
@@ -52,6 +52,8 @@ container:{
     marginRight: 14,
     marginLeft: 14,
     marginTop: 14,
+    borderRadius: 8,
+    overflow: 'hidden'
   },
   questionContainer: {
     flex: 4,
@@ -59,12 +61,13 @@ container:{
     justifyContent: 'center',
     alignItems: 'stretch',
     marginLeft: 20,
+
   },
   open: {
     fontSize: 14,
-    color: 'white',
+    color: 'grey',
     paddingBottom: 15,
-    backgroundColor: 'grey'
+    backgroundColor: 'white'
 
   },
   closed: {

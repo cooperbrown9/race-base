@@ -11,7 +11,7 @@ const GET_USER = '/get-user/';
 const GET_USER_TRACKING = '/get-user-tracking';
 const GET_USER_LOCATION = '/get-user-location/';
 const GET_SCHEDULE = '/get-schedule/';
-const GET_FAQ = '/get-faq/';
+const GET_FAQS = '/get-faqs/';
 
 const UPDATE_USER = '/update-user';
 const UPDATE_LOCATION = '/update-location';
@@ -87,6 +87,12 @@ export function getSchedule(callback) {
 
 export function getUser(userID, callback) {
   axios.get(BASE + GET_USER + userID)
+    .then(response => callback(null, response.data))
+    .catch(e => callback(e))
+}
+
+export function getFAQs(callback) {
+  axios.get(BASE + GET_FAQS + RACE_ID)
     .then(response => callback(null, response.data))
     .catch(e => callback(e))
 }

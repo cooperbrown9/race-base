@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import NavBar from '../ui-elements/nav-bar.js';
 import FAQItem from '../ui-elements/faq-item.js';
 // import Menu from './menus/main-menu.js';
+import * as Colors from '../style/colors.js'
 
 import Menu from './Menu.js';
 import SideMenu from 'react-native-side-menu';
@@ -32,14 +33,15 @@ class FaqScreen extends React.Component {
   state = {
     isOpen: false,
     menuOpen: false,
-    faqs : [
+    faqs1 : [
       {question: 'When is Bloomsday?', answer: 'First weekend in May', isOpen: false},
       {question: 'How do I volunteer?', answer: 'Visit Bloomsday.com to register to volunteer on race day', isOpen: false},
       {question: 'How do I find lodging information for Bloomsday weekend?', answer: 'Visit Bloomsday.com for lodging info or search for Spokane hotels and check their availability', isOpen: false},
       {question: 'How many people have done every Bloomsday?', answer: '69', isOpen: false},
       {question: 'Where does the name "Lilac Bloomsday" come from?', answer: 'Yo momma', isOpen: false},
       {question: 'What is Doomsday Hill?', answer: 'One of the hardest parts of the race, conveniently located in the second half', isOpen: false},
-    ]
+    ],
+    faqs: [],
   }
 
   dropDownMenu(){
@@ -47,7 +49,7 @@ class FaqScreen extends React.Component {
   }
 
   componentDidMount(){
-    
+    this.loadFAQs();
   }
 
   toggleMenu = () => {
@@ -55,6 +57,18 @@ class FaqScreen extends React.Component {
     this.setState({ menuOpen: !this.state.menuOpen }, () => {
       this.props.dispatch({ type: (this.state.menuOpen) ? 'OPEN' : 'CLOSE' });
     })
+  }
+
+  loadFAQs = () => {
+    API.getFAQs((err, faqs) => {
+      if(err) {
+        console.log(err);
+      } else {
+        this.setState({faqs: faqs.questions});
+        debugger;
+      }
+    })
+
   }
 
   selected = (faq) => {
@@ -67,7 +81,7 @@ class FaqScreen extends React.Component {
   render(){
     const { width, height } = Dimensions.get('window');
     return(
-      <View style={{flex:1, backgroundColor: 'white'}}>
+      <View style={{flex:1, backgroundColor: Colors.LIGHT_GREY}}>
       <NavBar leftButton={<Image source={require('../../assets/icons/bars.png')} style={{height: 20, width: 20, tintColor: 'white'}}/>}
 
               leftOnPress={this.toggleMenu.bind(this)}

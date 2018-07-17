@@ -50,7 +50,7 @@ class ScheduleScreen extends Component {
   }
 
 
-  componentDidMount(){
+  componentWillMount(){
     this.loadSchedule();
   }
 
@@ -79,6 +79,7 @@ class ScheduleScreen extends Component {
 
   _onPressDayOne = () =>{
     this.setState({ currentDay: this.state.dayOneEvents });
+    debugger;
   }
 
   _onPressDayTwo = () =>{
@@ -94,8 +95,14 @@ class ScheduleScreen extends Component {
       if(err) {
         console.log(err);
       } else {
-        this.setState({schedule: schedule});
-        debugger;
+        this.setState({
+          schedule: schedule,
+          dayOneEvents: schedule.dayOne,
+          dayTwoEvents: schedule.dayTwo,
+          dayThreeEvents: schedule.dayThree,
+          currentDay: schedule.dayOne
+        });
+
       }
     })
  }
@@ -128,21 +135,15 @@ class ScheduleScreen extends Component {
         </View>
 
           <ScrollView style={styles.scrollContainer}>
-              {(this.state.currentDay != null && this.state.currentDay.length > 0)
-                ? this.state.currentDay.reverse().map((model) => ( <ScheduleItem key={model.eventName} date={model.date} day={model.day} time={model.time + model.timeOfDay} description={model.eventName} location={model.eventLocation}/>))
+              {(this.state.currentDay.length > 0)
+                ? this.state.currentDay.map((event) => ( <ScheduleItem key={event.event_title} date={event.event_start} day={"FRI"} time={event.event_end.getHours() + ":"+ event.event_end.getMinutes()} description={event.event_description} location={event.event_location}/>))
                 : null
               }
-              <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', height: 72, borderBottomColor: 'grey', borderBottomWidth: .5}}>
-                <Text style={{fontSize: 22, marginLeft: 20}}>8am</Text>
-                <View style={{paddingLeft: 45}}>
-                  <Text style={{fontSize: 20}}>Worship Service</Text>
-                  <Text style={{fontSize: 12, color: 'grey'}}>Floating Stage</Text>
-                </View>
-              </View>
+
           </ScrollView>
-        {(this.state.isLoading)
+        {/*(this.state.isLoading)
           ? <View style={{position:'absolute', left:0,right:0,top:0,bottom:0,justifyContent:'center',alignItems:'center'}}><ActivityIndicator size={'large'} color={'black'}/></View>
-          : null
+          : null*/
         }
     </View>
     );
