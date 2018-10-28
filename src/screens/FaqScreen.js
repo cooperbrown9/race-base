@@ -41,7 +41,6 @@ class FaqScreen extends React.Component {
       {question: 'Where does the name "Lilac Bloomsday" come from?', answer: 'Yo momma', isOpen: false},
       {question: 'What is Doomsday Hill?', answer: 'One of the hardest parts of the race, conveniently located in the second half', isOpen: false},
     ],
-    faqs: [],
   }
 
   dropDownMenu(){
@@ -95,7 +94,7 @@ class FaqScreen extends React.Component {
       </Modal>
       */ }
       <ScrollView style={{flex:1}}>
-        {this.state.faqs.map(faq => <FAQItem isOpen={faq.isOpen} action={this.selected(faq).bind(this)} question={faq.question} answer={faq.answer}/> )}
+        {this.state.faqs1.map(faq => <FAQItem isOpen={faq.isOpen} action={this.selected(faq).bind(this)} question={faq.question} answer={faq.answer}/> )}
       </ScrollView>
       </View>
     );
